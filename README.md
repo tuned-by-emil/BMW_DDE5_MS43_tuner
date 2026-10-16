@@ -10,7 +10,7 @@ review CSV logs, configure gauges and keep logging/graph profiles separate by EC
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.33.3_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -25,12 +25,13 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.3_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe -Algorithm SHA256
 ```
 
 ## Try Emil's BIN and recorded log
 
 Explore the editor using these **EDC16C31 / Bosch software 1037361830** examples:
+The app's welcome screen also has a **Download example BIN and log** link.
 
 | File | Description | Download |
 | --- | --- | --- |

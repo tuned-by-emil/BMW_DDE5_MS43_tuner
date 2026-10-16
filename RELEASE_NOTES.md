@@ -1,6 +1,6 @@
-# BMW DDE5 MS43 Tuner 1.33.3 — Windows x64
+# BMW DDE5 MS43 Tuner 1.33.4 — Windows x64
 
-Run **BMW_DDE5_MS43_Tuner_1.33.3_Setup.exe**. Setup downloads private Python
+Run **BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe**. Setup downloads private Python
 from python.org and verified runtime libraries from PyPI. Internet is required.
 It installs for the current Windows user, adds a Start menu shortcut, offers a
 desktop shortcut and registers an uninstaller in Installed apps. System Python
@@ -12,6 +12,7 @@ is unchanged. The installer is unsigned.
   edited 64 KB calibration reads with matching version and layout evidence.
 - Giant anteater application, taskbar, shortcut and installer icon.
 - Anteater welcome artwork on the app's opening screen and repository README.
+- Welcome-screen link to the example BIN, recorded log and loading instructions.
 - New app, installer and Start menu name: BMW DDE5 MS43 Tuner.
 - MPPS auto-start removed entirely.
 - ECU-specific gauges, logging settings and graph profiles.

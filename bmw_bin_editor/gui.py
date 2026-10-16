@@ -2238,9 +2238,16 @@ class MapEditor(QWidget):
         welcome_title.setStyleSheet('font-size: 22px; font-weight: 600;')
         welcome_hint = QLabel('Open a BIN from File to get started.')
         welcome_hint.setAlignment(Qt.AlignCenter)
+        self.welcome_examples = QLabel(
+            '<a href="https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/tree/main/examples/dde5-361830">'
+            'Download example BIN and log</a>')
+        self.welcome_examples.setAlignment(Qt.AlignCenter)
+        self.welcome_examples.setOpenExternalLinks(True)
+        self.welcome_examples.setToolTip('Open the example files and loading instructions on GitHub')
         welcome_layout.addWidget(welcome_art)
         welcome_layout.addWidget(welcome_title)
         welcome_layout.addWidget(welcome_hint)
+        welcome_layout.addWidget(self.welcome_examples)
         self.map_pages = QStackedWidget()
         self.map_pages.addWidget(self.welcome_page)
         self.map_pages.addWidget(self.view_splitter)
