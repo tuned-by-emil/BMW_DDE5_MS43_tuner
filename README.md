@@ -1,37 +1,64 @@
-# BMW Bin Editor — DDE5 / MS43
+# BMW DDE5 MS43 Tuner
 
-Windows calibration editor by Emil Larsson, with 2D/3D tables, XDF authoring,
-CSV graphs, gauges, ECU-specific display profiles and direct K-line logging.
+Windows ECU calibration editor by **Emil Larsson**. Edit XDF tables in 2D/3D,
+review CSV logs, configure gauges and keep logging/graph profiles separate by ECU.
 
-This is a fresh source repository. It contains no vehicle firmware, map packs,
-early reverse-engineering dumps, MPPS software or old development history.
+## Download and install
 
-## Windows download
+1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
+2. Download **BMW_DDE5_MS43_Tuner_1.33.1_Setup.exe** and run it.
+3. Click **Install / Update**. Setup downloads a private Python runtime from
+   **python.org** and hash-verified library wheels from **PyPI**. Internet access
+   is required; the full dependency download is larger than the installer.
+4. Open **BMW DDE5 MS43 Tuner** from the Start menu. A desktop shortcut is optional.
 
-Open [Releases](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest) and choose the latest Windows x64
-portable ZIP. Extract the entire archive, then run `BMW_Bin_Editor_V1_33_1.exe`.
-Keep `_internal` beside the executable. The package includes the runtime;
-Python, a compiler and administrator installation are not required.
-This is a portable application, so there is no setup wizard. The EXE is unsigned.
+Setup installs for your Windows user under
+`%LOCALAPPDATA%\Programs\BMW_DDE5_MS43_Tuner`. No administrator installation is
+needed, and system Python is unchanged. The app appears in **Settings â†’ Apps â†’
+Installed apps** and includes an uninstaller. Close the editor before updating.
+The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are required.
 
-The matching `.sha256` file lets you verify the ZIP with PowerShell:
+The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_Bin_Editor_V1_33_1_Windows_x64_portable.zip -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.1_Setup.exe -Algorithm SHA256
 ```
 
-Open your own BIN and matching XDF through **File**. Nothing is changed or saved
-until you edit and explicitly save/export. The package contains no ECU firmware,
-calibration definition pack or flashing software.
+## First use
 
-## Run
+The editor starts without a BIN loaded. Open your own BIN through **File**, then
+review the matching definition proposal or choose an XDF yourself. The current
+**EDC16C31 361830 definition and eight generated ECU library definitions are
+included**. A suggestion is not proof that the selected definition matches your ECU.
 
-Use Python 3.11 or later on Windows x64. Run `install_and_run.bat`, or create
-a virtual environment, install `requirements.txt`, then run `python run_editor.py`.
-The editor starts empty. Open your own BIN and matching XDF using the File menu.
-Vendor software and authentication data are supplied by the user when required.
+Use **Save/export** to write changes. Undo/Redo operates on the open document.
+No original firmware images, raw map packs, disassembly dumps or MPPS software
+are included. **MPPS auto-start has been removed.**
 
-Manual setup from the repository folder:
+## Features
+
+| Area | Included functionality |
+| --- | --- |
+| Editing | XDF constants/tables, linked axes, 2D/3D views, comparisons, Undo/Redo |
+| Definitions | Generated ECU library, XDF authoring and supported A2L/WinOLS imports |
+| Logs | CSV playback, graphs, gauges, independent ECU settings and profiles |
+| DDE5 | Direct K-line logging for the evidenced 361830 layout; optional EDIABAS/TestO integrations |
+| MS43X001 | Full/64 KB editing/export, Fuel/Ignition navigation, VE labels, cc displacement and setting help |
+| Drift response | Preview six comfort-response settings cell by cell, then apply as one Undo step |
+| Analysis | Local log analysis and optional ChatGPT sign-in with explicit patch review |
+
+MS43X requires your own matching XDF. The MS43X001 ADX logging definition is
+included separately under MS4X's GPL-3.0 licence, with attribution and source.
+See [resource setup](docs/LOCAL_RESOURCES.md) and
+[MS43X support](docs/MS43X_SUPPORT.txt).
+
+The drift preset's dashpot cancellation is inferred from the documented MS43
+algorithm and needs vehicle validation. Direct ECU flash writes remain disabled.
+Offline/simulated checks do not establish flash readiness.
+
+## Run from source
+
+Use Python 3.11+ on Windows x64. From the repository folder:
 
 ```powershell
 py -3.11 -m venv .venv
@@ -39,41 +66,8 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe run_editor.py
 ```
 
-## What it does
-
-| Area | Features |
-| --- | --- |
-| Calibration editing | XDF tables/constants, linked axes, 2D/3D views, comparisons and Undo/Redo |
-| Definitions | Open/edit XDFs, create definitions, import supported A2L/WinOLS formats |
-| Logs and gauges | CSV playback, graph layouts, channel setup and per-ECU saved profiles |
-| DDE5 | Direct K-line logging for the evidenced 361830 profile; optional EDIABAS/TestO integrations |
-| MS43X001 | Full/64 KB editing/export, Fuel/Ignition navigation, VE labels, cc displacement and setting help |
-| Drift response | Explicit change preview for six comfort-response settings, then one undoable Apply |
-| Analysis | Local log analysis and optional ChatGPT sign-in; user-controlled review before applying proposals |
-
-Import support does not guarantee that any particular third-party definition or
-firmware matches your ECU. Review the selected software identity and definition.
-
-MS43X support includes full/64 KB calibration handling, cc displacement display,
-VE table labels, tooltips and **Edit > MS43X drift throttle response preset…**.
-The preset previews each setting, cell, value and byte before one undoable edit.
-Its dashpot cancellation is inferred from the documented MS43 algorithm; vehicle
-behavior still needs validation. See [MS43X support](docs/MS43X_SUPPORT.txt).
-
-## Optional local definitions
-
-Calibration XDFs, the MS43X logging ADX and generated definition-library records
-are not distributed here: their redistribution permissions have not been recorded.
-The prepared local working folder has these resources installed as ignored files.
-They are excluded from source exports and portable builds.
-
-On a fresh clone, place your own current 361830 definition at
-`definitions/EDC16C31 361830.xdf`. MS43X logging expects
-`definitions/ms43x/Siemens_MS43_MS43X001_Logging.adx`.
-The MS43X XDFs can be opened from any location.
-For a portable release, local runtime definitions/ADX files go under
-`_internal/definitions/` instead of the source checkout's `definitions/` folder.
-See [local resources and provenance](docs/LOCAL_RESOURCES.md).
+Existing preference storage identifiers are retained, so older ECU profile,
+gauge and graph settings remain available after the branding change.
 
 ## Test and build
 
@@ -81,24 +75,25 @@ See [local resources and provenance](docs/LOCAL_RESOURCES.md).
 python tools/run_tests.py
 python run_editor.py --self-check-public build/public-self-check.json
 python tools/check_public_tree.py
+python tools/build_windows_installer.py
 ```
 
-The tests generate synthetic data. Tests requiring optional local resources are
-reported as skipped when those resources are absent. No hardware is contacted.
-The public self-check works without any private calibration definitions.
+The installer builder uses the Windows .NET Framework compiler and Python's
+standard library. It does not download or bundle Python/library DLLs. It embeds
+editor source, generated definitions, project artwork and the licensed OLS helper.
+The setup EXE and its SHA-256 file are written under `dist/`.
 
-`build_windows_exe.bat` builds a portable Windows package with pinned dependencies
-from `requirements-build.txt`. It installs nothing unless `--install-deps` is given.
-The build uses an explicit resource allowlist, so ignored local definitions are
-not accidentally bundled. It includes the licensed OLS helper and supplier notices.
-The build creates the Windows ZIP and its SHA-256 checksum under `dist/`.
-Publish those two files as the assets of the current GitHub Release.
+Tests create synthetic data. Optional integration tests requiring non-distributed
+resources are reported as skipped. No physical ECU is used in checks.
 
-## Project status and licensing
+## Libraries and licensing
 
-Direct ECU writes remain disabled. Offline checks and simulated transport tests
-do not establish vehicle behavior or flash readiness.
+Versions and wheel hashes are pinned in `requirements-runtime-windows.txt`.
+Python's runtime URL/hash is in `installer/runtime.json`. Dependency licences
+apply separately from this project's licence. See [dependency licence notes](docs/DEPENDENCY_LICENCES.md)
+and [third-party notices](THIRD_PARTY_NOTICES.md).
 
-The existing project notice is in `LICENSE.txt`; a project-wide open-source
-licence has not been selected. Third-party OLS parser source is 0BSD and retains
-its original licence and attribution. See [third-party notices](THIRD_PARTY_NOTICES.md).
+A project-wide licence is still being selected. The intended rule allows
+businesses and paid tuning work while forbidding resale of the editor itself.
+Until a licence is adopted, the existing `LICENSE.txt` notice applies.
+The original OLS parser remains under its own 0BSD licence.

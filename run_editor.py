@@ -110,11 +110,10 @@ if __name__ == "__main__":
         from bmw_bin_editor import APP_NAME, APP_AUTHOR, __version__, gui, live_logging
         os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
         with tempfile.TemporaryDirectory(prefix='bmw-editor-check-') as temp:
-            # Release verification must not migrate user preferences or launch MPPS.
+            # Release verification must not migrate user preferences.
             def isolated_settings(organization, application):
                 return QSettings(str(Path(temp) / (application + '.ini')), QSettings.IniFormat)
             gui.QSettings = live_logging.QSettings = isolated_settings
-            isolated_settings('EmilTools', 'BMWBinEditor').setValue('mpps/auto_launch', False)
             app = QApplication([])
             window = gui.MainWindow()
             window.showMaximized()

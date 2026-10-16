@@ -28,7 +28,6 @@ class LibraryGuiTests(unittest.TestCase):
         self.directory = Path(self.temp.name)
         self.old_settings = gui.QSettings
         gui.QSettings = lambda org, name: QSettings(str(self.directory/(name+'.ini')), QSettings.IniFormat)
-        gui.QSettings('EmilTools', 'BMWBinEditor').setValue('mpps/auto_launch', False)
         self.data = struct.pack('>4h', -77, 64, 128, 256) + b'\xff'*120
         self.bin = self.directory/'software.bin'; self.bin.write_bytes(self.data)
         workspace = XDFWorkspace(bin_size=len(self.data))

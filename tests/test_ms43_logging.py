@@ -232,6 +232,7 @@ class IntegrationTests(unittest.TestCase):
     def test_dde_profile_rejected_without_opening_port(self):
         config=self.config();config['profile']['ecu']='D50M47A'
         with self.assertRaises(ValueError):MS43Reader(config,self.definition.catalog)
+    @unittest.skipUnless((ROOT/'definitions/ms43x/Siemens_MS43_MS43X001_512K.xdf').is_file(), 'Optional original MS43X XDF not installed')
     def test_ms43_profiles_do_not_bind_to_diesel_signal_names(self):
         database=XDFDatabase(ROOT/'definitions/ms43x/Siemens_MS43_MS43X001_512K.xdf')
         ve=next(d for d in database.definitions if d.title=='ip_map_ve_1__map__n')

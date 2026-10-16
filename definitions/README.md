@@ -1,5 +1,6 @@
-# Application resources
+# Definition resources
 
-The JSON/TSV files here are application logging catalogs and preset configuration.
-Calibration definitions and source firmware are supplied locally; see
-`docs/LOCAL_RESOURCES.md`. Public packaging uses an explicit allowlist.
+Current generated ECU XDFs and their catalog ship with the app. JSON/TSV files
+also provide logging channels and preset configuration. Original firmware,
+raw map packs and intermediate reports are excluded. See docs/LOCAL_RESOURCES.md
+for provenance and optional MS43X resource setup.

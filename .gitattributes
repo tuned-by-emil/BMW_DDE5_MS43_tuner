@@ -9,3 +9,5 @@
 *.exe -text
 *.png -text
 *.ico -text
+*.xdf -text
+*.adx -text

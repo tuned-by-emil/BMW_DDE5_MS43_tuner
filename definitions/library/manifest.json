@@ -1,0 +1,2628 @@
+{
+  "format": 1,
+  "description": "Current generated ECU definitions; original firmware and raw map packs are not included.",
+  "entries": [
+    {
+      "key": "retained-361830",
+      "title": "EDC16C31 361830",
+      "xdf": "../EDC16C31 361830.xdf",
+      "xdf_sha256": "fd0c7827ae8b40d5b61f50a7884821ca55085704487a985f445d1fdcc56692cf",
+      "byte_length": 1048576,
+      "byte_order": "big",
+      "software_identifiers": [
+        "1037361830"
+      ],
+      "usable": true,
+      "retained": true,
+      "map_count": 251,
+      "table_count": 207,
+      "layout": "1 MiB full flash, original address layout",
+      "address_offset": 0,
+      "structural_axes": [
+        {
+          "offset": 919104,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 920412,
+          "count": 12,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 923100,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 927560,
+          "count": 8,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 932572,
+          "count": 25,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 945646,
+          "count": 21,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 948114,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 949484,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 951054,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 952832,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 955554,
+          "count": 15,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 955962,
+          "count": 15,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 960492,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 961652,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 968436,
+          "count": 10,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 975178,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 979188,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1004292,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1006572,
+          "count": 32,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1008820,
+          "count": 32,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1013158,
+          "count": 10,
+          "bits": 16,
+          "signed": true
+        },
+        {
+          "offset": 1015556,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1017500,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1020198,
+          "count": 6,
+          "bits": 16,
+          "signed": true
+        },
+        {
+          "offset": 1021368,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1024924,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1031318,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1033972,
+          "count": 4,
+          "bits": 16,
+          "signed": true
+        },
+        {
+          "offset": 1034672,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1035844,
+          "count": 16,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1037344,
+          "count": 12,
+          "bits": 16,
+          "signed": false
+        },
+        {
+          "offset": 1040130,
+          "count": 8,
+          "bits": 16,
+          "signed": false
+        }
+      ],
+      "original_sha256": [],
+      "axis_fingerprints": [],
+      "code_fingerprints": [],
+      "notes": [
+        "User's 361830 definition retained with verified 2026-10-03 N75 native-command scaling correction; calibration bytes unchanged.",
+        "No paired original image is available in this source folder; software and structural layout checks required."
+      ],
+      "previous_title": "EDC16C31 361830 V1.24 Pilot 1 review",
+      "nomenclature": {
+        "ecu_type": "EDC16C31",
+        "software_label": "361830",
+        "evidence": "Retained reviewed definition for Bosch software 1037361830."
+      }
+    },
+    {
+      "key": "6PP01390-803b1581-f66c5efd-100000",
+      "title": "EDC16C35 3618XX",
+      "xdf": "EDC16C35 3618XX.xdf",
+      "xdf_sha256": "ed7c07820ad388d059dec647a04ff7cb550ee99e944acc7c9bca1b9516cbd481",
+      "profile_id": "a2l:803b1581d72e3b3bc31e46bbb93f51efc3d843e5c9b8e3b00b75590cb3702e0c:f66c5efdf613dc344cd44c37fcba5d85e2d2c6922b7b7ff685ce10fdeb5035f4:external-100000",
+      "usable": true,
+      "byte_length": 1048576,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "1 MiB zero-based external flash",
+      "software_identifiers": [],
+      "original_sha256": [
+        "d7972f5c0baf7b69a9fa7338faacfc8ad4967667051a1e14e58fda7469649eb0"
+      ],
+      "source_a2l_sha256": "803b1581d72e3b3bc31e46bbb93f51efc3d843e5c9b8e3b00b75590cb3702e0c",
+      "source_image_sha256": "f66c5efdf613dc344cd44c37fcba5d85e2d2c6922b7b7ff685ce10fdeb5035f4",
+      "source_paths": [
+        "BMW 120D DD6.2 EDC16 DAM+OLS/6PP01390.A2L",
+        "BMW EDC16 DDE6.2 120D/6PP01390.A2L",
+        "DDE 6.2 6PP01390/6PP01390.A2L"
+      ],
+      "image_paths": [
+        "BMW 120D DD6.2 EDC16 DAM+OLS/PF56XP01.H390",
+        "BMW EDC16 DDE6.2 120D/PF56XP01.H390",
+        "DDE 6.2 6PP01390/PF56XP01.H390"
+      ],
+      "map_count": 8599,
+      "table_count": 1011,
+      "axis_fingerprints": [
+        {
+          "offset": 788696,
+          "length": 12,
+          "sha256": "8e1cc0d428a6fdad2bec1a7611a6f9fd68f4f02f8274eed063035ffe1804b0da"
+        },
+        {
+          "offset": 790442,
+          "length": 12,
+          "sha256": "3f421083a580fac71bf16b9e1fd1fe15a7df38a06eacefacd2cf5689f2b59473"
+        },
+        {
+          "offset": 792084,
+          "length": 22,
+          "sha256": "a64160eaaffce9b6abf579b831c40ad890e9baf0adfe1d312da32c7dbc40c901"
+        },
+        {
+          "offset": 795276,
+          "length": 8,
+          "sha256": "4fce9128f8697cdb091f9b778e2af4f3589a82193177bf7c520353f5b6dc36ce"
+        },
+        {
+          "offset": 799428,
+          "length": 28,
+          "sha256": "300756b05712f8c11d3d3a74d89f51286017ba1204c36afa75348eb2a4644406"
+        },
+        {
+          "offset": 805126,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 810582,
+          "length": 16,
+          "sha256": "baad78526d22adc27983e015cb1b38ab52be99b0edbc664348858b0cef5ff3b2"
+        },
+        {
+          "offset": 814576,
+          "length": 12,
+          "sha256": "7972b35e4b08324bb8569dcc21b56f835cf27a09a2062deeed6a7e6690173751"
+        },
+        {
+          "offset": 816738,
+          "length": 20,
+          "sha256": "58c401ad8d89697f28124a6fce07c0481ea39c9b1420cd04fc8d44993d9e9968"
+        },
+        {
+          "offset": 838404,
+          "length": 16,
+          "sha256": "997390dbde367c574f1fec1e3170cf70d48f8e15ac2b9f272829e8df298c2e59"
+        },
+        {
+          "offset": 841364,
+          "length": 16,
+          "sha256": "e79bb1f6a03a191911e6f5f8d35bffce86545dca2f0a68a747a1fe66cccfb1e9"
+        },
+        {
+          "offset": 847900,
+          "length": 16,
+          "sha256": "1db8cc780c4f2158bc2d6303848ff3cd39f30f29a41041bff423890d26ed34aa"
+        },
+        {
+          "offset": 852366,
+          "length": 8,
+          "sha256": "76bda5c04e1bd8ecb597f8000f72f91b9a2d8087e6a5f09180a7a6a93d9f325a"
+        },
+        {
+          "offset": 861460,
+          "length": 20,
+          "sha256": "922239bc3eaa7044f2fb22726faba4aa3fb354b9b24d1cdc3f32cbb2608aee2d"
+        },
+        {
+          "offset": 867858,
+          "length": 20,
+          "sha256": "af9a97e614f7609752d7d71451b524c3315310f4ab5c3257577a165978341d5a"
+        },
+        {
+          "offset": 870116,
+          "length": 10,
+          "sha256": "4f1955b6b632b42552c92ea4a070ca0845d45b383235c773016aaad5fd1d4c99"
+        },
+        {
+          "offset": 878524,
+          "length": 32,
+          "sha256": "39c27fdeeeca75d555628fc243b056c44392714f743ccbd2ddac28f6f12f5526"
+        },
+        {
+          "offset": 888794,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 897504,
+          "length": 16,
+          "sha256": "b65d6097162d2844eb0115a818f5465b1a9ffa3e994937b71a8282a837f1b71a"
+        },
+        {
+          "offset": 903092,
+          "length": 16,
+          "sha256": "aa84e4fb78bb6b0265232f731a2f522490ca181bf08963a6f013bd79d9d765ee"
+        },
+        {
+          "offset": 912406,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 917492,
+          "length": 32,
+          "sha256": "128282707453a128119d00b9dbcf31c920aef84e514a04468f77fd6b6dfed057"
+        },
+        {
+          "offset": 923768,
+          "length": 12,
+          "sha256": "e47a436b5588c9e7794b51b57fc0590ecd85b8d634dee9da6d73f4f85a97ff8d"
+        },
+        {
+          "offset": 931526,
+          "length": 32,
+          "sha256": "54319845fd68115058bedda499845485bce771dd534ee2d700e532484b12958f"
+        },
+        {
+          "offset": 937376,
+          "length": 32,
+          "sha256": "027880584cbb9b2c6bd0543162325f4b17a30716c1cb804728b8c9e537496cf7"
+        },
+        {
+          "offset": 942948,
+          "length": 32,
+          "sha256": "845ba2fee7c34c708e8e8e11a194a550be5c4f0bd1114dfd8c9f15c8c6e6510f"
+        },
+        {
+          "offset": 947392,
+          "length": 10,
+          "sha256": "8cf9455eb3c64a7284c967797dbfe3c1cfeaef8f56ef0af986a1798799c13086"
+        },
+        {
+          "offset": 950702,
+          "length": 16,
+          "sha256": "41e1d466ef08f9aac26fe45959efd5b7d0c43725b3186c5252abbc15d2db15af"
+        },
+        {
+          "offset": 954504,
+          "length": 32,
+          "sha256": "6659101f596eff11aa03c78ea8dab42444fff6f7fdb21cb642fe02950cf75d47"
+        },
+        {
+          "offset": 958052,
+          "length": 16,
+          "sha256": "8a24d9470b99f6f2db57b4efb2a589b5ba35237d3074b3cffe84a5318bda07c2"
+        },
+        {
+          "offset": 962238,
+          "length": 12,
+          "sha256": "d5efeb3a0d5a8eead501338e2bb6a3b05074460163d3927793342c3369d48ae2"
+        },
+        {
+          "offset": 965718,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "27e9d9d57b0c9d5ed34c8ce88f5bc9d28cc85243d647696bbc84723eacd2410d"
+        },
+        {
+          "offset": 98304,
+          "length": 256,
+          "sha256": "dd5de35569ce5fd7f404cab12fcba34d07d50b057df7f7d55348a361418ed6f2"
+        },
+        {
+          "offset": 131072,
+          "length": 256,
+          "sha256": "aebd9c36b97112e3635d750e8486202a1b8ffb723d254950fbd24296c3331553"
+        },
+        {
+          "offset": 282624,
+          "length": 256,
+          "sha256": "31e670ec59319dd3acfaf14737c76db070acbc9ad32b9cc5921edf015270bc8b"
+        },
+        {
+          "offset": 372736,
+          "length": 256,
+          "sha256": "abe2eed7f0ed82819993e7ff9b3fcb46b65fc33e70a92e665927f916a2255a6f"
+        },
+        {
+          "offset": 405504,
+          "length": 256,
+          "sha256": "7f173261b49214a131553fec79848dcdf46ed80675ad3448d24882323b32429d"
+        },
+        {
+          "offset": 438272,
+          "length": 256,
+          "sha256": "12dc6d9b021763f5e9890abb65aa6f85960b1c73917c7eae53c29f738d5ec030"
+        },
+        {
+          "offset": 471040,
+          "length": 256,
+          "sha256": "c20788bd07ad7b1b0372624e7088d403eb37559d1c3ce3ee67a7792f554f1e95"
+        },
+        {
+          "offset": 499712,
+          "length": 256,
+          "sha256": "669b73dabd7c27065e82e40f39f6dc9cddd16688421c8b38c4cf606ab54e98ce"
+        },
+        {
+          "offset": 532480,
+          "length": 256,
+          "sha256": "36450fe57b3281a5311b25c7ccf88ebd4207c7a7aea1477eb740630a00ebc7d8"
+        },
+        {
+          "offset": 565248,
+          "length": 256,
+          "sha256": "dfc9e24f397e67f928fbc8dbbb4fbaf610fecdb4ba3cf97784690d43c00d29f8"
+        },
+        {
+          "offset": 598016,
+          "length": 256,
+          "sha256": "865e76664ff8fd6df53b0ac281ce820bd236de2d4c2a645eeb5a47d135892cf2"
+        },
+        {
+          "offset": 626688,
+          "length": 256,
+          "sha256": "b373f07e443c1cb8c7b815a5e3ad39800ec6b1c0ee519c28aa56904c0bcc7218"
+        },
+        {
+          "offset": 659456,
+          "length": 256,
+          "sha256": "064f9c789669c3df00fed11d3cdae580c0a05fa6f3fb68f9a793511829ffa005"
+        },
+        {
+          "offset": 692224,
+          "length": 256,
+          "sha256": "90945e52cecc149af9d3a204718342993473d09d4767bb94982bfb1980e6f315"
+        },
+        {
+          "offset": 724992,
+          "length": 256,
+          "sha256": "d8c06b515451bbe9dc9ffe792195dd5ee381856f3b63f79d17ae1ec427e5bea1"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 378052,
+          "bytes": "505f3339305f57492e502e302e31"
+        }
+      ],
+      "pair_identity": {
+        "method": "A2L PROJECT and firmware project/revision marker",
+        "project": "P390",
+        "revision": "P0.1",
+        "validated_dimension_records": 1011,
+        "invalid_dimension_records": 0
+      },
+      "import_report": "6PP01390-803b1581-f66c5efd-100000.import.json",
+      "skipped_objects": 2350,
+      "previous_title": "BMW DDE6.2 6-Zylinder VP0.1 11.11.2003 CAN12H",
+      "nomenclature": {
+        "ecu_type": "EDC16C35",
+        "software_label": "3618XX",
+        "evidence": "Paired OLS header declares EDC16C35, hardware 0281011763, masked software 3618XX; reference image contains 10373618XX and project P390 VP0.1. No complete numeric software ID is available."
+      }
+    },
+    {
+      "key": "8S9E3383-32f71ac9-f14650c6-200000",
+      "title": "EDC16CP35 372781",
+      "xdf": "EDC16CP35 372781.xdf",
+      "xdf_sha256": "ae10cf235f0143608b242e7177555adcfd756c378164496576bb3c526c0cc6e4",
+      "profile_id": "a2l:32f71ac95173a4449585b8f74d7c3cae7dfeb74d7ae2e154a11d53adce98c7a3:f14650c655bae052c0235e433c70e26f2546c54f7d6c3b5b7e61a3d54ec23f1a:external-200000",
+      "usable": true,
+      "byte_length": 2097152,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "2 MiB zero-based external flash",
+      "software_identifiers": [
+        "1037372781"
+      ],
+      "original_sha256": [
+        "b8a3aca26ddcc16c07c824b9e6c86a206a9f75aa310fb07e6ffe532d0bebadcd"
+      ],
+      "source_a2l_sha256": "32f71ac95173a4449585b8f74d7c3cae7dfeb74d7ae2e154a11d53adce98c7a3",
+      "source_image_sha256": "f14650c655bae052c0235e433c70e26f2546c54f7d6c3b5b7e61a3d54ec23f1a",
+      "source_paths": [
+        "BMW 120d EDC16+ 0 281 011 415/BMW DDE6[1].3 m67 e65 asap/DDE6.3 M67 E65 ASAP/8S9E3383.A2L",
+        "BMW EDC16+ DDE6.3 120D/BMW EDC16.A2L"
+      ],
+      "image_paths": [
+        "BMW 120d EDC16+ 0 281 011 415/BMW DDE6[1].3 m67 e65 asap/DDE6.3 M67 E65 ASAP/X_10Z9E3.h383",
+        "BMW EDC16+ DDE6.3 120D/BMW EDC16.hex"
+      ],
+      "map_count": 10893,
+      "table_count": 1209,
+      "axis_fingerprints": [
+        {
+          "offset": 789256,
+          "length": 12,
+          "sha256": "391e7aedeb0a497d0961c218bfc471dce8dfdbcefcd6411177d1262ce5cc2146"
+        },
+        {
+          "offset": 792072,
+          "length": 14,
+          "sha256": "1ff816564f2e669ce5eb4cda9d63524d27a5e70b7329cf8b4863f3065c61868b"
+        },
+        {
+          "offset": 794268,
+          "length": 12,
+          "sha256": "54eec0e4f382a40f051980d7bbbaa4badf5e4ed2d296c7e54a5b4fa209a97dd4"
+        },
+        {
+          "offset": 798202,
+          "length": 10,
+          "sha256": "14ebb40119dac992aeab7d1e3317b10bf1ce7e15804c02c8962501fe5fbc8485"
+        },
+        {
+          "offset": 803860,
+          "length": 32,
+          "sha256": "0dc0edc5253f0ade55ad204ca8d3752b50dc1bd884181bbf176d059342ca528f"
+        },
+        {
+          "offset": 810730,
+          "length": 32,
+          "sha256": "54a6e540b51ee6e275c57f3af3fc7f9971f834c2fe37d41acc3b07a216f68a44"
+        },
+        {
+          "offset": 816386,
+          "length": 16,
+          "sha256": "baad78526d22adc27983e015cb1b38ab52be99b0edbc664348858b0cef5ff3b2"
+        },
+        {
+          "offset": 822324,
+          "length": 14,
+          "sha256": "343e6c9f0883db67a01ac96d834d98eb042c9af6b1556211fc6e32c70b0a7dab"
+        },
+        {
+          "offset": 826718,
+          "length": 32,
+          "sha256": "d89bcd15275dca22b9962e3f79cf3d61cb146f8180d40996060f3ddb34e62acc"
+        },
+        {
+          "offset": 862770,
+          "length": 16,
+          "sha256": "8cc5cf0af7a6df15897270979e8bf518921c37bf2b89c748ab8f8f4a8074f3b4"
+        },
+        {
+          "offset": 867314,
+          "length": 16,
+          "sha256": "091ae48c8404104dec9f20881c11d98beef3ac12e85cf2956443a18060d07e10"
+        },
+        {
+          "offset": 875436,
+          "length": 42,
+          "sha256": "a158d8f92d187b7b341bbfdb1839426daa0621e3759e42cd7941e57c5a26a5f8"
+        },
+        {
+          "offset": 881014,
+          "length": 16,
+          "sha256": "4de2cb1c9f5c0a472ceb736013d370106543b872335dc63e5769c3b64cc3c693"
+        },
+        {
+          "offset": 894494,
+          "length": 32,
+          "sha256": "692d700b87489e73f6cf772f82f841be81fa93caee35ff6990614509a7100e11"
+        },
+        {
+          "offset": 900972,
+          "length": 12,
+          "sha256": "3eeef0401aa058edc561d1b9374425d8805574afac8a5ef715e61c3195c3017f"
+        },
+        {
+          "offset": 905116,
+          "length": 32,
+          "sha256": "1167aef9e177f82fc168dc5b18f9bfef3babf01ee0920be13161cea199e24e9d"
+        },
+        {
+          "offset": 914506,
+          "length": 16,
+          "sha256": "7825f3b9d439f8836caee176565dbc8d6976c5d9f4aa634b83be93d474c0d5fa"
+        },
+        {
+          "offset": 924420,
+          "length": 16,
+          "sha256": "d1dce78a2aff5b22de3c7b1f51a3b9c3b02dec44c0d00a3e959875d279635ef1"
+        },
+        {
+          "offset": 935818,
+          "length": 12,
+          "sha256": "eaf37def4f3c54badbef7980ec7e53440cd30ef52e5ebdc0ce21e4deb177a044"
+        },
+        {
+          "offset": 946050,
+          "length": 16,
+          "sha256": "593ace0498800dcce850278026a61c38e2bc1f728a5277dbbd797a51cfa59a53"
+        },
+        {
+          "offset": 955568,
+          "length": 32,
+          "sha256": "8d5188179801a8aaf9d8bd8d8f6d980612621fabc49efac83d43a40fe0719fc2"
+        },
+        {
+          "offset": 961626,
+          "length": 32,
+          "sha256": "a8936415b34ef3ee8eb4a8b74b95566833864ee4e980007c7467806b13014aa4"
+        },
+        {
+          "offset": 971062,
+          "length": 8,
+          "sha256": "80830a15d3f9bf6589dfa1cd474600e9727481c71fb61a9e86b0b26c2bb63d64"
+        },
+        {
+          "offset": 978380,
+          "length": 16,
+          "sha256": "8d5a7607b9deb43270fff53fb951cfeea3abbe09203981e98fde4bf02d75243e"
+        },
+        {
+          "offset": 984882,
+          "length": 32,
+          "sha256": "1a2139afc4ea98d2f611fb09d7a0561935d57378728e84ffd2e13efcd35a788e"
+        },
+        {
+          "offset": 992076,
+          "length": 16,
+          "sha256": "805e642c0bb5f3dcbcbc04a8157f9dd4c2f1a2407777db1276e9bb0e00637ca6"
+        },
+        {
+          "offset": 995145,
+          "length": 10,
+          "sha256": "1f825aa2f0020ef7cf91dfa30da4668d791c5d4824fc8e41354b89ec05795ab3"
+        },
+        {
+          "offset": 999618,
+          "length": 16,
+          "sha256": "eb741d7896a7f0487defcc73eae2482c03b42777e52add85910f78d1ed0c381f"
+        },
+        {
+          "offset": 1005744,
+          "length": 24,
+          "sha256": "474bfd954c27f8f020e33b41beed79f8f2e1f1cdb917f2832246eb9816286040"
+        },
+        {
+          "offset": 1010492,
+          "length": 16,
+          "sha256": "60b2ffdc81be93bda8c7660698a39fed0b9dcc1b7b877c81715a3d3a657b0edf"
+        },
+        {
+          "offset": 1015282,
+          "length": 16,
+          "sha256": "1efc14cce20001bc805231b5f312cb22e8cb3e8f2f30b27d02ba656a49819b51"
+        },
+        {
+          "offset": 1019378,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "2e1a72445fff9305182c3fb6768ede21b4f7b043d15d2095b34c4091a1e0da5b"
+        },
+        {
+          "offset": 94208,
+          "length": 256,
+          "sha256": "e42a91f3b2f7b5ac4ad36b6531d5119c6101466bf7eddeffd20bfc355da33191"
+        },
+        {
+          "offset": 122880,
+          "length": 256,
+          "sha256": "95e5864675918a182ce3ed9560032b0ff646c08d3fe31ca776b0b2d5766dc385"
+        },
+        {
+          "offset": 151552,
+          "length": 256,
+          "sha256": "9bd33e2e9bf37048bf0bdfb81ba0079af15138b86c123f28d33972ceed1a35f0"
+        },
+        {
+          "offset": 266240,
+          "length": 256,
+          "sha256": "9f5782791e9a1685dbec61cc923b4b4886389b3a7a919ed573a748fe418a1404"
+        },
+        {
+          "offset": 319488,
+          "length": 256,
+          "sha256": "ec3de1fa3f9f21ec2180d7d8401e64a716a71f906b8d63129ed5104c16ffc93a"
+        },
+        {
+          "offset": 356352,
+          "length": 256,
+          "sha256": "8f12c4c716396740d40d91b43a98ed19290dae6e89a8c6de282d70b1dd74dfd3"
+        },
+        {
+          "offset": 385024,
+          "length": 256,
+          "sha256": "77b30b0248e1aa2efd955735b0dd6d469d704d569c4371782a3c7c3d578d6604"
+        },
+        {
+          "offset": 413696,
+          "length": 256,
+          "sha256": "04ea922f5bb9202bd37241bf1ead2128e0bd59f08eb304c740bb1b5446a58325"
+        },
+        {
+          "offset": 442368,
+          "length": 256,
+          "sha256": "76a815abd35f375480081022a3f47be8052ed99da31fa654f995e002f5eced9a"
+        },
+        {
+          "offset": 471040,
+          "length": 256,
+          "sha256": "020aafda5685b641b58e3208c2ae4381cf3c559d0efd4bf331c008ff25909bb8"
+        },
+        {
+          "offset": 499712,
+          "length": 256,
+          "sha256": "42bf66c7f60e177b3cbe24c2867b3d56180da1b29f886067c5e10b51bf129afc"
+        },
+        {
+          "offset": 528384,
+          "length": 256,
+          "sha256": "0680b703033297fecf24b3f2986969f19c69c0f67792200efc88319a99d13093"
+        },
+        {
+          "offset": 557056,
+          "length": 256,
+          "sha256": "f793879a6f1ed3c0b0fc4a37c9abeafddf4f4d98272b6bc29fca58f09dcd4fcc"
+        },
+        {
+          "offset": 585728,
+          "length": 256,
+          "sha256": "b44bc115d34bfe93dedd884e2af38f4708cbb61cbc089ee5251ff1c60e1610c7"
+        },
+        {
+          "offset": 614400,
+          "length": 256,
+          "sha256": "236255d7be1235d7f93a8698daa4e925be015572e7d3140094d876b6ba425a13"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 324887,
+          "bytes": "505f3338335f57492e392e452e33"
+        }
+      ],
+      "pair_identity": {
+        "method": "A2L PROJECT and firmware project/revision marker",
+        "project": "P383",
+        "revision": "9E.3",
+        "validated_dimension_records": 1209,
+        "invalid_dimension_records": 0
+      },
+      "import_report": "8S9E3383-32f71ac9-f14650c6-200000.import.json",
+      "skipped_objects": 3315,
+      "previous_title": "BMW DDE6.3 8-Zylinder V9E.3 11.10.2004 CAN12H \u2014 1037372781",
+      "nomenclature": {
+        "ecu_type": "EDC16CP35",
+        "software_label": "372781",
+        "evidence": "Reference image contains Bosch software 1037372781, hardware 0281011415 and EDC16CP35/C build banners; A2L identifies DDE6.3 8-cylinder V9E.3."
+      }
+    },
+    {
+      "key": "4M702389-5c18ed56-6bd360b4-200000",
+      "title": "EDC16C35 370888",
+      "xdf": "EDC16C35 370888.xdf",
+      "xdf_sha256": "7830e5569f5a31ea83d1b843d76f93f3536d93c563e9580ea9e5fd31c89a35a3",
+      "profile_id": "a2l:5c18ed56b7d3dfee61c312c4b84cd223b80a49ea646677ecd686ab26499606ee:6bd360b4291c39c8ffafe7ad4449b49802ab80a7c4a16c5149f4f0cfcb2a14ef:external-200000",
+      "usable": true,
+      "byte_length": 2097152,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "2 MiB zero-based external flash",
+      "software_identifiers": [
+        "1037370888"
+      ],
+      "original_sha256": [
+        "2468f785b1e060b49d0518bda7539eb4cd9f07b1fac9356b2e49f4b2344f9707"
+      ],
+      "source_a2l_sha256": "5c18ed56b7d3dfee61c312c4b84cd223b80a49ea646677ecd686ab26499606ee",
+      "source_image_sha256": "6bd360b4291c39c8ffafe7ad4449b49802ab80a7c4a16c5149f4f0cfcb2a14ef",
+      "source_paths": [
+        "BMW 320D EDC16-0281011964 DAM+OLS/4M702389.A2L",
+        "BMW E90 2.0d EDC16C35 0281011964 sw.370888/4M702389.A2L",
+        "bmw e90 2.0d m47tu2ol dde 6.0 120kw dpf system/4M702389.A2L",
+        "BMW EDC16C35 DDE6.0 E90 320D 2.0D/4M702389.A2L"
+      ],
+      "image_paths": [
+        "BMW 320D EDC16-0281011964 DAM+OLS/__114702.H389",
+        "BMW E90 2.0d EDC16C35 0281011964 sw.370888/__114702.H389",
+        "bmw e90 2.0d m47tu2ol dde 6.0 120kw dpf system/__114702.H389",
+        "BMW EDC16C35 DDE6.0 E90 320D 2.0D/__114702.H389"
+      ],
+      "map_count": 9093,
+      "table_count": 1037,
+      "axis_fingerprints": [
+        {
+          "offset": 789312,
+          "length": 12,
+          "sha256": "8e1cc0d428a6fdad2bec1a7611a6f9fd68f4f02f8274eed063035ffe1804b0da"
+        },
+        {
+          "offset": 791058,
+          "length": 12,
+          "sha256": "3f421083a580fac71bf16b9e1fd1fe15a7df38a06eacefacd2cf5689f2b59473"
+        },
+        {
+          "offset": 792600,
+          "length": 12,
+          "sha256": "f525a516e2fb62b2d74ed608efbc485a6db5b6c0e13a09516655949ed4834480"
+        },
+        {
+          "offset": 796036,
+          "length": 14,
+          "sha256": "a2ce9920899461518e53472e363b0d65eb8920f92e1bee8c8c9759176f18f640"
+        },
+        {
+          "offset": 799316,
+          "length": 32,
+          "sha256": "bdbae9c46be5c44945af3485cfa8638b20291ad91358cea91a15dd2b35a42b3f"
+        },
+        {
+          "offset": 804740,
+          "length": 32,
+          "sha256": "16dab3dd2e3f1f60e3a246235b6209b1523637e1ca26981934d21d814f62429c"
+        },
+        {
+          "offset": 811474,
+          "length": 16,
+          "sha256": "5def6070b7a3b35ee93bcffce0b9210640bd8c9e99dd32c33a75a3b5be1bc399"
+        },
+        {
+          "offset": 815988,
+          "length": 50,
+          "sha256": "bc51b1da6bfb8e9ef9e662cc5a1f1aa43427eb54b109b990b07e49cc51c533a6"
+        },
+        {
+          "offset": 818612,
+          "length": 16,
+          "sha256": "baad78526d22adc27983e015cb1b38ab52be99b0edbc664348858b0cef5ff3b2"
+        },
+        {
+          "offset": 823988,
+          "length": 12,
+          "sha256": "003314926011de86d88d4fd2d4fcfcce851745f9e37a75d048878fa09e76b29f"
+        },
+        {
+          "offset": 844072,
+          "length": 16,
+          "sha256": "cf2ca7433ee0149b22d4efd466103ee0ec339bca9000551c3a97dfadac789dfb"
+        },
+        {
+          "offset": 849128,
+          "length": 20,
+          "sha256": "719b10c9dd1fe9cc2a098525630befab9d6b105828d9740a61bb46077f664af9"
+        },
+        {
+          "offset": 855882,
+          "length": 16,
+          "sha256": "e20f93276e9ca460f53a9b95334b979f43fcb1852a2e863bd8e954e0ee288a3e"
+        },
+        {
+          "offset": 862184,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 871940,
+          "length": 32,
+          "sha256": "994cbaacb2fa5e5765188c62817222aae4dafeac1cb0348324839d853821a94c"
+        },
+        {
+          "offset": 875884,
+          "length": 32,
+          "sha256": "cccc913fe369154e2f10d77d137248f2e77d3b10e23860d8ae8ce07351865e11"
+        },
+        {
+          "offset": 882022,
+          "length": 16,
+          "sha256": "f38012fda364feb1f70961328efaf6f2538bf25ce43f53ae9e50a4d6799ed4a6"
+        },
+        {
+          "offset": 891904,
+          "length": 16,
+          "sha256": "b65d6097162d2844eb0115a818f5465b1a9ffa3e994937b71a8282a837f1b71a"
+        },
+        {
+          "offset": 902388,
+          "length": 20,
+          "sha256": "e6838e6ab8337db9981719812890e9f53acea6482944c6112d8c8a07578dc5a9"
+        },
+        {
+          "offset": 909666,
+          "length": 12,
+          "sha256": "f9d36abfddf35832822ec4bd4e17a45228579e5e1a2f3575582cfa1a609517ec"
+        },
+        {
+          "offset": 918816,
+          "length": 20,
+          "sha256": "11006154b62f5528fd849a560fc575bab860de2b106f5fe34b66bb4baaf7bc8f"
+        },
+        {
+          "offset": 925284,
+          "length": 16,
+          "sha256": "9c74970e54e44ae2ee407d15bb6c38d2cbfa48bd7b176f4f9fdc0ba3f779f162"
+        },
+        {
+          "offset": 934092,
+          "length": 32,
+          "sha256": "4a05544f121474e962604daff79227290abe5637f325d730595a029094b81065"
+        },
+        {
+          "offset": 941388,
+          "length": 20,
+          "sha256": "328675548f0220671e3217b7627e24e128db72b23aed296b73bdca8f65342467"
+        },
+        {
+          "offset": 948218,
+          "length": 32,
+          "sha256": "ac5b19b533e0dae551aba3c33ded911674d77ed61f9fee7e644ce974356f19f6"
+        },
+        {
+          "offset": 955764,
+          "length": 32,
+          "sha256": "845ba2fee7c34c708e8e8e11a194a550be5c4f0bd1114dfd8c9f15c8c6e6510f"
+        },
+        {
+          "offset": 958858,
+          "length": 10,
+          "sha256": "8cf9455eb3c64a7284c967797dbfe3c1cfeaef8f56ef0af986a1798799c13086"
+        },
+        {
+          "offset": 962548,
+          "length": 16,
+          "sha256": "13e66b60f94f99fabfdd736a02fbe6ed55702b402ae2a2b45643f868144efd72"
+        },
+        {
+          "offset": 966402,
+          "length": 32,
+          "sha256": "585eeaf30836839b6059ee7805db8b072d9507cadd76fa8148a72816d688f1c8"
+        },
+        {
+          "offset": 969398,
+          "length": 20,
+          "sha256": "c44dd05ffcaeba1a1acd7970937f2d74157ed0bd2123a18e2e4e2affb9d70055"
+        },
+        {
+          "offset": 974466,
+          "length": 10,
+          "sha256": "7738c003f585875e09346be84856c4a003cef8e82ecafe048d58004d462ffe46"
+        },
+        {
+          "offset": 978394,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "2e1a72445fff9305182c3fb6768ede21b4f7b043d15d2095b34c4091a1e0da5b"
+        },
+        {
+          "offset": 102400,
+          "length": 256,
+          "sha256": "8a004472543abea497d3f28a8dba112f67bb2256eab1c7deb4e8979605509219"
+        },
+        {
+          "offset": 135168,
+          "length": 256,
+          "sha256": "f470aafdc36af708ce4363da86c5bbcab26e8458997373b08cb02b548a17cac3"
+        },
+        {
+          "offset": 258048,
+          "length": 256,
+          "sha256": "9d51a81ed653fe710f7972bc688d495a9adbcb540d1f4761709aab4ea20a922f"
+        },
+        {
+          "offset": 323584,
+          "length": 256,
+          "sha256": "eeb885b575103a1933a77f36669216a5abd180df83447818e229cb00db9b6010"
+        },
+        {
+          "offset": 356352,
+          "length": 256,
+          "sha256": "b617d4fb6990b840beec021cd7a314feb7c688b428c51a2fccd68cd9f2b3165b"
+        },
+        {
+          "offset": 389120,
+          "length": 256,
+          "sha256": "2fa2af13b4541bdfd2535d8f0e1b9fd5c7b7837e205856480b8dbb7790ca6bc1"
+        },
+        {
+          "offset": 421888,
+          "length": 256,
+          "sha256": "ddb12bc3ad7c7d378d326ccf9fbb7e27a52d3d44d5b24a415bd0cfb174133002"
+        },
+        {
+          "offset": 458752,
+          "length": 256,
+          "sha256": "0546a9eccfbdf876b4a74e366e5d5b7d66cb99238dc9993d11972b7dd8839058"
+        },
+        {
+          "offset": 491520,
+          "length": 256,
+          "sha256": "bc7c338d399672af8eb6f543ee4b85408e75beb4154b999d50c3ad17ed45f848"
+        },
+        {
+          "offset": 524288,
+          "length": 256,
+          "sha256": "4762361da9b9bc89fe718222e820e5621e568f314b496e8fed5a64f6bc76808d"
+        },
+        {
+          "offset": 557056,
+          "length": 256,
+          "sha256": "8b1642196cc78d22de310fa5faa0074e1e9b1ef70d017a9e80115b34c06936f2"
+        },
+        {
+          "offset": 593920,
+          "length": 256,
+          "sha256": "1b4778b4b8b8db6bd801273c5ff635c050346723f73d76424501852b8a116fe7"
+        },
+        {
+          "offset": 626688,
+          "length": 256,
+          "sha256": "4ce0e772c35a0856875baac969f3a42886699196480af008613afdb0205ad308"
+        },
+        {
+          "offset": 659456,
+          "length": 256,
+          "sha256": "a1d282692466151064ef4cb8e83d2f64fbb1887ae01d169149adbccd1b85ebf8"
+        },
+        {
+          "offset": 696320,
+          "length": 256,
+          "sha256": "3075652db40e119c6e82f9763c811588156389e5dd2c91370bd1ffc4d6873f37"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 322616,
+          "bytes": "505f3338395f57492e372e302e32"
+        }
+      ],
+      "pair_identity": {
+        "method": "A2L PROJECT and firmware project/revision marker",
+        "project": "P389",
+        "revision": "70.2",
+        "validated_dimension_records": 1037,
+        "invalid_dimension_records": 0
+      },
+      "import_report": "4M702389-5c18ed56-6bd360b4-200000.import.json",
+      "skipped_objects": 2360,
+      "previous_title": "BMW DDE6.0 4-Zylinder V70.2 30.03.2004 \u2014 1037370888",
+      "nomenclature": {
+        "ecu_type": "EDC16C35",
+        "software_label": "370888",
+        "evidence": "Paired OLS header explicitly declares EDC16C35, hardware 0281011964 and software 370888; reference image agrees with 1037370888."
+      }
+    },
+    {
+      "key": "6m661411-8a6c37c0-467f3698-100000",
+      "title": "EDC16 369821",
+      "xdf": "EDC16 369821.xdf",
+      "xdf_sha256": "4c8c4ed1a512844f07e4d23ba4935a61b4dbee70361ce605fb8908b1aa16b6b9",
+      "profile_id": "a2l:8a6c37c0fdc7c828f490660680cb741cd9c304ebd567b8db93f2d2ac40a47b7b:467f369827312a375387e3abffa504bb5e28463f198642e9ad9fe1882b0b7af7:external-100000",
+      "usable": true,
+      "byte_length": 1048576,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "1 MiB zero-based external flash",
+      "software_identifiers": [
+        "1037369821"
+      ],
+      "original_sha256": [
+        "9d338a46259781bf6f79d9223f3d7ebb989905091470175e3c64c6cec5614063"
+      ],
+      "source_a2l_sha256": "8a6c37c0fdc7c828f490660680cb741cd9c304ebd567b8db93f2d2ac40a47b7b",
+      "source_image_sha256": "467f369827312a375387e3abffa504bb5e28463f198642e9ad9fe1882b0b7af7",
+      "source_paths": [
+        "BMW 535d EDC16 0 281 011 752/6m661411.A2L",
+        "BMW EDC16 DDE6.0 E60 3.0D/6m661411.A2L",
+        "BMW EDC16C31 535D/6m661411.A2L",
+        "BMW_EDC16_0281011762/BMW EDC16_0281011762/6m661411.A2L",
+        "DDE 6.0 6m661411/6m661411.A2L"
+      ],
+      "image_paths": [
+        "BMW 535d EDC16 0 281 011 752/__429661.h411",
+        "BMW EDC16 DDE6.0 E60 3.0D/__429661.h411",
+        "BMW EDC16C31 535D/6m661411.hex",
+        "BMW_EDC16_0281011762/BMW EDC16_0281011762/__429661.h411",
+        "DDE 6.0 6m661411/__429661.h411"
+      ],
+      "map_count": 8753,
+      "table_count": 997,
+      "axis_fingerprints": [
+        {
+          "offset": 788880,
+          "length": 12,
+          "sha256": "8e1cc0d428a6fdad2bec1a7611a6f9fd68f4f02f8274eed063035ffe1804b0da"
+        },
+        {
+          "offset": 790626,
+          "length": 12,
+          "sha256": "3f421083a580fac71bf16b9e1fd1fe15a7df38a06eacefacd2cf5689f2b59473"
+        },
+        {
+          "offset": 792268,
+          "length": 22,
+          "sha256": "a64160eaaffce9b6abf579b831c40ad890e9baf0adfe1d312da32c7dbc40c901"
+        },
+        {
+          "offset": 795612,
+          "length": 8,
+          "sha256": "4fce9128f8697cdb091f9b778e2af4f3589a82193177bf7c520353f5b6dc36ce"
+        },
+        {
+          "offset": 799334,
+          "length": 14,
+          "sha256": "37352866b9be3515a4bd0c66e7213877502bb6b83f10beb0b9d2ae96550d853a"
+        },
+        {
+          "offset": 804176,
+          "length": 32,
+          "sha256": "16dab3dd2e3f1f60e3a246235b6209b1523637e1ca26981934d21d814f62429c"
+        },
+        {
+          "offset": 810914,
+          "length": 12,
+          "sha256": "7004b3d4c4f864527090c46e448aba540d2c5f97a1a52b13492d717db5f36362"
+        },
+        {
+          "offset": 815050,
+          "length": 8,
+          "sha256": "65e5b86794f2211b3e8f70a89651174121335eb8d772189e2de9aea4d49ed097"
+        },
+        {
+          "offset": 816960,
+          "length": 16,
+          "sha256": "baad78526d22adc27983e015cb1b38ab52be99b0edbc664348858b0cef5ff3b2"
+        },
+        {
+          "offset": 822656,
+          "length": 20,
+          "sha256": "9e9628248d7912f09aae0e936797c14deeecd7e8ed1e90214072650df4c85961"
+        },
+        {
+          "offset": 841352,
+          "length": 16,
+          "sha256": "a905730f61a2bfd6890d7f8bc42b638810515b35945400e3e0e7657f808d0fb7"
+        },
+        {
+          "offset": 847170,
+          "length": 16,
+          "sha256": "d597dc1778a6dc18d0682d9d963bc49f4cb5b18cfe7583d492de45d4fca3c1ae"
+        },
+        {
+          "offset": 852800,
+          "length": 40,
+          "sha256": "1dc56139447d2eefaa3df1def4a403688ddd1ab91c37aeeba411c6d4ddee491c"
+        },
+        {
+          "offset": 858488,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 868426,
+          "length": 16,
+          "sha256": "310bc1abc3e78a5e9c57a0a465369fe587dc58dc7fb11083726e3869e2e00646"
+        },
+        {
+          "offset": 872324,
+          "length": 12,
+          "sha256": "9d2e6d71716107d53d8a807d7e7e63a69c06b7ea6f367e185ba9497fa7a726ba"
+        },
+        {
+          "offset": 875870,
+          "length": 10,
+          "sha256": "6e1d8c147a8663d146f667d9425b6ccc25bd44c91d9682fe17f7c9ea15cc802f"
+        },
+        {
+          "offset": 887274,
+          "length": 12,
+          "sha256": "23add076dcd780516d8269570651ab069669df5a85f2b8b9113f9ef6705e0035"
+        },
+        {
+          "offset": 895160,
+          "length": 16,
+          "sha256": "798b25dd421ad43aad29e5c0d65943c075ce92905a906d63671cc71f13c25f18"
+        },
+        {
+          "offset": 904280,
+          "length": 16,
+          "sha256": "a11affe2ba6d5eed56e61fcbd7215e5330dc686ffe839c77121f37f3d1cd653a"
+        },
+        {
+          "offset": 912702,
+          "length": 16,
+          "sha256": "a11affe2ba6d5eed56e61fcbd7215e5330dc686ffe839c77121f37f3d1cd653a"
+        },
+        {
+          "offset": 918738,
+          "length": 12,
+          "sha256": "f19b5a81df3a7a3a7a587f7e4f1f1b7db812c17bca89140d60d17b724957996d"
+        },
+        {
+          "offset": 924604,
+          "length": 8,
+          "sha256": "47a7b92d72828415300ae68670359a8c787b831a4b97791530baa94d203a0f78"
+        },
+        {
+          "offset": 933246,
+          "length": 32,
+          "sha256": "54319845fd68115058bedda499845485bce771dd534ee2d700e532484b12958f"
+        },
+        {
+          "offset": 939670,
+          "length": 32,
+          "sha256": "26e100aaf42653147698be83357f33184e5e8ad3eb171bd9ea42779936245c42"
+        },
+        {
+          "offset": 945052,
+          "length": 16,
+          "sha256": "65804ed1f23407019e84a4877839325851fe14d82d8473658f2bcdfa2da59e82"
+        },
+        {
+          "offset": 949204,
+          "length": 22,
+          "sha256": "ebe759ff5e2abeab942f08152ccdf969f37eb8f366e7eb55a68bf70662cbd7a8"
+        },
+        {
+          "offset": 952680,
+          "length": 16,
+          "sha256": "41e1d466ef08f9aac26fe45959efd5b7d0c43725b3186c5252abbc15d2db15af"
+        },
+        {
+          "offset": 957058,
+          "length": 16,
+          "sha256": "7a733acdd58b88d4aaa6af34eb6f2df423d4293fe270d5b36e2bb18608aea243"
+        },
+        {
+          "offset": 960120,
+          "length": 8,
+          "sha256": "733c5263f91a75c748dbd333cc0ead1a04a6f8194bb21f6bd4c59f0a5daf3595"
+        },
+        {
+          "offset": 964324,
+          "length": 24,
+          "sha256": "981f5a6b2a6b6d7c6f302a638f6b073b72dbb4062217a5481bb014dd43b259d7"
+        },
+        {
+          "offset": 968034,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "27e9d9d57b0c9d5ed34c8ce88f5bc9d28cc85243d647696bbc84723eacd2410d"
+        },
+        {
+          "offset": 102400,
+          "length": 256,
+          "sha256": "504daa774a6159f2266938cbc66b550d6cb92284cfbffc0365114b47493b8e20"
+        },
+        {
+          "offset": 135168,
+          "length": 256,
+          "sha256": "6d93cb069495d13b49e48c43063bb6d7228d88e4abeaee6172a1c8d3a614a33e"
+        },
+        {
+          "offset": 327680,
+          "length": 256,
+          "sha256": "7826293117c52b963d4dbf84515ae1cd3f9bcb3096d22e4b3d2ac8eb90672a75"
+        },
+        {
+          "offset": 385024,
+          "length": 256,
+          "sha256": "99199c96285579c0dce20b37e1b027d1f95afb0030663a7250d196d174c908e2"
+        },
+        {
+          "offset": 417792,
+          "length": 256,
+          "sha256": "f1d64ecd1100fcfcef7a5240b00f7960321bb31bff376c91280992951021fccd"
+        },
+        {
+          "offset": 450560,
+          "length": 256,
+          "sha256": "8c54be43c711e7705dbff75263ad993647a6ccbfc58ab4f7e718457eef3d683f"
+        },
+        {
+          "offset": 483328,
+          "length": 256,
+          "sha256": "68208e371ee2d7e800a5e14b6263b0adcf9d2b56c8f9213eb820e00ff69186a7"
+        },
+        {
+          "offset": 516096,
+          "length": 256,
+          "sha256": "c6bd630c45cabb1ee4812905bd35cbec74b80f206feb1997a98e69c6dec43b01"
+        },
+        {
+          "offset": 548864,
+          "length": 256,
+          "sha256": "8c365abba2394741a547129b90c92065cd48d49598fe905a4da222593a296cc2"
+        },
+        {
+          "offset": 581632,
+          "length": 256,
+          "sha256": "95807ad707274716ce892bbfe3ea5965aa696451e256f9d94e997f5893aa9cca"
+        },
+        {
+          "offset": 614400,
+          "length": 256,
+          "sha256": "7944ec4fc96335840537871cf2064cf35efd8127fdb9ac70eb710a0f55e104ff"
+        },
+        {
+          "offset": 647168,
+          "length": 256,
+          "sha256": "70d199aeb843d7acb4857d3f2999554ed2c4180426d87501e94a71c59cad9308"
+        },
+        {
+          "offset": 679936,
+          "length": 256,
+          "sha256": "72e200a265270779b6e63962543fa527abb3808317003cb843590c4b156a986e"
+        },
+        {
+          "offset": 712704,
+          "length": 256,
+          "sha256": "2fa7e1ea257f7332673d7a68a42ad0c39f7b5d6a5c21c2b01c532c4510564622"
+        },
+        {
+          "offset": 745472,
+          "length": 256,
+          "sha256": "dc03ec9e230cad55a9147745e53395222386749c9f39fbebfeaac0239c28aa87"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 383736,
+          "bytes": "505f3431315f57492e362e362e31"
+        }
+      ],
+      "pair_identity": {
+        "method": "A2L PROJECT and firmware project/revision marker",
+        "project": "P411",
+        "revision": "66.1",
+        "validated_dimension_records": 997,
+        "invalid_dimension_records": 0
+      },
+      "import_report": "6m661411-8a6c37c0-467f3698-100000.import.json",
+      "skipped_objects": 2272,
+      "previous_title": "BMW DDE6.0 6-Zylinder V66.1 07.01.2004 CAN12H \u2014 1037369821",
+      "nomenclature": {
+        "ecu_type": "EDC16",
+        "software_label": "369821",
+        "evidence": "Reference image verifies 1037369821 and hardware 0281011762. Paired OLS headers disagree between EDC16C31 and EDC16C35; subtype is deliberately unspecified."
+      }
+    },
+    {
+      "key": "6M962411-3e9c0394-47f7bb39-100000",
+      "title": "EDC16 372066",
+      "xdf": "EDC16 372066.xdf",
+      "xdf_sha256": "57c8fa5208bf41221e9050e0944d82b893adb53df4371f6403b9ea5edf71f1c3",
+      "profile_id": "a2l:3e9c03940eb24831ed207c77920d2d3f91df1c0316fe83c1bbda2914dfef3591:47f7bb39bbe3cba5c86c42054d6778ea81c9f1b2da3604beffceca325a58f97d:external-100000",
+      "usable": true,
+      "byte_length": 1048576,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "1 MiB zero-based external flash",
+      "software_identifiers": [
+        "1037372066"
+      ],
+      "original_sha256": [
+        "403a3019ac48dd986a01b8e2956808ce0fe7c61eddefdd75331857c56a4907fc"
+      ],
+      "source_a2l_sha256": "3e9c03940eb24831ed207c77920d2d3f91df1c0316fe83c1bbda2914dfef3591",
+      "source_image_sha256": "47f7bb39bbe3cba5c86c42054d6778ea81c9f1b2da3604beffceca325a58f97d",
+      "source_paths": [
+        "bmw dde6.0 6cyl v96.2/6M962411.A2L",
+        "BMW EDC16 DDE6.0/6M962411.A2L"
+      ],
+      "image_paths": [
+        "bmw dde6.0 6cyl v96.2/X_269962.h411",
+        "BMW EDC16 DDE6.0/6M962411.h411"
+      ],
+      "map_count": 9855,
+      "table_count": 1179,
+      "axis_fingerprints": [
+        {
+          "offset": 789328,
+          "length": 12,
+          "sha256": "8e1cc0d428a6fdad2bec1a7611a6f9fd68f4f02f8274eed063035ffe1804b0da"
+        },
+        {
+          "offset": 792138,
+          "length": 6,
+          "sha256": "d6c65dbb6065ee7af8003788da8e597307c95908f52a2eb59baf5bddaa9afe9a"
+        },
+        {
+          "offset": 794068,
+          "length": 8,
+          "sha256": "efcd3b86d78d61b2269bcae1a1ecdf672e56b8b4d3e3b3c1de8a9c4e4cef6d0b"
+        },
+        {
+          "offset": 798192,
+          "length": 10,
+          "sha256": "b46d9f088786638c76f7b56e03ea61d8cba74e3fdeba6c8884f40c21bf7b82e6"
+        },
+        {
+          "offset": 802740,
+          "length": 28,
+          "sha256": "300756b05712f8c11d3d3a74d89f51286017ba1204c36afa75348eb2a4644406"
+        },
+        {
+          "offset": 808688,
+          "length": 32,
+          "sha256": "b062d5a5749fcd5b08f45a65a82b7a616916d97206c8598a2faa7523ec23e325"
+        },
+        {
+          "offset": 815650,
+          "length": 16,
+          "sha256": "f5340d8af4bfdea8f02da79245907affbbaee2dac4c7b0189708d20c03bfe7bc"
+        },
+        {
+          "offset": 820096,
+          "length": 28,
+          "sha256": "a0290c956842f14159d6517b2b58312d2451d27e2f07c4d7eddef0856ac99b59"
+        },
+        {
+          "offset": 824270,
+          "length": 16,
+          "sha256": "baad78526d22adc27983e015cb1b38ab52be99b0edbc664348858b0cef5ff3b2"
+        },
+        {
+          "offset": 829990,
+          "length": 16,
+          "sha256": "e20f93276e9ca460f53a9b95334b979f43fcb1852a2e863bd8e954e0ee288a3e"
+        },
+        {
+          "offset": 852632,
+          "length": 16,
+          "sha256": "fb88386fab424579452d8b33af895805a92c1059a6f05dd56066225f5fc12c18"
+        },
+        {
+          "offset": 859034,
+          "length": 20,
+          "sha256": "c548e15287cfb7003b68b51ba14f8334f453a31d361ad2f5e81d4200e0b2ba5b"
+        },
+        {
+          "offset": 866672,
+          "length": 40,
+          "sha256": "1dc56139447d2eefaa3df1def4a403688ddd1ab91c37aeeba411c6d4ddee491c"
+        },
+        {
+          "offset": 875108,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 886092,
+          "length": 16,
+          "sha256": "bd69f3c80cadde275c095fadd039f7d73c87551a43fd688aa29a649a1a3edf8f"
+        },
+        {
+          "offset": 890984,
+          "length": 12,
+          "sha256": "a43e457dbef545f80e356e623ee5100b059b8b5f9e588cc544a0694ac56d76d2"
+        },
+        {
+          "offset": 896968,
+          "length": 18,
+          "sha256": "f9ae5501794dee7d374a5203ef1bb64c5705a513da090cbe49a3bd3875568f6c"
+        },
+        {
+          "offset": 906816,
+          "length": 16,
+          "sha256": "a679ae9aae8ec1386dbc53142d912b3a0f404e7250147e7018d5362980e9c6d9"
+        },
+        {
+          "offset": 916584,
+          "length": 16,
+          "sha256": "aa84e4fb78bb6b0265232f731a2f522490ca181bf08963a6f013bd79d9d765ee"
+        },
+        {
+          "offset": 926748,
+          "length": 12,
+          "sha256": "f52d2b2ba25be4e67fbd4959ad6e695d5da31732996d8a8d1bc8f016b98d2959"
+        },
+        {
+          "offset": 935098,
+          "length": 16,
+          "sha256": "a11affe2ba6d5eed56e61fcbd7215e5330dc686ffe839c77121f37f3d1cd653a"
+        },
+        {
+          "offset": 944004,
+          "length": 20,
+          "sha256": "c0765a93a3cf905b3ec0de8521a1a4f7651d7a57aade96c12b2b14e93f1e6fc7"
+        },
+        {
+          "offset": 951624,
+          "length": 32,
+          "sha256": "4a05544f121474e962604daff79227290abe5637f325d730595a029094b81065"
+        },
+        {
+          "offset": 962094,
+          "length": 16,
+          "sha256": "aa84e4fb78bb6b0265232f731a2f522490ca181bf08963a6f013bd79d9d765ee"
+        },
+        {
+          "offset": 969250,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 978608,
+          "length": 32,
+          "sha256": "47a53edaa6577f889333903dbdd50ec38bec03e558ccd47178aabd0dc2ede9e7"
+        },
+        {
+          "offset": 981564,
+          "length": 10,
+          "sha256": "31c664b85a25705f39abbdc1334a7051c4a097e773e7a9acfe73d368cbdd73e3"
+        },
+        {
+          "offset": 986050,
+          "length": 22,
+          "sha256": "688e629fae2c4e21be9dc1a1e3e5fd667a58bad9be6cd15f15ad9a49a659e527"
+        },
+        {
+          "offset": 990148,
+          "length": 14,
+          "sha256": "6f07b917fe08240761323cc484a38413901b17d24a25da256301c3b3c5789e43"
+        },
+        {
+          "offset": 995206,
+          "length": 16,
+          "sha256": "dce760f10fdac8fe8b3b866ebd1756c8bafd4c653a46ea97ab6563cc7a1d2de6"
+        },
+        {
+          "offset": 1000650,
+          "length": 16,
+          "sha256": "161209565a65631db796be87fe885acd6bcc278c28aa4a1b12bcba10b1241a06"
+        },
+        {
+          "offset": 1004866,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "2e1a72445fff9305182c3fb6768ede21b4f7b043d15d2095b34c4091a1e0da5b"
+        },
+        {
+          "offset": 106496,
+          "length": 256,
+          "sha256": "0e85fe937dc67e098eab5b4c8068ec720ea65594ff138e215db7445699ea8e21"
+        },
+        {
+          "offset": 143360,
+          "length": 256,
+          "sha256": "c997ea559f9f4131550245ef5e3939b1da246f835023372b1bbe047466ff8d91"
+        },
+        {
+          "offset": 266240,
+          "length": 256,
+          "sha256": "1d2c3df81f89b6e3440d41b90e620da8c894e0ac664387b3b44cedc9c9618870"
+        },
+        {
+          "offset": 335872,
+          "length": 256,
+          "sha256": "113453ec688343838852a8231245b5ba3c382cdbaf8992b103b18d710ed513f1"
+        },
+        {
+          "offset": 376832,
+          "length": 256,
+          "sha256": "34b9fe327fba0ece2d48d33aefd9987a2ea910da06d74778692449b0e59de372"
+        },
+        {
+          "offset": 413696,
+          "length": 256,
+          "sha256": "b3429d51603636132d787285efb28a814f156f47efd7ffd2063c714a6ba398ce"
+        },
+        {
+          "offset": 450560,
+          "length": 256,
+          "sha256": "9b3feddfbcd8cb98e725555e9573f7b881f4da9340475743d3f53e664ff3c3b4"
+        },
+        {
+          "offset": 487424,
+          "length": 256,
+          "sha256": "36d4bbff5e4ee8eb52b2ccfa1744e183dd43db20ee616ce77e3d370e72fb9b3e"
+        },
+        {
+          "offset": 524288,
+          "length": 256,
+          "sha256": "34c33af0b3ffee5345dc5d8cf2db6a88a75cb08ab6ee89f5f0738f6ecebe35b9"
+        },
+        {
+          "offset": 565248,
+          "length": 256,
+          "sha256": "ef702ea010d48dd8523ee61b7e85d77f5102265575b16213afec64af0b11d4dc"
+        },
+        {
+          "offset": 602112,
+          "length": 256,
+          "sha256": "c2eb258da1fee14e067c3e566c18ec3a7f4bab66dfc8952b27b9ed23d60ae246"
+        },
+        {
+          "offset": 638976,
+          "length": 256,
+          "sha256": "760aa444d90290f9f43a91217b9157f7be62e8e449ad1f962aa7ece4ff0697a6"
+        },
+        {
+          "offset": 675840,
+          "length": 256,
+          "sha256": "73bb0949acc37ae4b1609e33ae4a795c800b0267b66b821a6d61238a472b398e"
+        },
+        {
+          "offset": 712704,
+          "length": 256,
+          "sha256": "7c2e74866184a4c5391aff3693fccc4e5d689e0f6b3bb3bc5e5913905813205d"
+        },
+        {
+          "offset": 753664,
+          "length": 256,
+          "sha256": "73236d32ba9f1fd1b36e61d8802bb7a55ac3ac4d436758f2e8b7434094eab1fe"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 324324,
+          "bytes": "505f3431315f57492e392e362e32"
+        }
+      ],
+      "pair_identity": {
+        "method": "A2L PROJECT and firmware project/revision marker",
+        "project": "P411",
+        "revision": "96.2",
+        "validated_dimension_records": 1179,
+        "invalid_dimension_records": 0
+      },
+      "import_report": "6M962411-3e9c0394-47f7bb39-100000.import.json",
+      "skipped_objects": 2484,
+      "previous_title": "BMW DDE6.0 6-Zylinder V96.2 14.10.2004 \u2014 1037372066",
+      "nomenclature": {
+        "ecu_type": "EDC16",
+        "software_label": "372066",
+        "evidence": "Reference image verifies 1037372066 and hardware 0281012191, A2L DDE6.0 V96.2. Shared EDC16C35/C build banners alone do not establish the hardware subtype; subtype is deliberately unspecified."
+      }
+    },
+    {
+      "key": "4M534389-4042a9ff-a0d1a182-200000",
+      "title": "EDC16C35 371268",
+      "xdf": "EDC16C35 371268.xdf",
+      "xdf_sha256": "967708717d3d5122326bc128c1f75081ea6c72446ea00355e9519120ac99aeae",
+      "profile_id": "a2l:4042a9ffb7482b78f8b255e15acf5288298aaddcae8004ab65ead0ce93ed9de4:a0d1a182c6bb5ab4f3f0829df6f95ddc5651bba2e341e35bd5de159241a27844:external-200000",
+      "usable": true,
+      "byte_length": 2097152,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "2 MiB zero-based external flash",
+      "software_identifiers": [
+        "1037371268"
+      ],
+      "original_sha256": [
+        "0bd448f0a5dfe1ae3c9877c9de6e64680c2a5451a877a074ef0d07960c1cf555"
+      ],
+      "source_a2l_sha256": "4042a9ffb7482b78f8b255e15acf5288298aaddcae8004ab65ead0ce93ed9de4",
+      "source_image_sha256": "a0d1a182c6bb5ab4f3f0829df6f95ddc5651bba2e341e35bd5de159241a27844",
+      "source_paths": [
+        "bmw e87 2.0d m47tu2ol dde 6.0 120kw dpf system/4M534389.A2L",
+        "BMW EDC16C31 E87 2.0D/4M534389.A2L"
+      ],
+      "image_paths": [
+        "bmw e87 2.0d m47tu2ol dde 6.0 120kw dpf system/X_24A534.h389",
+        "BMW EDC16C31 E87 2.0D/X_24A534.h389"
+      ],
+      "map_count": 8527,
+      "table_count": 999,
+      "axis_fingerprints": [
+        {
+          "offset": 789316,
+          "length": 12,
+          "sha256": "8e1cc0d428a6fdad2bec1a7611a6f9fd68f4f02f8274eed063035ffe1804b0da"
+        },
+        {
+          "offset": 791002,
+          "length": 12,
+          "sha256": "3f421083a580fac71bf16b9e1fd1fe15a7df38a06eacefacd2cf5689f2b59473"
+        },
+        {
+          "offset": 792328,
+          "length": 7,
+          "sha256": "b1a71f3816b8b7da40b4fb06b9dc543de1e619823a67b378cdc3c9a5ada29264"
+        },
+        {
+          "offset": 795880,
+          "length": 10,
+          "sha256": "eb3d9cadb5d06b821c773873bb7561f6d406c6d155ce1a8b0563767491453d5c"
+        },
+        {
+          "offset": 796918,
+          "length": 8,
+          "sha256": "4ff3270b51a17075e291793dbb98694da9ba395edee15b0825c8c87807cc4413"
+        },
+        {
+          "offset": 804102,
+          "length": 12,
+          "sha256": "e54b136c266e0fcdcfcd6b2da4b33098322c338d6e4725ee5c77b8a3d44db03c"
+        },
+        {
+          "offset": 810586,
+          "length": 16,
+          "sha256": "f5340d8af4bfdea8f02da79245907affbbaee2dac4c7b0189708d20c03bfe7bc"
+        },
+        {
+          "offset": 815082,
+          "length": 10,
+          "sha256": "ad8eb15dcdc158d1482f99a07f054dda0058811dfa443c2ddcd80dc0465a24a4"
+        },
+        {
+          "offset": 817490,
+          "length": 12,
+          "sha256": "75a68ccf9edfac8b886fc723c7e165cd76459294f1c867f19b3033061a342daa"
+        },
+        {
+          "offset": 821738,
+          "length": 12,
+          "sha256": "ac11b369ccad2ac8d662dae23f89b9dc9a18d58bc5d384aea4022684a2ba17a3"
+        },
+        {
+          "offset": 841120,
+          "length": 16,
+          "sha256": "7b1847a776018346db2985db63eacb8a0983f43d1904bdec14e0263e4b1199a0"
+        },
+        {
+          "offset": 844962,
+          "length": 32,
+          "sha256": "0dd16c8e78a29214874c4a2f27a271911d95f737bcfc184a0efab2eef31c69a6"
+        },
+        {
+          "offset": 852264,
+          "length": 42,
+          "sha256": "7756ef53d1f2b489aeeabaa40e13436caf1063aadcb2680aa2efe6a4927f8ec1"
+        },
+        {
+          "offset": 858400,
+          "length": 32,
+          "sha256": "8e83397abc415625f3241592a7015d0e7cb7fea0903fbb5f3d0959d6a49e5453"
+        },
+        {
+          "offset": 868156,
+          "length": 32,
+          "sha256": "4b663640c5d9e1fca222f0e9c62f4fb5d1b369c65801aed4dcf18025ee39a3a3"
+        },
+        {
+          "offset": 871788,
+          "length": 32,
+          "sha256": "cccc913fe369154e2f10d77d137248f2e77d3b10e23860d8ae8ce07351865e11"
+        },
+        {
+          "offset": 877910,
+          "length": 32,
+          "sha256": "e5e04f219fa03e6e1184e97dbc382e02f2f92282b48669ec623f18532f90e590"
+        },
+        {
+          "offset": 886934,
+          "length": 8,
+          "sha256": "c9ce8d4c7b6028b3698ce944147c3b3aad71908446a89bd1f6ea5e3e913d6753"
+        },
+        {
+          "offset": 897968,
+          "length": 16,
+          "sha256": "d7a351ae76ab484fb7647c4411c959cff374068322e03fb46a60fd2786451986"
+        },
+        {
+          "offset": 904812,
+          "length": 12,
+          "sha256": "3084a85692ab23aaf46926523a157034a1f2af9855ee0671fb77c0cae2d1128e"
+        },
+        {
+          "offset": 912566,
+          "length": 20,
+          "sha256": "9689866cc898c8516635e7b634b23b44625224285947cd5a03c1e14744734d0e"
+        },
+        {
+          "offset": 919224,
+          "length": 24,
+          "sha256": "a69fea2e88a758e64deb9f79cac0a6f4d1c2c33c7ccd8a79dcddf63ae6eac0a2"
+        },
+        {
+          "offset": 926262,
+          "length": 12,
+          "sha256": "1037f28eb23243e3d600ac05642214cc51c9a2f415413e639d2ff4e12324e627"
+        },
+        {
+          "offset": 934322,
+          "length": 60,
+          "sha256": "1ce237bc831873070238b1871103c60a3a5f3e9bbbd6e1e41ec5fec5d318be9e"
+        },
+        {
+          "offset": 940916,
+          "length": 10,
+          "sha256": "c5e7d8be94ef2d64e9d045b02a9c2ef83826174c191abde7e7349d72d6a0e0f1"
+        },
+        {
+          "offset": 946552,
+          "length": 8,
+          "sha256": "f5decbb03de92f9bcf77ba22f3bab0a216cc6feda48204512708f511212bfb75"
+        },
+        {
+          "offset": 950256,
+          "length": 16,
+          "sha256": "91665c800363163fc72f941920f11791ba1378fa2add7b7a7e081edf29f919f1"
+        },
+        {
+          "offset": 953716,
+          "length": 16,
+          "sha256": "aa84e4fb78bb6b0265232f731a2f522490ca181bf08963a6f013bd79d9d765ee"
+        },
+        {
+          "offset": 957800,
+          "length": 28,
+          "sha256": "300756b05712f8c11d3d3a74d89f51286017ba1204c36afa75348eb2a4644406"
+        },
+        {
+          "offset": 960788,
+          "length": 16,
+          "sha256": "8a24d9470b99f6f2db57b4efb2a589b5ba35237d3074b3cffe84a5318bda07c2"
+        },
+        {
+          "offset": 965212,
+          "length": 24,
+          "sha256": "2acefb76093411d33f814dc9894b5ebc58c90287418d9709b36280e5e69cf762"
+        },
+        {
+          "offset": 968922,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "2e1a72445fff9305182c3fb6768ede21b4f7b043d15d2095b34c4091a1e0da5b"
+        },
+        {
+          "offset": 102400,
+          "length": 256,
+          "sha256": "8a004472543abea497d3f28a8dba112f67bb2256eab1c7deb4e8979605509219"
+        },
+        {
+          "offset": 135168,
+          "length": 256,
+          "sha256": "f470aafdc36af708ce4363da86c5bbcab26e8458997373b08cb02b548a17cac3"
+        },
+        {
+          "offset": 258048,
+          "length": 256,
+          "sha256": "97c132971ed1f8fa6de74248142cb745cfb3da714f00a49b618d971c639e4e84"
+        },
+        {
+          "offset": 319488,
+          "length": 256,
+          "sha256": "3498869b41b76eda61b7c28dd8a2ca19354287a013c04472627cc911207fa12f"
+        },
+        {
+          "offset": 352256,
+          "length": 256,
+          "sha256": "850a7e424d6bc75c797571e9cb658aa277c3002cdc79446be81a15aebc1a6896"
+        },
+        {
+          "offset": 385024,
+          "length": 256,
+          "sha256": "b7e50e3a80c4050bbdc40e2c738439a75472fcd8c32c7de5adfc934dc959e064"
+        },
+        {
+          "offset": 417792,
+          "length": 256,
+          "sha256": "817eb2533b824269cd2e475b29b6701cb180d5baa3f343eccffe136ffd3eda69"
+        },
+        {
+          "offset": 450560,
+          "length": 256,
+          "sha256": "a9663b54ac27d6b13f1c891b005e70141d15f976dff20474afab6949d2426f12"
+        },
+        {
+          "offset": 483328,
+          "length": 256,
+          "sha256": "fcd6f2f38c63ec5f7684bf608628cee18a2b785877b55ac716c6c4788763238c"
+        },
+        {
+          "offset": 516096,
+          "length": 256,
+          "sha256": "fcf884343a3c8d09992c71904ac8d53903582834829c306927f91bf3ce97182b"
+        },
+        {
+          "offset": 548864,
+          "length": 256,
+          "sha256": "c35892359a872261e48fe2f4b1d7a65fb4ad2eacda9838d03e842e1cb1a17949"
+        },
+        {
+          "offset": 581632,
+          "length": 256,
+          "sha256": "68e0f5bd6e13c9d9fe1a8bf94dbe16e57ff8f8a868d3e950095cdb8d076060ae"
+        },
+        {
+          "offset": 614400,
+          "length": 256,
+          "sha256": "e66cdc4b6f1693fb8cbee6990c2725d4fc1b12ee6b2d124f3174c5923da9dc7a"
+        },
+        {
+          "offset": 647168,
+          "length": 256,
+          "sha256": "febf0893fe7b028c834ca57fa959004df1af760d97fe85b202b18d401b34c337"
+        },
+        {
+          "offset": 684032,
+          "length": 256,
+          "sha256": "4a4e245657ab5b58f1c628145fa4a1c1b107aad4248afcc70cddc29bbe5a78b6"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 317892,
+          "bytes": "505f3338395f57492e352e332e34"
+        }
+      ],
+      "pair_identity": {
+        "method": "A2L PROJECT and firmware project/revision marker",
+        "project": "P389",
+        "revision": "53.4",
+        "validated_dimension_records": 999,
+        "invalid_dimension_records": 0
+      },
+      "import_report": "4M534389-4042a9ff-a0d1a182-200000.import.json",
+      "skipped_objects": 2203,
+      "previous_title": "BMW DDE6.0 4-Zylinder V53.4 01.04.2004 CAN12H \u2014 1037371268",
+      "nomenclature": {
+        "ecu_type": "EDC16C35",
+        "software_label": "371268",
+        "evidence": "Paired OLS header explicitly declares EDC16C35 (DDE6.0), hardware 0281011416 and software 1037371268; reference image agrees."
+      }
+    },
+    {
+      "key": "WinOLS-HiLo-f815898e-dcc02bc3-200000",
+      "title": "EDC16CP35 387658",
+      "xdf": "EDC16CP35 387658.xdf",
+      "xdf_sha256": "4572e5f670b7dc0862e8f430feb467d0dc8e346bd54cc9a11615f45948c2bd9f",
+      "profile_id": "ols-json:f815898ed1e6ebfd83fe6197624818234db11e8ce18973c1395d05f108adc0c2:dcc02bc35d87e732397bf09a084d112e1d41059afa42fa640bccd14dcdedd753:200000",
+      "usable": true,
+      "source_type": "WinOLS JSON",
+      "byte_length": 2097152,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "2 MiB zero-based external flash",
+      "software_identifiers": [
+        "1037387658"
+      ],
+      "original_sha256": [
+        "dcc02bc35d87e732397bf09a084d112e1d41059afa42fa640bccd14dcdedd753"
+      ],
+      "source_json_sha256": "f815898ed1e6ebfd83fe6197624818234db11e8ce18973c1395d05f108adc0c2",
+      "source_image_sha256": "dcc02bc35d87e732397bf09a084d112e1d41059afa42fa640bccd14dcdedd753",
+      "source_paths": [
+        "HiLo.json"
+      ],
+      "image_paths": [
+        "BMW E90 330xd - ORI Ocitanog fajla.bin"
+      ],
+      "map_count": 86,
+      "table_count": 72,
+      "axis_fingerprints": [
+        {
+          "offset": 802424,
+          "length": 28,
+          "sha256": "300756b05712f8c11d3d3a74d89f51286017ba1204c36afa75348eb2a4644406"
+        },
+        {
+          "offset": 802828,
+          "length": 16,
+          "sha256": "632dbb1813b0537632e0960dbfc6d7626c0621e26d90057dc6871de117e6a5d2"
+        },
+        {
+          "offset": 808202,
+          "length": 32,
+          "sha256": "3032dc517f4f25b328a46f5c51624de8f9c2ea9a271eedda11261c793c09efb0"
+        },
+        {
+          "offset": 808814,
+          "length": 32,
+          "sha256": "16dab3dd2e3f1f60e3a246235b6209b1523637e1ca26981934d21d814f62429c"
+        },
+        {
+          "offset": 810610,
+          "length": 32,
+          "sha256": "c7033004bb503c7a3bd547b270b73ba5c95aafed5c5796bc19133af926a8953f"
+        },
+        {
+          "offset": 829682,
+          "length": 16,
+          "sha256": "9a1db32e7d5af6a2a7256af243b456ee56b6fd96b19dd266f03ddac87edbb80a"
+        },
+        {
+          "offset": 869410,
+          "length": 40,
+          "sha256": "50546301e6e0801dedecc9564c7913632289d5fc20cd4ac11ebbd319e0d144e6"
+        },
+        {
+          "offset": 869660,
+          "length": 42,
+          "sha256": "784556023cc6d10625bc9b9641631289bb3215e01ee52ba1f85288af9f150f0b"
+        },
+        {
+          "offset": 876700,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 877892,
+          "length": 32,
+          "sha256": "a8aebc3c8588c51d6156177556630eaedb4a0e5fde5337b98a70e1d63dee9c5f"
+        },
+        {
+          "offset": 879052,
+          "length": 32,
+          "sha256": "38cc25c329b04292bf3de7b5e957466574bbb976d15176b10719ef3fdab65387"
+        },
+        {
+          "offset": 880212,
+          "length": 32,
+          "sha256": "4fd3542577af2d020a70d723512428136601b5fcb972b73b6ab5bc44ae967c97"
+        },
+        {
+          "offset": 881340,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 882500,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 883112,
+          "length": 32,
+          "sha256": "4fd3542577af2d020a70d723512428136601b5fcb972b73b6ab5bc44ae967c97"
+        },
+        {
+          "offset": 885610,
+          "length": 32,
+          "sha256": "37c76512277d39b18115d7ca847d8f356e6f3368d9fc2cbc39c7f82ea41f8ad6"
+        },
+        {
+          "offset": 886534,
+          "length": 40,
+          "sha256": "a1d9ac230a69834cbc11dfd9cda07095a2e3786c4ad7887d5dfbb276ecb91ec8"
+        },
+        {
+          "offset": 888366,
+          "length": 32,
+          "sha256": "04273062a56046dd80f6f979ce6bf861a2279ee31d1df9547f55ecc9fd51def4"
+        },
+        {
+          "offset": 890978,
+          "length": 32,
+          "sha256": "5007618a5342f162c78c222ac354adda21c96a80f24a736ba680656671c1f6f7"
+        },
+        {
+          "offset": 893754,
+          "length": 20,
+          "sha256": "af9a97e614f7609752d7d71451b524c3315310f4ab5c3257577a165978341d5a"
+        },
+        {
+          "offset": 893880,
+          "length": 20,
+          "sha256": "af9a97e614f7609752d7d71451b524c3315310f4ab5c3257577a165978341d5a"
+        },
+        {
+          "offset": 905212,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 907532,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 908660,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 973628,
+          "length": 32,
+          "sha256": "439ac1634d081ec2ba8a67230ef85c0d0acd5d9c1d2fd4f01d7e4e5d629e05da"
+        },
+        {
+          "offset": 974616,
+          "length": 32,
+          "sha256": "027880584cbb9b2c6bd0543162325f4b17a30716c1cb804728b8c9e537496cf7"
+        },
+        {
+          "offset": 976152,
+          "length": 32,
+          "sha256": "347b66d5c035d218b52a74f510b0ec70c069b23352d2b343228e9d06820fcb99"
+        },
+        {
+          "offset": 981974,
+          "length": 26,
+          "sha256": "c2ccd0ffb7924e354867fed9500025283ec2993279c27b6af7098304b36e9361"
+        },
+        {
+          "offset": 1010232,
+          "length": 32,
+          "sha256": "e0947c486fcd2b66342e132aaa152d8f628e4ac810517373c4486e2297d80aea"
+        },
+        {
+          "offset": 1011338,
+          "length": 32,
+          "sha256": "ead1e595ec74bca0db89cd43c38da878a6e485f7538531e19e3265643130b46f"
+        },
+        {
+          "offset": 1014866,
+          "length": 10,
+          "sha256": "364f2c9020f37347786085fba838236475cc4ac2dbef5580fc4ba775e024e8b6"
+        },
+        {
+          "offset": 1018470,
+          "length": 20,
+          "sha256": "fd895f47ee60083aa2231be4de6b7a5fdb732452dd94e8e8f372dded6f7880d5"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 69632,
+          "length": 256,
+          "sha256": "2e1a72445fff9305182c3fb6768ede21b4f7b043d15d2095b34c4091a1e0da5b"
+        },
+        {
+          "offset": 94208,
+          "length": 256,
+          "sha256": "3986e9ae11a1d12b03e418e03567b076938949aba50cd655f0828a46a8a3ff76"
+        },
+        {
+          "offset": 122880,
+          "length": 256,
+          "sha256": "145ba00303a963e5ab949e33f820015f1b2df28e76ea22c518aab34e7ee2e61b"
+        },
+        {
+          "offset": 147456,
+          "length": 256,
+          "sha256": "005c58ca328870757488f6141ef16205504bdd4e5ea1a534065bd9ce61be8b55"
+        },
+        {
+          "offset": 262144,
+          "length": 256,
+          "sha256": "6a79b5d215cf00961d81a2e9375e1aae57a47e6fb38c45c2c4413e5c431f671d"
+        },
+        {
+          "offset": 323584,
+          "length": 256,
+          "sha256": "86609d9a4fa10065c25bd1554332249477212e342e2245273e27e6f5ca08055c"
+        },
+        {
+          "offset": 348160,
+          "length": 256,
+          "sha256": "f7f36b3cb910f616ec9e49a132dc073551b185e24cd0144cbd2e4abaa0c1fe37"
+        },
+        {
+          "offset": 376832,
+          "length": 256,
+          "sha256": "c01adfa3e9824def56fd7f3e73a0f005a80f58205a04a17f4a0a9a74d3fe9af5"
+        },
+        {
+          "offset": 401408,
+          "length": 256,
+          "sha256": "e948a670f4427d9246459f63c65b2665d5db60995984e5637a9e09a0e8fe540d"
+        },
+        {
+          "offset": 430080,
+          "length": 256,
+          "sha256": "9afb1f1902d1a4f8a650dd8f607e0077102e7b42495ed61b9ff385f4beb5206d"
+        },
+        {
+          "offset": 458752,
+          "length": 256,
+          "sha256": "934efcf2420b487c83a236af4d09bb897866f5cf5387c45790ac586f9cb8eee9"
+        },
+        {
+          "offset": 483328,
+          "length": 256,
+          "sha256": "4b431fb4239e721749afe73463eb624a105381e165ece889f9ab38ca14495eec"
+        },
+        {
+          "offset": 512000,
+          "length": 256,
+          "sha256": "a809f9ed1bd3e479c09edc215cd9b6cb7a9489157eb4da3816d60d85914a2f0b"
+        },
+        {
+          "offset": 536576,
+          "length": 256,
+          "sha256": "f0d39ea0326dda6bd38e8e69b07cd53bd032003f94e89fd2147cab713104f218"
+        },
+        {
+          "offset": 565248,
+          "length": 256,
+          "sha256": "473aba42eb41b655fd4f97a6c12357de7ba3e7de682ae071f822624f9872450f"
+        },
+        {
+          "offset": 798720,
+          "length": 256,
+          "sha256": "344a468283082a3867f3e7cb31dd5caf61791177169ed5741d2364188c42d709"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 65872,
+          "bytes": "31303337333837363538"
+        },
+        {
+          "offset": 66714,
+          "bytes": "31303337333837363538"
+        },
+        {
+          "offset": 262160,
+          "bytes": "31303337333837363538"
+        },
+        {
+          "offset": 786448,
+          "bytes": "31303337333837363538"
+        },
+        {
+          "offset": 1048592,
+          "bytes": "31303337333837363538"
+        }
+      ],
+      "pair_identity": {
+        "method": "Explicit paired reference image, Bosch software identifiers and stored map layout",
+        "software_identifiers": [
+          "1037387658"
+        ],
+        "validated_two_axis_headers": 51
+      },
+      "import_report": "WinOLS-HiLo-f815898e-dcc02bc3-200000.import.json",
+      "skipped_objects": 10,
+      "previous_title": "WinOLS HiLo \u2014 Bosch software 1037387658",
+      "nomenclature": {
+        "ecu_type": "EDC16CP35",
+        "software_label": "387658",
+        "evidence": "SHA-256-verified paired original BIN contains software 1037387658, hardware 0281013500 and EDC16CP35/C build banners."
+      }
+    },
+    {
+      "key": "NativeOLS-9470b148-0-26d24996",
+      "title": "EDC16C31 361888",
+      "xdf": "EDC16C31 361888.xdf",
+      "xdf_sha256": "cafd4b2215f8939e8e2e00002255601323ed728c060fba34d159759a11b9443c",
+      "profile_id": "native_ols:9470b1482cb6f4147ececa92511535909110a1a31c446f46b98543d85a4df743:0:26d24996e5f420d99f835acd6112ad3f068e25f95eb5910a68e59030b37df05e",
+      "nomenclature": {
+        "ecu_type": "EDC16C31",
+        "software_label": "361888",
+        "evidence": "Native OLS project header and matching embedded Bosch software identifier."
+      },
+      "usable": true,
+      "source_type": "Native OLS",
+      "byte_length": 2097152,
+      "byte_order": "big",
+      "address_offset": 0,
+      "layout": "2 MiB original zero-based embedded BIN",
+      "software_identifiers": [
+        "1037361888"
+      ],
+      "original_sha256": [
+        "26d24996e5f420d99f835acd6112ad3f068e25f95eb5910a68e59030b37df05e"
+      ],
+      "source_ols_sha256": "9470b1482cb6f4147ececa92511535909110a1a31c446f46b98543d85a4df743",
+      "source_image_sha256": "26d24996e5f420d99f835acd6112ad3f068e25f95eb5910a68e59030b37df05e",
+      "source_paths": [
+        "mappacks/BMW_30D_EDC16_218PS__E60.ols"
+      ],
+      "version_index": 0,
+      "map_count": 9414,
+      "table_count": 694,
+      "axis_fingerprints": [
+        {
+          "offset": 787218,
+          "length": 14,
+          "sha256": "37352866b9be3515a4bd0c66e7213877502bb6b83f10beb0b9d2ae96550d853a"
+        },
+        {
+          "offset": 793466,
+          "length": 32,
+          "sha256": "153627f509db035a451bf5ee97b88df69b4d7114219f4649a060eeb58eae911d"
+        },
+        {
+          "offset": 798514,
+          "length": 16,
+          "sha256": "baad78526d22adc27983e015cb1b38ab52be99b0edbc664348858b0cef5ff3b2"
+        },
+        {
+          "offset": 803280,
+          "length": 12,
+          "sha256": "75a68ccf9edfac8b886fc723c7e165cd76459294f1c867f19b3033061a342daa"
+        },
+        {
+          "offset": 807092,
+          "length": 14,
+          "sha256": "aad4e06e31f916c8d28c6a689df863a64fe8785a9203b423007e07d3fa993235"
+        },
+        {
+          "offset": 826788,
+          "length": 16,
+          "sha256": "19053a13ef3a1a96011abd1514a132a89adc72530adc1014d2c30c6a0ebdd4da"
+        },
+        {
+          "offset": 828852,
+          "length": 16,
+          "sha256": "e79bb1f6a03a191911e6f5f8d35bffce86545dca2f0a68a747a1fe66cccfb1e9"
+        },
+        {
+          "offset": 837416,
+          "length": 18,
+          "sha256": "b6766e268a0d454f3f146808755104ee58c050c2747b707a4d2985e30261d43e"
+        },
+        {
+          "offset": 841736,
+          "length": 32,
+          "sha256": "df58f63371aef2ad83ff0dc4510fc187270616ef5261c7982f23f3728c8d721a"
+        },
+        {
+          "offset": 848696,
+          "length": 32,
+          "sha256": "8e83397abc415625f3241592a7015d0e7cb7fea0903fbb5f3d0959d6a49e5453"
+        },
+        {
+          "offset": 856290,
+          "length": 20,
+          "sha256": "af9a97e614f7609752d7d71451b524c3315310f4ab5c3257577a165978341d5a"
+        },
+        {
+          "offset": 857966,
+          "length": 32,
+          "sha256": "19497bac66a64cb928848e6064fe214c89e655752c4979caf45587a894f88215"
+        },
+        {
+          "offset": 865234,
+          "length": 32,
+          "sha256": "d78c768e01f5d81683c73f5252f8d4f7175d64c6f074afec15d961c5a53ea257"
+        },
+        {
+          "offset": 870364,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 878762,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 885700,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 890842,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 896594,
+          "length": 32,
+          "sha256": "51106cefb501727405509aa10ce7185586f36618310d24ea7e779af4933fcaa1"
+        },
+        {
+          "offset": 902080,
+          "length": 16,
+          "sha256": "d49cb47713099f915eafe4d750492af08ed66951119605479b7bc81170a740af"
+        },
+        {
+          "offset": 910672,
+          "length": 16,
+          "sha256": "e365d4f69a92467e36255814fe93bea062915aa3d0a384a6dc443e31eef41381"
+        },
+        {
+          "offset": 917450,
+          "length": 16,
+          "sha256": "7168a9976e7f7ed88ebd3c03b51197c4b85cdeb0def38b858f0453594eafcf63"
+        },
+        {
+          "offset": 922132,
+          "length": 32,
+          "sha256": "977a5f02ac540b7da9cfe7e6d46523f2c1e91cbf51557bef227fc3727c9a5ca3"
+        },
+        {
+          "offset": 927070,
+          "length": 8,
+          "sha256": "a567363f7624ffa114a3c7792fc92aed27594e2cac8a066693acfeb1eb3ccab7"
+        },
+        {
+          "offset": 931254,
+          "length": 8,
+          "sha256": "08c84f68916ebf080e3fe7b612a1dc79f1e3d7eeebaea6f88e2068ef1075a0a6"
+        },
+        {
+          "offset": 932348,
+          "length": 38,
+          "sha256": "6c9064fd3b1320c98b5bcffcfa450d7517d0a4b750d5e01d465f8e20ec74c459"
+        },
+        {
+          "offset": 937922,
+          "length": 16,
+          "sha256": "ec73a0a1b1a22486dd0d736d685efbf850bbac8b2702b96d07cb482755763991"
+        },
+        {
+          "offset": 943290,
+          "length": 10,
+          "sha256": "f353159a277ffe5a6b85b1dafd846f8556b649090b1c7a7db9052fb99527472c"
+        },
+        {
+          "offset": 945986,
+          "length": 8,
+          "sha256": "6ea6c8a51c88121933275fed0e0340dd2205db16c0a8d9466a53821de68cd062"
+        },
+        {
+          "offset": 947430,
+          "length": 10,
+          "sha256": "53758f15c5b3571e2168913c9c822b2c1b935c676b17eecab96871389ad8f98f"
+        },
+        {
+          "offset": 950010,
+          "length": 24,
+          "sha256": "47bdd5e2c4960909d92f63e1041fb90792c98ece733218d3a7be069281774f9d"
+        },
+        {
+          "offset": 953540,
+          "length": 24,
+          "sha256": "981f5a6b2a6b6d7c6f302a638f6b073b72dbb4062217a5481bb014dd43b259d7"
+        },
+        {
+          "offset": 957608,
+          "length": 32,
+          "sha256": "60b6b21791b1caee233c2b1e1bcdeeeb7f1850aa8c1b48fa63ac2498752bea4d"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 65536,
+          "length": 256,
+          "sha256": "d34f1564517075f62b175190267e55171899ee8dd120edcd4dc8d69acaca5e4e"
+        },
+        {
+          "offset": 94208,
+          "length": 256,
+          "sha256": "77c34b4e5ff51a7b7d411ae1d810adb07f6c869875fd4e97d46960c92c5190ae"
+        },
+        {
+          "offset": 143360,
+          "length": 256,
+          "sha256": "7f115b0f6ad5ff6135c8ea90f63334f3a7ad943bf693a19791b6912ab4919300"
+        },
+        {
+          "offset": 278528,
+          "length": 256,
+          "sha256": "e506664a5302e24cbaf4d70b7f9654cfc2b00b4ee2007ac647ff8cf9d83ac10b"
+        },
+        {
+          "offset": 307200,
+          "length": 256,
+          "sha256": "5d3e1001a60bf6bd4b7b11fd62a4ebdbf681bbda327224b7d8fdab0bea9e53ff"
+        },
+        {
+          "offset": 335872,
+          "length": 256,
+          "sha256": "b88762198f914546e5c25c0dee14daced911dc28f5c17049607846ee011c5f21"
+        },
+        {
+          "offset": 364544,
+          "length": 256,
+          "sha256": "72138416f2dd48abe1206dae469d48b70965ebf3dc67158b980aa83ce1ce78c2"
+        },
+        {
+          "offset": 393216,
+          "length": 256,
+          "sha256": "0f1835b98146122878243b34946e3df8d392989c15bf93f2c31b618028d7994f"
+        },
+        {
+          "offset": 421888,
+          "length": 256,
+          "sha256": "99962498f58b6287f8c39a961ddd4700d8f07dfbe843233cdfebc4c182aa4a14"
+        },
+        {
+          "offset": 450560,
+          "length": 256,
+          "sha256": "db3476e519fa230e9a73f5e727140912d9eec304b2ba8e7c1808e43252d407b6"
+        },
+        {
+          "offset": 479232,
+          "length": 256,
+          "sha256": "cb08d08544577e23959e8710de0293fc9923da35d0b9162d8909a3dd5496764a"
+        },
+        {
+          "offset": 507904,
+          "length": 256,
+          "sha256": "0a1a3bec9ef5596b7388a43c9940d6acd9275f26a40d6f35b7759e04d61cb32b"
+        },
+        {
+          "offset": 536576,
+          "length": 256,
+          "sha256": "1f511887f1e61aac9a00183918ed9f55cd671c41508302ea52581a12a5bcee6a"
+        },
+        {
+          "offset": 565248,
+          "length": 256,
+          "sha256": "ced14b1fddf38e8903f1106e97b0293af09563e05101114f586bd9472b614081"
+        },
+        {
+          "offset": 593920,
+          "length": 256,
+          "sha256": "4cf4821a373eb1e9c7eef43827109c18c43d9e2d5d9af0249c08462880df5a0f"
+        },
+        {
+          "offset": 626688,
+          "length": 256,
+          "sha256": "6a01940c6f354156cf8a62d5a19313d746ac4da51a3c6d6e752ce4fb84a1c2d4"
+        }
+      ],
+      "identity_anchors": [
+        {
+          "offset": 32848,
+          "bytes": "31303337333631383838"
+        },
+        {
+          "offset": 131658,
+          "bytes": "31303337333631383838"
+        },
+        {
+          "offset": 131696,
+          "bytes": "31303337333631383838"
+        },
+        {
+          "offset": 262160,
+          "bytes": "31303337333631383838"
+        },
+        {
+          "offset": 787028,
+          "bytes": "31303337333631383838"
+        }
+      ],
+      "pair_identity": {
+        "method": "Native OLS exact version slots, source header and embedded Bosch software identifiers",
+        "software_identifiers": [
+          "1037361888"
+        ],
+        "software_label": "361888",
+        "validated_two_axis_headers": 272
+      },
+      "import_report": "EDC16C31 361888.import.json",
+      "skipped_objects": 117
+    }
+  ]
+}

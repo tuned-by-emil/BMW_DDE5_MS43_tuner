@@ -30,7 +30,6 @@ class ReleaseGuiTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.old = gui.QSettings
         gui.QSettings = lambda org, name: QSettings(str(Path(self.temp.name)/(name+'.ini')), QSettings.IniFormat)
-        gui.QSettings('EmilTools', 'BMWBinEditor').setValue('mpps/auto_launch', False)
         self.panel = gui.LogViewerPanel()
         self.panel.log = demo_log(self.panel.catalog)
         self.panel._populate_signal_combo()

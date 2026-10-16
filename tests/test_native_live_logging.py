@@ -124,7 +124,6 @@ class NativeTests(unittest.TestCase):
         import bmw_bin_editor.settings as settings_module
         with tempfile.TemporaryDirectory() as td:
             settings=QSettings(str(Path(td)/'ui.ini'),QSettings.IniFormat)
-            settings.setValue('mpps/auto_launch',False)
             with patch.object(gui,'editor_settings',lambda _:settings), patch.object(settings_module,'editor_settings',lambda _:settings):
                 window=gui.MainWindow()
                 ReaderApi.calls=[];ReaderApi.closed=False;ReaderApi.busy=True;ReaderApi.corrupt=False

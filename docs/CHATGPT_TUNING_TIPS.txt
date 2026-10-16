@@ -1,4 +1,4 @@
-BMW Bin Editor — ChatGPT assistant
+BMW DDE5 MS43 Tuner — ChatGPT assistant
 
 GET STARTED
 Open Analysis > ChatGPT tuning tips. In Connection & setup, continue with

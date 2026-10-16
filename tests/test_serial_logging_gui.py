@@ -54,7 +54,6 @@ class SerialLoggingGuiTests(unittest.TestCase):
         self.files = tempfile.TemporaryDirectory()
         self.addCleanup(self.files.cleanup)
         self.settings = QSettings(str(Path(self.files.name) / 'ui.ini'), QSettings.IniFormat)
-        self.settings.setValue('mpps/auto_launch', False)
         self.dialog_patch = patch.object(logging, 'editor_settings', lambda _: self.settings)
         self.dialog_patch.start()
 
@@ -190,10 +189,6 @@ class SerialLoggingGuiTests(unittest.TestCase):
                                           ('testo', 'LiveLogger', 'TestO LIVE'),
                                           ('serial', 'SerialLiveLogger', 'SERIAL LIVE')]:
             with self.subTest(transport=transport), patch.object(gui, backend, FakeLogger):
-                # Block the enable signal so no MPPS discovery/launch can occur.
-                window.act_mpps.blockSignals(True)
-                window.act_mpps.setChecked(True)
-                window.act_mpps.blockSignals(False)
                 config = dict(profile=PROFILE, transport=transport, port='COM12', echo=True, output='')
                 panel.start_direct_live(config, CAT)
                 logger = panel.direct_logger
@@ -201,7 +196,6 @@ class SerialLoggingGuiTests(unittest.TestCase):
                 self.assertTrue(logger.started)
                 self.assertEqual(logger.config, config)
                 self.assertEqual(panel.log.path.name, label)
-                self.assertEqual(window.act_mpps.isChecked(), transport == 'testo')
                 logger.count = 1
                 logger.sampleReady.emit(0.0, {CAT['INMOT']['result']: 1200.0, CAT['IMEIA']['result']: 8.0})
                 self.assertEqual(panel.log.sample_count, 1)
@@ -282,15 +276,11 @@ class SerialLoggingGuiTests(unittest.TestCase):
     def test_constructor_failure_preserves_inactive_ui_and_preferences(self):
         gui, window = self.window()
         panel = window.editor.log_panel
-        window.act_mpps.blockSignals(True)
-        window.act_mpps.setChecked(True)
-        window.act_mpps.blockSignals(False)
         def ui_state():
             return (panel.log, panel.live_mode, panel.live_button.text(), panel.live_button.isEnabled(),
                     panel.play_button.text(), panel.play_button.isEnabled(), panel.file_label.text(),
                     panel.file_label.toolTip(), panel._pending_status, panel.live_status.text(),
-                    panel.custom_graphs, panel.cursor_index, panel.range_seconds, panel.view_xlim,
-                    window.act_mpps.isChecked())
+                    panel.custom_graphs, panel.cursor_index, panel.range_seconds, panel.view_xlim)
         before = ui_state()
         previous_settings = {key: self.settings.value(key) for key in self.settings.allKeys()}
         with patch.object(gui, 'SerialLiveLogger', side_effect=ValueError('Verified serial definitions missing')) as backend:

@@ -1,29 +1,18 @@
-# Local resources and provenance
+# Definitions and local resources
 
-The public source does not redistribute firmware or calibration map packs.
-No redistribution licence was found in the source checkout for the supplied
-XDF/ADX resources or the generated A2L/WinOLS definition-library exports.
-Their absence from public Git is a packaging decision, not a conclusion about
-their owners' rights. Record permission and attribution before adding them later.
+The current 361830 definition and eight generated ECU library XDFs are included
+in Git and the installer, with their matching catalog. Original firmware, raw
+A2L/WinOLS packs, disassembly workspaces and intermediate reports are excluded.
+The definitions retain evidence and source hashes. Generation alone does not
+establish redistribution permission for upstream input material; maintainers
+must review those input terms before public distribution.
 
-The prepared local folder retains current 361830 and MS43X definitions, the
-generated library.
-These files remain ignored. BINs, raw map packs, disassembly handoffs, early
-trace reports and large intermediate exports were not copied.
+The MS43X001 ADX logging definition is included under its upstream GPL-3.0
+licence, with attribution in `definitions/ms43x/NOTICE.md`. Your matching MS43X
+XDF remains a separate local resource: open it through File. On an installed
+copy, `current-app.txt` under the install root identifies the app directory.
+Source: https://www.ms4x.net/index.php?title=TunerPro_Data_Logging.
 
-Fresh clones can open user-provided XDFs and BINs through File. The optional
-local 361830 shortcut uses `definitions/EDC16C31 361830.xdf`.
-MS43X logging uses `definitions/ms43x/Siemens_MS43_MS43X001_Logging.adx`.
-Copy the file from your own authorised source, then restart the editor.
-In a portable Windows package, these paths are under `_internal/definitions/`;
-in the source checkout they are under `definitions/`.
-The source reference is https://www.ms4x.net/index.php?title=TunerPro_Data_Logging.
-
-The public build explicitly includes only application-owned logging catalogs
-and visual assets. It excludes local XDF/ADX files and library exports even if
-they are installed in this folder. Private resources never enter the initial
-commit, so the public repository has no earlier private history to recover.
-
-Optional hardware/integration fixtures belong under `local_resources/`:
-`launch.csv`, `dde5/` for preserved paired images and `winkfp/` for local
-factory data. They are not part of the public tests' synthetic fixtures.
+Optional hardware/integration fixtures belong under ignored `local_resources/`:
+`launch.csv`, `dde5/` for paired images and `winkfp/` for local factory data.
+They are not public synthetic test fixtures.

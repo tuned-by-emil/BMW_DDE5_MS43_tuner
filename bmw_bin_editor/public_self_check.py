@@ -23,7 +23,6 @@ def run_check(report_path):
         window = None
         try:
             settings = isolated_settings('', 'BMWBinEditor')
-            settings.setValue('mpps/auto_launch', False)
             settings.setValue('settings/migrated', True)
             window = gui.MainWindow()
             empty = window.document is None and window.xdf is None

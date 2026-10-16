@@ -4,6 +4,10 @@ import re
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
+import sys
+sys.path.insert(0, str(ROOT))
+from public_build_resources import PUBLIC_GENERATED, PUBLIC_DEFINITIONS
+GENERATED = {'definitions/' + name for name in PUBLIC_GENERATED + PUBLIC_DEFINITIONS}
 FORBIDDEN = {'.bin', '.fls', '.mpc', '.hex', '.ols', '.a2l', '.xdf', '.adx',
              '.csv', '.key', '.pem', '.pfx', '.zip'}
 PREFIXES = ('mpps/', 'mappacks/', 'local_resources/', 'definitions/library/',
@@ -19,7 +23,7 @@ def check():
     for relative in paths:
         name = relative.as_posix()
         lower = name.lower()
-        if (lower.startswith(PREFIXES) or relative.suffix.lower() in FORBIDDEN
+        if ((lower.startswith(PREFIXES) or relative.suffix.lower() in FORBIDDEN) and name not in GENERATED
                 or 'disassembly_handoff' in lower
                 or (relative.suffix.lower() == '.exe' and lower != 'assets/ols/ols_dump.exe')):
             issues.append('Excluded reference/artifact in Git: ' + name)

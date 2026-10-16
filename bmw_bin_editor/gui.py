@@ -67,7 +67,6 @@ from .core import (
 )
 from .floating_gauge import FloatingGauge
 from .log_widgets import ChannelSetupDialog, FuelEstimateDialog, GaugeSetupDialog, GraphReadings, ReadingStrip, channel_style, scale_channel
-from .mpps_autostart import MppsAutoStart
 from .ecu_programming_gui import EcuProgrammingDialog
 from .log_delta import LogDeltaDialog
 from .logging_power import LoggingPowerGuard
@@ -1058,8 +1057,6 @@ class LogViewerPanel(QWidget):
         # Construct before replacing the reviewed log or changing the live UI.
         # Invalid serial definitions/profiles must fail without a false LIVE state.
         logger = backends[transport](config, catalog, self)
-        if transport in ("ediabas", "serial", "ms43x") and hasattr(self.window(), "act_mpps"):
-            self.window().act_mpps.setChecked(False)
         labels = {"ediabas": "EDIABAS LIVE", "testo": "TestO LIVE", "serial": "SERIAL LIVE", "ms43x": "MS43X LIVE"}
         self.log = LiveTestOLog(self.catalog, label=labels[transport], fuel_estimate_config=self.fuel_estimate_config)
         self.live_mode = True
@@ -3484,7 +3481,7 @@ class HelpDialog(QDialog):
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("About BMW Bin Editor")
+        self.setWindowTitle("About BMW DDE5 MS43 Tuner")
         self.resize(510, 290)
         layout = QVBoxLayout(self)
         title = QLabel(APP_NAME)
@@ -4203,15 +4200,6 @@ class MainWindow(QMainWindow):
         self.act_fuel_estimates = QAction("Fuel estimates…", self)
         self.act_fuel_estimates.triggered.connect(self.editor.log_panel.configure_fuel_estimates)
         settings_menu.addAction(self.act_fuel_estimates)
-        self.mpps_monitor = MppsAutoStart(self)
-        self.mpps_monitor.status.connect(self._status)
-        self.act_mpps = QAction("Auto-launch MPPS when cable is connected", self)
-        self.act_mpps.setCheckable(True)
-        self.act_mpps.setToolTip("Launch C:\\mpps\\mpps.exe while this editor is open")
-        self.act_mpps.setChecked(self.settings.value("mpps/auto_launch", False, type=bool))
-        self.act_mpps.toggled.connect(self._toggle_mpps)
-        settings_menu.addAction(self.act_mpps)
-        self.mpps_monitor.set_enabled(self.act_mpps.isChecked())
 
         self.act_favorite = QAction("★ Toggle current table favorite", self)
         self.act_favorite.triggered.connect(self.toggle_favorite)
@@ -4233,7 +4221,7 @@ class MainWindow(QMainWindow):
         helpm = self.menuBar().addMenu("&Help")
         hk = QAction("MTune-style keys", self); hk.triggered.connect(lambda: HelpDialog(self).exec()); helpm.addAction(hk)
         hk.setShortcut(QKeySequence("F1"))
-        about = QAction("About BMW Bin Editor…", self)
+        about = QAction("About BMW DDE5 MS43 Tuner…", self)
         about.triggered.connect(lambda: AboutDialog(self).exec())
         helpm.addAction(about)
 
@@ -4936,7 +4924,6 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, APP_NAME, "Stop live logging before opening the direct ECU connection.")
             return
         # The requested direct workflow must not auto-start a competing flasher.
-        self.act_mpps.setChecked(False)
         doc = self.document
         review_snapshot = bytes(doc.data) if doc else None
         dialog = EcuProgrammingDialog(
@@ -4959,9 +4946,6 @@ class MainWindow(QMainWindow):
                 self._document_changed()
                 self._status('361830 arithmetic checksums corrected in memory; Undo is available. Save to keep the corrected bytes.')
 
-    def _toggle_mpps(self, enabled):
-        self.settings.setValue("mpps/auto_launch", enabled)
-        self.mpps_monitor.set_enabled(enabled)
 
     def closeEvent(self, event):
         if self.document and self.document.dirty and not getattr(self, "_closing_after_logging", False) and not getattr(self, "_closing_after_ai", False):
@@ -4986,7 +4970,6 @@ class MainWindow(QMainWindow):
             return
         self.editor.log_panel._remember_graphs()
         self.editor.log_panel.settings.sync()
-        self.mpps_monitor.stop()
         event.accept()
 
 

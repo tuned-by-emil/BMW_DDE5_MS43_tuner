@@ -23,7 +23,7 @@ class EditorApplyTests(unittest.TestCase):
         self.doc.apply_bytes('CAN edit', [(0x208ee, b'\x06')])
         fls = (SOURCE/'read kessv3.FLS').read_bytes()
         self.corrected, _ = correct_loaded_image(self.doc.data, 'MPC', fls)
-        self.window = SimpleNamespace(document=self.doc, act_mpps=Mock(),
+        self.window = SimpleNamespace(document=self.doc,
             editor=SimpleNamespace(log_panel=SimpleNamespace(direct_logger=None, live_thread=None), refresh=Mock()),
             _document_changed=Mock(), _status=Mock())
 
@@ -74,7 +74,7 @@ class ConfigEditorApplyTests(unittest.TestCase):
                 edited = bytes(doc.data)
                 corrected, corrections = correct_loaded_image(doc.data, space)
                 self.assertEqual(len(corrections), 1)
-                window = SimpleNamespace(document=doc, act_mpps=Mock(),
+                window = SimpleNamespace(document=doc,
                     editor=SimpleNamespace(log_panel=SimpleNamespace(direct_logger=None, live_thread=None),
                                            refresh=Mock()),
                     _document_changed=Mock(), _status=Mock())

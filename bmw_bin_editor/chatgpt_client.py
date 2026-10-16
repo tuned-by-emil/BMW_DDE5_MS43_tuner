@@ -424,7 +424,7 @@ class ChatGPTClient:
                     self.send_error(400, "Invalid callback")
                     return
                 callback.update({k: v[0] for k, v in values.items()})
-                text = b"Sign-in received. Return to BMW Bin Editor to check the connection."
+                text = b"Sign-in received. Return to BMW DDE5 MS43 Tuner to check the connection."
                 self.send_response(200)
                 self.send_header("Content-Type", "text/plain; charset=utf-8")
                 self.send_header("Cache-Control", "no-store")
@@ -449,7 +449,7 @@ class ChatGPTClient:
                 if previous.get("id_token"):
                     params["id_token_hint"] = previous["id_token"]
             else:
-                params["agent_name_hint"] = "BMW Bin Editor"
+                params["agent_name_hint"] = "BMW DDE5 MS43 Tuner"
             self.store.save()  # Host ID survives a cancelled first sign-in.
             if not webbrowser.open(_auth_endpoint(discovery["authorization_endpoint"]) + "?" + urlencode(params)):
                 raise ChatGPTError("Could not open your browser for ChatGPT sign-in.")

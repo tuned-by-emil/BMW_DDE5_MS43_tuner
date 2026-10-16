@@ -64,7 +64,6 @@ class XDFGuiTests(unittest.TestCase):
         self.data, self.database = example()
         self.old_settings = gui.QSettings
         gui.QSettings = lambda org, name: QSettings(str(Path(self.temp.name)/(name+'.ini')), QSettings.IniFormat)
-        gui.QSettings('EmilTools', 'BMWBinEditor').setValue('mpps/auto_launch', False)
         self.dialogs = []
 
     def tearDown(self):

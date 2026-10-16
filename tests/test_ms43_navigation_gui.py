@@ -25,7 +25,6 @@ class NavigationTests(unittest.TestCase):
         self.folder=Path(self.tmp.name)
         self.settings=QSettings(str(self.folder/'prefs.ini'), QSettings.IniFormat)
         self.settings.setValue('settings/migrated',True)
-        self.settings.setValue('mpps/auto_launch',False)
         self.patch=patch.object(gui,'QSettings',lambda *a:self.settings)
         self.patch.start()
         self.window=gui.MainWindow()

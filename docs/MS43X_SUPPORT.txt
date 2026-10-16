@@ -5,8 +5,9 @@ Existing global preferences are copied once into EDC16C31 361830. The historical
 keys are retained as a backup. New ECUs do not inherit diesel gauge selections.
 Graph layouts remain separate per table type within each ECU profile.
 
-Install your own MS43X001 XDFs and matching ADX locally under definitions/ms43x.
-These third-party files are not distributed in public source or release packages.
+Open your own matching MS43X001 XDF. The matching ADX is included unmodified
+under MS4X's GPL-3.0 licence; see definitions/ms43x/NOTICE.md. Original MS43X
+XDFs remain local resources and are not included in this release.
 Full/partial XDFs share the same ECU profile. Their base offsets and linked axes
 are normalized before editing. The one unresolved coolant-controller axis link
 in the supplied XDF is marked unverified and displayed with index positions.

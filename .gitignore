@@ -33,7 +33,18 @@ outputs/
 *.adx
 *.csv
 *.zip
+*.tmp
+tmp*
 definitions/library/
 definitions/ms43x/
+!definitions/EDC16C31 361830.xdf
+!definitions/library/
+definitions/library/*
+!definitions/library/*.xdf
+!definitions/library/manifest.json
+!definitions/ms43x/
+definitions/ms43x/*
+!definitions/ms43x/Siemens_MS43_MS43X001_Logging.adx
+!definitions/ms43x/NOTICE.md
 *.exe
 !assets/ols/ols_dump.exe
