@@ -7,6 +7,18 @@
 Windows ECU calibration editor by **Emil Larsson**. Edit XDF tables in 2D/3D,
 review CSV logs, configure gauges and keep logging/graph profiles separate by ECU.
 
+## New here? Try the example in a few clicks
+
+1. **Install the app:** open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest), download the file ending in **`_Setup.exe`**, run it and click **Install / Update**.
+2. **Start the app:** open **BMW DDE5 MS43 Tuner** from the Windows Start menu.
+3. **Get the examples:** download both [20261012.bin](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/20261012.bin) and [the example CSV log](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/Live_D50M47A_20261016_132417.csv). They normally go into your Windows **Downloads** folder. The app's **Download example BIN and log** link also opens the example page.
+4. **Open the BIN:** return to the app, click **Open BIN** in the top toolbar and select **`20261012.bin`** from Downloads. In the definition window, select **EDC16C31 361830** and click **Use selected XDF**. An **XDF** tells the editor where the BIN's settings and tables are stored.
+5. **Open the log:** click **Open TestO Log** in the top toolbar and select **`Live_D50M47A_20261016_132417.csv`**. The CSV is a recording of engine readings.
+6. **Explore:** select a table on the left, then click **Play** above the graphs. Use **2D**, **3D** or **Split** to change the map view. You can try this example without a cable or a car connected.
+
+Keep the downloaded BIN as your original. If you edit it, use **Save BIN As**
+to save a separate copy.
+
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
