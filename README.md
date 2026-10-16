@@ -1,12 +1,16 @@
 # BMW DDE5 MS43 Tuner
 
+<p align="center">
+  <img src="assets/editor.png" alt="Giant anteater mascot" width="360">
+</p>
+
 Windows ECU calibration editor by **Emil Larsson**. Edit XDF tables in 2D/3D,
 review CSV logs, configure gauges and keep logging/graph profiles separate by ECU.
 
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.33.2_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.33.3_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -21,7 +25,7 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.2_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.3_Setup.exe -Algorithm SHA256
 ```
 
 ## First use

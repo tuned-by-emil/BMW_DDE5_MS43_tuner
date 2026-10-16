@@ -2225,13 +2225,33 @@ class MapEditor(QWidget):
             self.view_splitter.setSizes([520, 760])
         self.view_splitter.splitterMoved.connect(lambda *_: self.settings.setValue("layout/map_view_splitter", json.dumps(self.view_splitter.sizes())))
 
+        self.welcome_page = QWidget()
+        welcome_layout = QVBoxLayout(self.welcome_page)
+        welcome_layout.setAlignment(Qt.AlignCenter)
+        welcome_art = QLabel()
+        welcome_art.setAlignment(Qt.AlignCenter)
+        welcome_art.setAccessibleName('Giant anteater mascot')
+        artwork = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parents[1])) / 'assets/editor.png'
+        welcome_art.setPixmap(QIcon(str(artwork)).pixmap(320, 220))
+        welcome_title = QLabel('BMW DDE5 MS43 Tuner')
+        welcome_title.setAlignment(Qt.AlignCenter)
+        welcome_title.setStyleSheet('font-size: 22px; font-weight: 600;')
+        welcome_hint = QLabel('Open a BIN from File to get started.')
+        welcome_hint.setAlignment(Qt.AlignCenter)
+        welcome_layout.addWidget(welcome_art)
+        welcome_layout.addWidget(welcome_title)
+        welcome_layout.addWidget(welcome_hint)
+        self.map_pages = QStackedWidget()
+        self.map_pages.addWidget(self.welcome_page)
+        self.map_pages.addWidget(self.view_splitter)
+
         self.outer_splitter = ReviewSplitter(Qt.Vertical)
         self.outer_splitter.setHandleWidth(16)
         self.outer_splitter.setOpaqueResize(True)
         self.outer_splitter.setChildrenCollapsible(False)
         self.view_splitter.setMinimumHeight(220)
         self.log_panel.setMinimumHeight(220)
-        self.outer_splitter.addWidget(self.view_splitter)
+        self.outer_splitter.addWidget(self.map_pages)
         self.outer_splitter.addWidget(self.log_panel)
         self.outer_splitter.addWidget(self.info)
         # The verbose XDF description is useful on demand but expensive in vertical
@@ -2919,6 +2939,7 @@ class MapEditor(QWidget):
                 self.log_data = None
                 self.log_index = 0
         self.document = document
+        self.map_pages.setCurrentWidget(self.view_splitter if document is not None else self.welcome_page)
         self.definition = None
         self.engine = None
         self.info.set_definition(None)
