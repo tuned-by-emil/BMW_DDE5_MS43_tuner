@@ -30,6 +30,11 @@ Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe -Algorithm SHA256
 
 ## Try Emil's BIN and recorded log
 
+![EDC16C31 361830 example showing the boost target table, 3D map, recorded log graphs and gauges](docs/images/dde5-example-screenshot.png)
+
+*Example session with Emil's `20261012.bin` and recorded DDE5 log: boost target
+editing, a 3D map, synchronized graphs and gauges.*
+
 Explore the editor using these **EDC16C31 / Bosch software 1037361830** examples:
 The app's welcome screen also has a **Download example BIN and log** link.
 
