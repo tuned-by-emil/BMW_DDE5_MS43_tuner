@@ -1,0 +1,81 @@
+DDE5 direct authentication — source update, 11 October 2026
+==========================================================
+
+This first live programming milestone tests ECU authentication only. The
+editor sends fixed identification reads, requests a fresh level-3 challenge,
+calculates its response from the installed pinned WinKFP data, and submits
+that response through EDIABAS. It requests no erase, download, flash write,
+signature stamping or reset. Success does not establish custom-image
+acceptance or enable ECU Write.
+
+Run the updated source through install_and_run.bat in BMW_Bin_Editor. Existing
+portable EXEs are separate builds and do not acquire this source update.
+
+1. Stop live logging and other programs using the diagnostic cable.
+2. Open your preserved 361830 MPC or full external FLS image.
+3. Open ECU > Direct DDE5 connection / change review.
+4. When editing MPC, choose the original full companion FLS. When editing
+   FLS, authentication uses the file's original baseline, never its edits.
+5. Check the EDIABAS Bin folder. STD:OBD uses the installed port settings.
+6. Click Test ECU authentication — no erase. This action is never automatic.
+7. Review the stage/result report and use Save report to retain it.
+
+The supported reference FLS is the preserved 1 MiB read kessv3.FLS:
+  SHA256 8862fb53f9f102d2ca2717338a527546a4da03659b2d8f871856d485cf696e4f
+Other source layouts/builds are rejected by this initial implementation.
+The saved calibration's separate factory-signature failure does not alter
+the authentication key contract; the report does not call it a stock image.
+
+Prerequisites: a working BMW K-line/K+DCAN cable, installed EDIABAS and its
+known 28dde504.prg, and the supported WinKFP provider/SGIDC data files. No
+WinKFP, MPPS or TestO process is invoked. WinKFP resources are read as files;
+the private authentication material stays in memory. Reports omit challenge
+and response bytes and private material.
+
+The initial implementation validates EcuPath in the selected Bin folder's
+EDIABAS.INI, requires STD:OBD with Simulation=0, and pins the reviewed PRG.
+A matching EDIABAS_CONFIG_DIR is allowed; conflicting configuration overrides
+are rejected. This checks the supported local installation's files rather
+than querying the DLL's internal effective configuration.
+
+The authentication state machine keeps one native EDIABAS handle for the
+entire exchange. Two tightly restricted TEL_ROH requests read Bosch hardware
+and software identities ($1A92 and $1A94), which must match 0281010565 and
+1037361830. TEL_ROH accepts only those fixed read requests through this
+interface. General raw requests remain blocked. The authentication jobs are
+documented for Default mode; the ECU's current mode is not inferred from
+identification. No unvalidated session switch or reset is sent to try to
+rescue a rejected challenge.
+
+The native transport now supports __apiJobData and typed binary results.
+Only the fixed identity reads and authentication jobs can use this path.
+Erase/write/reset jobs are rejected before native job dispatch, including
+calls made outside the GUI. Binary argument bytes are length-delimited, so
+embedded NUL bytes are preserved. A timeout or cancellation breaks the
+pending job and closes the API handle; it does not launch a replacement job,
+reset the ECU or restore the earlier ECU privilege state.
+The editor dispatches each job once. The PRG/driver can perform its own
+transport retries and response-pending handling within that job; one job
+does not imply exactly one physical telegram.
+
+An accepted response proves only that the ECU accepted this challenge in
+this connection. Closing the editor's API connection does not itself prove
+that ECU authentication privilege has cleared. This milestone makes no
+promise about how long the ECU retains volatile privilege/session state.
+
+Future full programming is represented by an offline sequence/transfer plan.
+It is not a validated live flash procedure. Factory erase selects 832 KiB of
+address space, and selective MPC erase needs a different boot path. Image
+acceptance, preserved erased-range contents, activation, reconnect, post-write
+verification and recovery still need validation before live flashing.
+
+Implementation/test evidence is retained in the adjacent emu_black_analysis
+workspace under analysis/editor_auth_integration. All development checks in
+this update use fake native APIs or offline files. No ECU traffic is sent by
+the installer or tests.
+
+Validation: 93 targeted offline tests passed, including the real installed
+authentication calculation through a fake native API, both supported KWP
+frame encodings, failure/cancellation/cleanup paths, GUI report export and
+existing checksum/undo/live-logging regressions. The source application's
+startup self-check also passed. Live ECU authentication remains untested.

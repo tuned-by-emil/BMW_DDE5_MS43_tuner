@@ -1,0 +1,45 @@
+Standalone FLS and config/calibration checksums — 361830
+======================================================
+
+The editor can check and correct the external/config flash without an MPC
+image. Open your file, then ECU > Direct DDE5 connection / change review.
+
+External FLS mode accepts the full 1 MiB FLS image and checks its four known
+arithmetic checksum regions. Its MPC companion is optional: supplying it
+adds the combined program-image checks. Without MPC, the program signature
+is reported as not checked because part of its signed data is unavailable.
+The calibration signature can still be checked from the full FLS alone.
+
+Config / calibration flash mode checks and corrects only the calibration
+checksum. It accepts either the full 1 MiB FLS image or a raw calibration
+image starting at runtime 0x8E0000, with size 124 KiB (0x1F000) or 128 KiB
+(0x20000). These are explicit raw E46 layouts, not a universal MPPS container
+format. The exact descriptor/header layout must match before correction.
+Raw calibration images select this mode automatically; for a full FLS image
+choose it explicitly when you want only the calibration region corrected.
+
+Click Check 361830 image or Preview checksum correction. Apply corrected
+checksums to editor creates one undoable edit. Save As then writes exactly
+the edited file size and bytes. The checksum preview does not alter the file
+on disk or communicate with the ECU.
+
+The calibration correction word is runtime 0x8FEFF8: file offset 0xFEFF8 in
+full FLS, or 0x1EFF8 in a raw calibration file. Correction preserves all other
+bytes, including existing program-region edits/checksums in config-only mode.
+
+Reports label the checked scope. A passing calibration checksum does not
+establish that every checksum in the complete ECU firmware passes. Raw
+calibration files lack the public verification key from the external boot
+area, so RSA verification is reported as not checked; checksum correction
+does not create a new factory signature.
+
+A raw calibration file does not contain its complete 256 KiB physical flash
+sector. The report must not fill the missing sector bytes or offer it as a
+complete preserved sector payload. ECU writing remains disabled.
+
+Authentication still requires the pinned original full 1 MiB FLS image.
+The authentication action is unavailable for raw calibration files. It does
+not run when checking, correcting, applying or saving checksums.
+
+Run install_and_run.bat to use the updated source. Existing portable EXEs
+need rebuilding before they include this source update.

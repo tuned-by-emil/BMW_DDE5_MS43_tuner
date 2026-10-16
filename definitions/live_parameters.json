@@ -1,0 +1,1472 @@
+[
+  {
+    "arg": "IDKLI",
+    "id": "0x00E7",
+    "result": "STAT_DIGITAL_KLIMA_EIN_WERT",
+    "unit": "-",
+    "label": "Digitalausgang Ansteuerung Klimakompressor"
+  },
+  {
+    "arg": "ISKLV",
+    "id": "0x00E5",
+    "result": "STAT_KLIMA_VERBAUT_WERT",
+    "unit": "-",
+    "label": "Klimaanlage im Auto vorhanden"
+  },
+  {
+    "arg": "IKLIS",
+    "id": "0x003D",
+    "result": "STAT_KLIMAKOMPRESSOR_STATUS_WERT",
+    "unit": "-",
+    "label": "Status of AC Compressor"
+  },
+  {
+    "arg": "OPSCD_stpOEL",
+    "id": "0x0047",
+    "result": "STAT_OPSCD_stpOEL_WERT",
+    "unit": "-",
+    "label": "oil pressure sensor signal"
+  },
+  {
+    "arg": "INLKG",
+    "id": "0x0052",
+    "result": "STAT_LUFTMASSE_NORMALISIERT_WERT",
+    "unit": "Kg/h",
+    "label": "Normalisierte Luftmasse"
+  },
+  {
+    "arg": "ILMKG",
+    "id": "0x002E",
+    "result": "STAT_LUFTMASSE_WERT",
+    "unit": "Kg/h",
+    "label": "HFM Luftmassenstrom"
+  },
+  {
+    "arg": "RLMKG",
+    "id": "0x0010",
+    "result": "STAT_LUFTMASSE_ROH_WERT",
+    "unit": "Kg/h",
+    "label": "LMM Luftmassenmesser HFM"
+  },
+  {
+    "arg": "ILMMG",
+    "id": "0x0050",
+    "result": "STAT_LUFTMASSE_PRO_HUB_WERT",
+    "unit": "mg/Hub",
+    "label": "Air mass per Cylinder"
+  },
+  {
+    "arg": "RLMPE",
+    "id": "0x0051",
+    "result": "STAT_LUFTMASSE_PERIODENDAUER_ROH_WERT",
+    "unit": "mV",
+    "label": "Periodendauerrohwert des Luftmassensensors"
+  },
+  {
+    "arg": "ITZUH",
+    "id": "0x00E9",
+    "result": "STAT_ZUHEIZER_ANSTEUERUNG_WERT",
+    "unit": "%",
+    "label": "Meßpunkt fuer korrigiertes Tastverhaeltnis der Zuheizeransteuerung"
+  },
+  {
+    "arg": "IFPWG",
+    "id": "0x0066",
+    "result": "STAT_FAHRERWUNSCH_PEDAL_WERT",
+    "unit": "%",
+    "label": "gefiltertes Pedalwertgebersignal"
+  },
+  {
+    "arg": "IPPW1",
+    "id": "0x0048",
+    "result": "STAT_PWG1_WERT",
+    "unit": "%",
+    "label": "linearisierter APP1"
+  },
+  {
+    "arg": "IPPW2",
+    "id": "0x0049",
+    "result": "STAT_PWG2_WERT",
+    "unit": "%",
+    "label": "linearisierter APP2"
+  },
+  {
+    "arg": "IKICK",
+    "id": "0x00C8",
+    "result": "STAT_KICKDOWNSCHALTER_WERT",
+    "unit": "-",
+    "label": "Schalter KIck Down"
+  },
+  {
+    "arg": "IUPW1",
+    "id": "0x0064",
+    "result": "STAT_PWG1_SPANNUNG_WERT",
+    "unit": "V",
+    "label": "Fahrpedal 1 Position Rohwert"
+  },
+  {
+    "arg": "IUPW2",
+    "id": "0x0065",
+    "result": "STAT_PWG2_SPANNUNG_WERT",
+    "unit": "V",
+    "label": "Fahrpedal 2 Position Rohwert"
+  },
+  {
+    "arg": "IPUMG",
+    "id": "0x006E",
+    "result": "STAT_UMGEBUNGSDRUCK_WERT",
+    "unit": "hPa",
+    "label": "Atmosphärendruck"
+  },
+  {
+    "arg": "IUUMG",
+    "id": "0x006F",
+    "result": "STAT_UMGEBUNGSDRUCK_SPANNUNG_WERT",
+    "unit": "mV",
+    "label": "Rohspannung ADC-Signal Atmosphärendruck"
+  },
+  {
+    "arg": "IMARD",
+    "id": "0x00DC",
+    "result": "STAT_MOMENTFORDERUNG_ARD_WERT",
+    "unit": "Nm",
+    "label": "Momentforderung Aktiver Ruckeldämpfer (Störungsregler)"
+  },
+  {
+    "arg": "IFWUR",
+    "id": "0x003C",
+    "result": "STAT_FAHRERWUNSCHMOMENT_ROH_WERT",
+    "unit": "Nm",
+    "label": "Fahrerwunsch Rohwert"
+  },
+  {
+    "arg": "AddPCD_stCo_mp",
+    "id": "0x003E",
+    "result": "STAT_AddPCD_stCo_mp_WERT",
+    "unit": "-",
+    "label": "state of AddPCD-statemachine"
+  },
+  {
+    "arg": "AddPCD_volAddTot",
+    "id": "0x00AE",
+    "result": "STAT_AddPCD_volAddTot_WERT",
+    "unit": "ml",
+    "label": "total injected additive-volume"
+  },
+  {
+    "arg": "AddPCD_volAddTotFine_mp",
+    "id": "0x003F",
+    "result": "STAT_AddPCD_volAddTotFine_mp_WERT",
+    "unit": "ml",
+    "label": "total injected add.volume fine resolution"
+  },
+  {
+    "arg": "AddPmp_volAddTotDem",
+    "id": "0x0040",
+    "result": "STAT_AddPmp_volAddTotDem_WERT",
+    "unit": "ml",
+    "label": "total desired additive quantity since last service"
+  },
+  {
+    "arg": "SLMMG",
+    "id": "0x0088",
+    "result": "STAT_LUFTMASSE_SOLL_WERT",
+    "unit": "mg/Hub",
+    "label": "Luftmassensollwert"
+  },
+  {
+    "arg": "ILMRE",
+    "id": "0x0056",
+    "result": "STAT_LUFTMASSE_REGELABWEICHUNG_WERT",
+    "unit": "mg/Hub",
+    "label": "Regelabweichung"
+  },
+  {
+    "arg": "AirCtl_stAirCtlBits10_mp",
+    "id": "0x0041",
+    "result": "STAT_AirCtl_stAirCtlBits10_WERT",
+    "unit": "-",
+    "label": "AirCtl_stAirCtlBits_mp LowWord LowByte (->Signals)"
+  },
+  {
+    "arg": "AirCtl_stAirCtlBits11_mp",
+    "id": "0x0042",
+    "result": "STAT_AirCtl_stAirCtlBits11_WERT",
+    "unit": "-",
+    "label": "AirCtl_stAirCtlBits_mp LowWord HighByte (->Signals)"
+  },
+  {
+    "arg": "AirCtl_stAirCtlBits20_mp",
+    "id": "0x0043",
+    "result": "STAT_AirCtl_stAirCtlBits20_WERT",
+    "unit": "-",
+    "label": "AirCtl_stAirCtlBits_mp HighWord LowByte (->Signals)"
+  },
+  {
+    "arg": "AirCtl_stAirCtlBits21_mp",
+    "id": "0x0044",
+    "result": "STAT_AirCtl_stAirCtlBits21_WERT",
+    "unit": "-",
+    "label": "AirCtl_stAirCtlBits_mp HighWord HighByte (->Signals)"
+  },
+  {
+    "arg": "IGENL",
+    "id": "0x0082",
+    "result": "STAT_GENERATORLAST_WERT",
+    "unit": "%",
+    "label": "linearisiertes und fehlerentprelltes Generatorlastsignals"
+  },
+  {
+    "arg": "IALDS",
+    "id": "0x007B",
+    "result": "STAT_LADEDRUCKSTELLER_ANSTEUERUNG_WERT",
+    "unit": "%",
+    "label": "Waste gate duty cycle"
+  },
+  {
+    "arg": "BPSCD_pLin",
+    "id": "0x000B",
+    "result": "STAT_'BPSCD_pLin_WERT",
+    "unit": "hPa",
+    "label": "Mittelere Ladedruck-Wert (liniarisiert)"
+  },
+  {
+    "arg": "IPLAD",
+    "id": "0x003A",
+    "result": "STAT_LADEDRUCK_WERT",
+    "unit": "hPa",
+    "label": "Boost pressure"
+  },
+  {
+    "arg": "IULDF",
+    "id": "0x0039",
+    "result": "STAT_LADEDRUCK_SPANNUNG_WERT",
+    "unit": "mV",
+    "label": "Spannungsrohwert des Ladedrucksensors"
+  },
+  {
+    "arg": "IUBAT",
+    "id": "0x002F",
+    "result": "STAT_UBATT_WERT",
+    "unit": "V",
+    "label": "Batteriespannung"
+  },
+  {
+    "arg": "ISBLS",
+    "id": "0x005C",
+    "result": "STAT_BREMSLICHTSCHALTER_EIN_WERT",
+    "unit": "-",
+    "label": "Rohwert Bremskontakt nicht entprellt"
+  },
+  {
+    "arg": "ISBLT",
+    "id": "0x005D",
+    "result": "STAT_BREMSLICHTTESTSCHALTER_EIN_WERT",
+    "unit": "-",
+    "label": "Rohwert redundanter Bremskontakt nicht entprellt"
+  },
+  {
+    "arg": "BrkCD_tiDebTmrPlaus_mp",
+    "id": "0x00F8",
+    "result": "STAT_BrkCD_tiDebTmrPlaus_mp_WERT",
+    "unit": "ms",
+    "label": "Entprelltimer für Bremssignal-Plausibilitaets-Check"
+  },
+  {
+    "arg": "ITKUM",
+    "id": "0x002C",
+    "result": "STAT_KUEHLMITTELTEMPERATUR_WERT",
+    "unit": "deg C",
+    "label": "Motor temp."
+  },
+  {
+    "arg": "CTSCD_tClntLin",
+    "id": "0x0005",
+    "result": "STAT_CTSCD_tClntLin_WERT",
+    "unit": "deg C",
+    "label": "linearisierter Wert aus HWK vorm Aufruf der Übergangsfunktion"
+  },
+  {
+    "arg": "RUTKU",
+    "id": "0x002B",
+    "result": "STAT_KUEHLMITTELTEMPERATUR_SPANNUNG_ROH_WERT",
+    "unit": "mV",
+    "label": "Wassertemperatur Spannungsrohwert"
+  },
+  {
+    "arg": "ITKAS",
+    "id": "0x0075",
+    "result": "STAT_KÜHLMITTELTEMPERATUR_ANSTIEG_SEIT_START_WERT",
+    "unit": "deg C",
+    "label": "Ansteig der Wassertemperatur seit start"
+  },
+  {
+    "arg": "ITKET",
+    "id": "0x0077",
+    "result": "STAT_KÜHLMITTELTEMPERATUR_AM_ENDE_DES_TESTS_WERT",
+    "unit": "deg C",
+    "label": "CTSCD_tClnt am Ende des Tests"
+  },
+  {
+    "arg": "IZTKT",
+    "id": "0x0074",
+    "result": "STAT_KÜHLMITTELTEMPERATUR_TESTZEIT_WERT",
+    "unit": "s",
+    "label": "Abgelaufene Zeit, seit der der dynamische plausibilitätstest aktiv ist"
+  },
+  {
+    "arg": "IAMMM",
+    "id": "0x0004",
+    "result": "STAT_VERHAELTNIS_AKTUELLES_MOMENT_MAXIMALMOMENT_WERT",
+    "unit": "%",
+    "label": "Verhältnis aktuelles Moment zu Maximalmoment"
+  },
+  {
+    "arg": "ISABU",
+    "id": "0x008E",
+    "result": "STAT_TYP_WIRKSAME_ABSCHALTURSACHE_WERT",
+    "unit": "-",
+    "label": "Typ der wirksamen Abschaltursache (0: Nachlauf; 1: reversibel; 2: irreversibel)"
+  },
+  {
+    "arg": "SMIBA",
+    "id": "0x008F",
+    "result": "STAT_MOTORMOMENT_SOLL_NACH_BEGRENZUNG_VOR_ARD_WERT",
+    "unit": "Nm",
+    "label": "inneres Moment Sollwert nach Begrenzung, vor Eingriff ARD-Störungsregler"
+  },
+  {
+    "arg": "SMOMO",
+    "id": "0x0057",
+    "result": "STAT_MOTORMOMENT_SOLL_WERT",
+    "unit": "Nm",
+    "label": "Engine torque target"
+  },
+  {
+    "arg": "IMBEG",
+    "id": "0x0094",
+    "result": "STAT_MOTORMOMENT_BEGRENZUNG_WERT",
+    "unit": "Nm",
+    "label": "Begrenzungsmoment, falls kein momentenbegrenzender Systemfehler vorliegt (Minimum aus Rauchgrenze un Motormech.schutz)"
+  },
+  {
+    "arg": "IVABS",
+    "id": "0x00CB",
+    "result": "STAT_KRAFTSTOFFVERBRAUCH_ABSOLUT_WERT",
+    "unit": "ul",
+    "label": "Absoluter Kraftstoffverbrauch"
+  },
+  {
+    "arg": "IMWVO",
+    "id": "0x0095",
+    "result": "STAT_MOTORMOMENT_WUNSCH_WERT",
+    "unit": "Nm",
+    "label": "Wunsch Vortriebsmoment"
+  },
+  {
+    "arg": "RSKUP",
+    "id": "0x005E",
+    "result": "STAT_KUPPLUNGSSCHALTER_ROH_WERT",
+    "unit": "-",
+    "label": "Kupplungssignal Rohwert"
+  },
+  {
+    "arg": "IGAFG",
+    "id": "0x008D",
+    "result": "STAT_GANG_FGR_WERT",
+    "unit": "-",
+    "label": "Gang FGR"
+  },
+  {
+    "arg": "ISFGL",
+    "id": "0x00D1",
+    "result": "STAT_LAMPE_FGR_EIN_WERT",
+    "unit": "-",
+    "label": "Status der CrCtl-Lampe (wird über CAN versendet)"
+  },
+  {
+    "arg": "CrCtl_stShutOffCode10_mp",
+    "id": "0x00F0",
+    "result": "STAT_CrCtl_stShutOffCode10_WERT",
+    "unit": "-",
+    "label": "LowWord LowByte von CrCtl_shutOffCode (Verwendung als Signal)"
+  },
+  {
+    "arg": "CrCtl_stShutOffCode11_mp",
+    "id": "0x00F1",
+    "result": "STAT_CrCtl_stShutOffCode11_WERT",
+    "unit": "-",
+    "label": "LowWord HighByte von CrCtl_shutOffCode (Verwendung als Signal)"
+  },
+  {
+    "arg": "CrCtl_stShutOffCode20_mp",
+    "id": "0x00F2",
+    "result": "STAT_CrCtl_stShutOffCode20_WERT",
+    "unit": "-",
+    "label": "HighWord LowByte von CrCtl_shutOffCode (Verwendung als Signal)"
+  },
+  {
+    "arg": "CrCtl_stShutOffCode21_mp",
+    "id": "0x00F3",
+    "result": "STAT_CrCtl_stShutOffCode21_WERT",
+    "unit": "-",
+    "label": "HighWord HighByte von CrCtl_shutOffCode (Verwendung als Signal)"
+  },
+  {
+    "arg": "CrCtl_stShutOffFrz10_mp",
+    "id": "0x00F4",
+    "result": "STAT_CrCtl_stShutOffFrz10_WERT",
+    "unit": "-",
+    "label": "latched shutoff reason"
+  },
+  {
+    "arg": "CrCtl_stShutOffFrz11_mp",
+    "id": "0x00F5",
+    "result": "STAT_CrCtl_stShutOffFrz11_WERT",
+    "unit": "-",
+    "label": "latched shutoff reason"
+  },
+  {
+    "arg": "CrCtl_stShutOffFrz20_mp",
+    "id": "0x00F6",
+    "result": "STAT_CrCtl_stShutOffFrz20_WERT",
+    "unit": "-",
+    "label": "latched shutoff reason"
+  },
+  {
+    "arg": "CrCtl_stShutOffFrz21_mp",
+    "id": "0x00F7",
+    "result": "STAT_CrCtl_stShutOffFrz21_WERT",
+    "unit": "-",
+    "label": "latched shutoff reason"
+  },
+  {
+    "arg": "IMANF",
+    "id": "0x0091",
+    "result": "STAT_MOTORMOMENT_ANFORDERUNG_FGR_WERT",
+    "unit": "Nm",
+    "label": "Momentenanforderung FGR"
+  },
+  {
+    "arg": "SGEFG",
+    "id": "0x0083",
+    "result": "STAT_GESCHWINDIGKEIT_FGR_SOLL_WERT",
+    "unit": "km/h",
+    "label": "Sollgeschwindigkeit FGR"
+  },
+  {
+    "arg": "DSMDur_ctDfctDur1",
+    "id": "0x00D7",
+    "result": "STAT_DSMDur_ctDfctDur1_WERT",
+    "unit": "-",
+    "label": "Wert Fehlerdauerzähler"
+  },
+  {
+    "arg": "DSMDur_ctDfctDur1_OBD",
+    "id": "0x0021",
+    "result": "STAT_'DSMDur_ctDfctDur1_OBD_WERT",
+    "unit": "-",
+    "label": "Wert Fehlerdauerzähler"
+  },
+  {
+    "arg": "DSMDur_ctDfctDur2",
+    "id": "0x00D8",
+    "result": "STAT_DSMDur_ctDfctDur2_WERT",
+    "unit": "-",
+    "label": "Wert Fehlerdauerzähler 2"
+  },
+  {
+    "arg": "DSMDur_stGlobalDefCnt_mp",
+    "id": "0x00D9",
+    "result": "STAT_DSMDur_stGlobalDefCnt_mp_WERT",
+    "unit": "-",
+    "label": "Aktivierungs und Resetzustand der beiden globalen Fehlerdauerzähler"
+  },
+  {
+    "arg": "IAOBF",
+    "id": "0x0080",
+    "result": "STAT_ANZAHL_OBD_FEHLER_IM_FEHLERSPEICHER_WERT",
+    "unit": "-",
+    "label": "Anzahl der momentanen OBD-fehler im Fehlerspeicher"
+  },
+  {
+    "arg": "DSM_ctRdyActCyc_mp",
+    "id": "0x0089",
+    "result": "STAT_DSM_ctRdyActCyc_mp_WERT",
+    "unit": "-",
+    "label": "Status für jedes Readinessbit aus dem aktuellen driving cycle"
+  },
+  {
+    "arg": "DSM_ctRdyTstCompr_mp",
+    "id": "0x008B",
+    "result": "STAT_DSM_ctRdyTstCompr_mp_WERT",
+    "unit": "-",
+    "label": "Anzahl von in diesem Zyklus getesteten Fehlerpfaden die zum Readiness Bit Comprehensive Components  gehören."
+  },
+  {
+    "arg": "DSM_ctRdyTstEGR_mp",
+    "id": "0x0092",
+    "result": "STAT_DSM_ctRdyTstEGR_mp_WERT",
+    "unit": "-",
+    "label": "Anzahl von in diesem Zyklus getesteten Fehlerpfaden die zum Readiness Bit EGR gehören."
+  },
+  {
+    "arg": "DSM_ctRdyTstFuel_mp",
+    "id": "0x0093",
+    "result": "STAT_DSM_ctRdyTstFuel_mp_WERT",
+    "unit": "-",
+    "label": "Anzahl von in diesem Zyklus getesteten Fehlerpfaden die zum Readiness Bit Fuel System gehören."
+  },
+  {
+    "arg": "DSM_ctRdyTstMisf_mp",
+    "id": "0x0098",
+    "result": "STAT_DSM_ctRdyTstMisf_mp_WERT",
+    "unit": "-",
+    "label": "Anzahl von in diesem Zyklus getesteten Fehlerpfaden die zum Readiness Bit Misfire  gehören."
+  },
+  {
+    "arg": "IFEHAN",
+    "id": "0x0087",
+    "result": "STAT_ANZAHL_GETESTETE_FEHLERPFADE_WERT",
+    "unit": "-",
+    "label": "Anzahl der getesteten Fehlerpfade"
+  },
+  {
+    "arg": "DSM_stCycles",
+    "id": "0x0085",
+    "result": "STAT_DSM_stCycles_WERT",
+    "unit": "-",
+    "label": "Status der DSM Trigger Zyklen (WUC, DC, ...)"
+  },
+  {
+    "arg": "ISMIL",
+    "id": "0x002A",
+    "result": "STAT_MIL_EIN_WERT",
+    "unit": "-",
+    "label": "DSM Mil Anforderungsstatus (1 = kontinuierlich, 2 blinkend)"
+  },
+  {
+    "arg": "ISRAB",
+    "id": "0x009C",
+    "result": "STAT_READINESS_BYTES_AB_WERT",
+    "unit": "-",
+    "label": "Readiness Status für Diagnoseschnittstelle gemäß SAE J1979 PID1 Byte A + B"
+  },
+  {
+    "arg": "ISRCD",
+    "id": "0x00CD",
+    "result": "STAT_READINESS_BYTES_CD_WERT",
+    "unit": "-",
+    "label": "Readiness Status für Diagnoseschnittstelle gemäß SAE J1979 PID1 Byte C * D"
+  },
+  {
+    "arg": "ISSLA",
+    "id": "0x0029",
+    "result": "STAT_ANFORDERUNGSSTATUS_SYSTEMLAMPE_WERT",
+    "unit": "-",
+    "label": "DSM System Lampen Anforderungsstatus (1 = kontinuierlich)"
+  },
+  {
+    "arg": "DSM_tiDCDelay_mp",
+    "id": "0x0086",
+    "result": "STAT_DSM_tiDCDelay_mp_WERT",
+    "unit": "-",
+    "label": "aktuelle Zeit für Driving cycle Verzögerungszeit"
+  },
+  {
+    "arg": "IAAGR",
+    "id": "0x007A",
+    "result": "STAT_ABGASRUECKFUEHRSTELLER_ANSTEUERUNG_WERT",
+    "unit": "%",
+    "label": "Tastverhältnis zur Endstufenansteuerung"
+  },
+  {
+    "arg": "Ad_NumTyp_FreeApplic3_CSTR",
+    "id": "0x00E1",
+    "result": "STAT_Ad_NumTyp_FreeApplic3_WERT",
+    "unit": "-",
+    "label": "struct with applicationparameter"
+  },
+  {
+    "arg": "ISSYN",
+    "id": "0x00B0",
+    "result": "STAT_SYNCHRONISATION_KW_NW_WERT",
+    "unit": "-",
+    "label": "Meta-Status der KW- und NW-Ereignisverwaltung (Motorpositions-Management)"
+  },
+  {
+    "arg": "IMORE",
+    "id": "0x00CE",
+    "result": "STAT_REIBMOMENT_AKTUELL_WERT",
+    "unit": "Nm",
+    "label": "aktuelles Reibmoment"
+  },
+  {
+    "arg": "INMOT",
+    "id": "0x002D",
+    "result": "STAT_MOTORDREHZAHL_WERT",
+    "unit": "rpm",
+    "label": "RPM"
+  },
+  {
+    "arg": "INMOTCARB",
+    "id": "0x000C",
+    "result": "STAT_MOTORDREHZAHL_CARB_WERT",
+    "unit": "rpm",
+    "label": "mittlere Motordrehzahl"
+  },
+  {
+    "arg": "Ertm_tiload_u32",
+    "id": "0x00E6",
+    "result": "STAT_Ertm_tiload_u32_WERT",
+    "unit": "%",
+    "label": "CPU Last"
+  },
+  {
+    "arg": "IMOAI",
+    "id": "0x0096",
+    "result": "STAT_MOTORMOMENT_INNERES_AKTUELL_WERT",
+    "unit": "Nm",
+    "label": "aktuelles rückgerechnetes inneres Motormoment"
+  },
+  {
+    "arg": "ITKRS",
+    "id": "0x005B",
+    "result": "STAT_KRAFTSTOFFTEMPERATURK_WERT",
+    "unit": "deg C",
+    "label": "Kraftstofftemperatur"
+  },
+  {
+    "arg": "ISKRS",
+    "id": "0x00D4",
+    "result": "STAT_KRAFTSTOFFTEMPERATURK_SPANNUNG_ROH_WERT",
+    "unit": "mV",
+    "label": "Spannungsrohwert der Kraftstoffstemperatur"
+  },
+  {
+    "arg": "FanCD_dcycRaw_mp",
+    "id": "0x00E8",
+    "result": "STAT_FanCD_dcycRaw_mp_WERT",
+    "unit": "%",
+    "label": "dutycycle Ubatt-corrected"
+  },
+  {
+    "arg": "FlSys_volDetRefuel",
+    "id": "0x004A",
+    "result": "STAT_FlSys_volDetRefuel_WERT",
+    "unit": "l",
+    "label": "fuel level before tank stop"
+  },
+  {
+    "arg": "ITTAN",
+    "id": "0x004B",
+    "result": "STAT_ANSAUGLUFTTEMPERATUR_TASTVERHAELTNIS_WERT",
+    "unit": "l",
+    "label": "duty cycle of the air temparature signal"
+  },
+  {
+    "arg": "FlSys_volTotalRef_mp",
+    "id": "0x004C",
+    "result": "STAT_FlSys_volTotalRef_mp_WERT",
+    "unit": "l",
+    "label": "fuel level before tank stop"
+  },
+  {
+    "arg": "ISKME",
+    "id": "0x009A",
+    "result": "STAT_KILOMETERSTAND_WERT",
+    "unit": "km",
+    "label": "Kilometerstand des Fahrzeugs"
+  },
+  {
+    "arg": "INELU",
+    "id": "0x00CF",
+    "result": "STAT_ELEKTROLUEFTERDREHZAHL_WERT",
+    "unit": "1/min",
+    "label": "Lüfterdrehzahl"
+  },
+  {
+    "arg": "IAHEI",
+    "id": "0x00E4",
+    "result": "STAT_HEIZLEISTUNGSANFORDERUNG_UEBER_CAN_WERT",
+    "unit": "-",
+    "label": "Heizleistungsanforderung über CAN"
+  },
+  {
+    "arg": "IBKLI",
+    "id": "0x00CA",
+    "result": "STAT_BEREITSCHAFT_KLIMA_WERT",
+    "unit": "-",
+    "label": "Klimabereitschaft"
+  },
+  {
+    "arg": "ISKLI",
+    "id": "0x00C9",
+    "result": "STAT_KLIMA_EIN_WERT",
+    "unit": "-",
+    "label": "Schalter Klimakompressor"
+  },
+  {
+    "arg": "ITUMG",
+    "id": "0x00E3",
+    "result": "STAT_UMGEBUNGSTEMPERATUR_WERT",
+    "unit": "deg C",
+    "label": "Umgebungstemperatur"
+  },
+  {
+    "arg": "Ad_NumTyp_FreeApplic2_CSTR",
+    "id": "0x00E0",
+    "result": "STAT_Ad_NumTyp_FreeApplic2_WERT",
+    "unit": "-",
+    "label": "struct with applicationparameter"
+  },
+  {
+    "arg": "IGETT",
+    "id": "0x00A0",
+    "result": "STAT_GETRIEBETYP_WERT",
+    "unit": "-",
+    "label": "Getriebetyp (0: manuell(MT); 1: automatisch(AT); 2: Schaltautomatisch(AST); 3: StufenlosesGetriebe (CVT); 4:automatic Z-Car)"
+  },
+  {
+    "arg": "GlwCD_RawVal_mp",
+    "id": "0x005A",
+    "result": "STAT_GlwCD_RawVal_mp_WERT",
+    "unit": "-",
+    "label": "Rohwert für das Glühanforderungsregister des Glühcontrollers"
+  },
+  {
+    "arg": "IAGLU",
+    "id": "0x007C",
+    "result": "STAT_GLUEHSYSTEM_ANSTEUERUNG_WERT",
+    "unit": "-",
+    "label": "Glühanforderung"
+  },
+  {
+    "arg": "IAGLL",
+    "id": "0x0061",
+    "result": "STAT_GLUEHANZEIGE_ANSTEUERUNG_WERT",
+    "unit": "-",
+    "label": "Zustand der Glühanzeige"
+  },
+  {
+    "arg": "HWEMon_numRecovery",
+    "id": "0x0073",
+    "result": "STAT_HWEMon_numRecovery_WERT",
+    "unit": "-",
+    "label": "Herkunft des letzten Reset ( >0 = Recovery )"
+  },
+  {
+    "arg": "HWEMon_recLocHigh_mp",
+    "id": "0x00FF",
+    "result": "STAT_HWEMon_recLocHigh_mp_WERT",
+    "unit": "-",
+    "label": "HighAdresse recovery location"
+  },
+  {
+    "arg": "HWEMon_recLocLow0_mp",
+    "id": "0x00FD",
+    "result": "STAT_HWEMon_recLocLow_WERT",
+    "unit": "-",
+    "label": "LowAdresse recovery location"
+  },
+  {
+    "arg": "HWEMon_recLocLow1_mp",
+    "id": "0x00FE",
+    "result": "STAT_HWEMon_recLocLow_mp_WERT",
+    "unit": "-",
+    "label": "LowAdresse recovery location"
+  },
+  {
+    "arg": "ITANS",
+    "id": "0x0038",
+    "result": "STAT_ANSAUGLUFTTEMPERATUR_WERT",
+    "unit": "deg C",
+    "label": "Ansauglufttemperatur"
+  },
+  {
+    "arg": "ITLAL",
+    "id": "0x0036",
+    "result": "STAT_LADELUFTTEMPERATUR_WERT",
+    "unit": "deg C",
+    "label": "Ladelufttemperatur nach Ladeluftkühler"
+  },
+  {
+    "arg": "AFSCD_tAir_mp",
+    "id": "0x000F",
+    "result": "STAT_AFSCD_tAir_mp_WERT",
+    "unit": "deg C",
+    "label": "linearisierter Wert aus HWK vorm Aufruf der Übergangsfunktion"
+  },
+  {
+    "arg": "ITLLL",
+    "id": "0x007D",
+    "result": "STAT_LADELUFTTEMPERATUR_LINEARISIERT_WERT",
+    "unit": "deg C",
+    "label": "Ladelufttemperatur - Linearisierter Wert aus HWK vor Aufruf der Übergangsfunktion"
+  },
+  {
+    "arg": "RSLAL",
+    "id": "0x0037",
+    "result": "STAT_LADELUFTTEMPERATUR_SPANNUNG_ROH_WERT",
+    "unit": "mV",
+    "label": "Lufttemperatur Spannungsrohwert"
+  },
+  {
+    "arg": "SPEKA",
+    "id": "0x0058",
+    "result": "STAT_EINLASSKANALABSCHALTUNG_POSITION_SOLL_WERT",
+    "unit": "%",
+    "label": "Sollposition für Einlaßkanalabschaltung"
+  },
+  {
+    "arg": "IWHE1",
+    "id": "0x00BF",
+    "result": "STAT_BEZUGSWINKEL_BEGINN_HAUPTEINSPRITZUNG1_WERT",
+    "unit": "deg CrS",
+    "label": "gewünschter Bezugswinkel für Beginn der MI1"
+  },
+  {
+    "arg": "IWVE1",
+    "id": "0x00B1",
+    "result": "STAT_WINKELKOMPONENTE_BEGINN_VOREINSPRITZUNG1_WERT",
+    "unit": "deg CrS",
+    "label": "gewünschter Winkelkomponente Ansteuerbeginn PiI1"
+  },
+  {
+    "arg": "IWVE2",
+    "id": "0x00B2",
+    "result": "STAT_WINKELKOMPONENTE_BEGINN_VOREINSPRITZUNG2_WERT",
+    "unit": "deg CrS",
+    "label": "gewünschte Winkelkomponente Ansteuerbeginn PiI2"
+  },
+  {
+    "arg": "IWVE3",
+    "id": "0x00B3",
+    "result": "STAT_WINKELKOMPONENTE_BEGINN_VOREINSPRITZUNG3_WERT",
+    "unit": "deg CrS",
+    "label": "gewünschte Winkelkomponente Ansteuerbeginn PiI3"
+  },
+  {
+    "arg": "IWNE1",
+    "id": "0x00C4",
+    "result": "STAT_BEZUGSWINKEL_BEGINN_NACHEINSPRITZUNG1_WERT",
+    "unit": "deg CrS",
+    "label": "gewünschter Bezugswinkel für Beginn der PoI1"
+  },
+  {
+    "arg": "InjCrv_phiPoI2Des",
+    "id": "0x00C5",
+    "result": "STAT_InjCrv_phiPoI2Des_WERT",
+    "unit": "deg CrS",
+    "label": "basevalue (angle)"
+  },
+  {
+    "arg": "IMHE1",
+    "id": "0x00C1",
+    "result": "STAT_MENGE_HAUPTEINSPRITZUNG1_WERT",
+    "unit": "mg/inj",
+    "label": "Sollmenge Haupteinspritzung"
+  },
+  {
+    "arg": "IMGV1",
+    "id": "0x00BD",
+    "result": "STAT_MENGE_VOREINSPRITZUNG1_GRUNDWERT_WERT",
+    "unit": "mg/inj",
+    "label": "Einspritzmenge PiI1 Grundwert"
+  },
+  {
+    "arg": "IMVE1",
+    "id": "0x00B7",
+    "result": "STAT_MENGE_VOREINSPRITZUNG1_WERT",
+    "unit": "mg/inj",
+    "label": "gewünschte Einspritzmenge PiI 1"
+  },
+  {
+    "arg": "IMGV2",
+    "id": "0x00BE",
+    "result": "STAT_MENGE_VOREINSPRITZUNG2_GRUNDWERT_WERT",
+    "unit": "mg/inj",
+    "label": "Einspritzmenge PiI2 Grundwert"
+  },
+  {
+    "arg": "IMVE2",
+    "id": "0x00B8",
+    "result": "STAT_MENGE_VOREINSPRITZUNG2_WERT",
+    "unit": "mg/inj",
+    "label": "gewünschte Einspritzmenge PiI 2"
+  },
+  {
+    "arg": "IMVE3",
+    "id": "0x00B9",
+    "result": "STAT_MENGE_VOREINSPRITZUNG3_WERT",
+    "unit": "mg/inj",
+    "label": "gewünschte Einspritzmenge PiI 3"
+  },
+  {
+    "arg": "ISVE1",
+    "id": "0x00BA",
+    "result": "STAT_FREIGABESTATUS_VOREINSPRITZUNG1_WERT",
+    "unit": "-",
+    "label": "Freigabestatus PiI1"
+  },
+  {
+    "arg": "ISVE2",
+    "id": "0x00BB",
+    "result": "STAT_FREIGABESTATUS_VOREINSPRITZUNG2_WERT",
+    "unit": "-",
+    "label": "Freigabestatus PiI2"
+  },
+  {
+    "arg": "IDGH1",
+    "id": "0x00C0",
+    "result": "STAT_ANSTEUERDAUER_HAUPTEINSPRITZUNG1_GESCHAETZT_WERT",
+    "unit": "us",
+    "label": "geschätzte Ansteuerdauer MI1"
+  },
+  {
+    "arg": "IMEIA",
+    "id": "0x0055",
+    "result": "STAT_EINSPRITZMENGE_AKTUELL_WERT",
+    "unit": "mg/cyc",
+    "label": "Injection quantity"
+  },
+  {
+    "arg": "SMEIN",
+    "id": "0x0034",
+    "result": "STAT_EINSPRITZMENGE_SOLL_WERT",
+    "unit": "mg/cyc",
+    "label": "Einspritzmenge Sollwert"
+  },
+  {
+    "arg": "SMEIO",
+    "id": "0x0059",
+    "result": "STAT_EINSPRITZMENGE_SOLL_OHNE_MENGENAUSGLEICH_WERT",
+    "unit": "mg/cyc",
+    "label": "Einspritzmenge Sollwert ohne Mengenausgleichsregelung"
+  },
+  {
+    "arg": "IDHE1",
+    "id": "0x00BC",
+    "result": "STAT_ANSTEUERDAUER_HAUPTEINSPRITZUNG1_WERT",
+    "unit": "us",
+    "label": "Ansteuerdauer der Haupteinspritzung 1"
+  },
+  {
+    "arg": "IDVE1",
+    "id": "0x00B4",
+    "result": "STAT_ANSTEUERDAUER_VOREINSPRITZUNG1_WERT",
+    "unit": "us",
+    "label": "Ansteuerdauer der Voreinspritzung 1"
+  },
+  {
+    "arg": "IDVE2",
+    "id": "0x00B5",
+    "result": "STAT_ANSTEUERDAUER_VOREINSPRITZUNG2_WERT",
+    "unit": "us",
+    "label": "Ansteuerdauer der Voreinspritzung 2"
+  },
+  {
+    "arg": "IDVE3",
+    "id": "0x00B6",
+    "result": "STAT_ANSTEUERDAUER_VOREINSPRITZUNG3_WERT",
+    "unit": "us",
+    "label": "Ansteuerdauer der Voreinspritzung 3"
+  },
+  {
+    "arg": "IDNE1",
+    "id": "0x00C6",
+    "result": "STAT_ANSTEUERDAUER_NACHEINSPRITZUNG1_WERT",
+    "unit": "us",
+    "label": "Ansteuerdauer Nacheinspritzung 1"
+  },
+  {
+    "arg": "IDNE2",
+    "id": "0x00C7",
+    "result": "STAT_ANSTEUERDAUER_NACHEINSPRITZUNG2_WERT",
+    "unit": "us",
+    "label": "Ansteuerdauer der Nacheinspritzung 2"
+  },
+  {
+    "arg": "INZZ1",
+    "id": "0x00A1",
+    "result": "STAT_MOTORDREHZAHL_ZYLINDERSPEZIFISCH_ZYL1_WERT",
+    "unit": "rpm",
+    "label": "Zylinderspezifische Drehzahl für Zylinder 1"
+  },
+  {
+    "arg": "INZZ2",
+    "id": "0x00A2",
+    "result": "STAT_MOTORDREHZAHL_ZYLINDERSPEZIFISCH_ZYL2_WERT",
+    "unit": "rpm",
+    "label": "Zylinderspezifische Drehzahl für Zylinder 2"
+  },
+  {
+    "arg": "INZZ3",
+    "id": "0x00A3",
+    "result": "STAT_MOTORDREHZAHL_ZYLINDERSPEZIFISCH_ZYL3_WERT",
+    "unit": "rpm",
+    "label": "Zylinderspezifische Drehzahl für Zylinder 3"
+  },
+  {
+    "arg": "INZZ4",
+    "id": "0x00A4",
+    "result": "STAT_MOTORDREHZAHL_ZYLINDERSPEZIFISCH_ZYL4_WERT",
+    "unit": "rpm",
+    "label": "Zylinderspezifische Drehzahl für Zylinder 4"
+  },
+  {
+    "arg": "INZZ5",
+    "id": "0x00A5",
+    "result": "STAT_MOTORDREHZAHL_ZYLINDERSPEZIFISCH_ZYL5_WERT",
+    "unit": "rpm",
+    "label": "Zylinderspezifische Drehzahl für Zylinder 5"
+  },
+  {
+    "arg": "INZZ6",
+    "id": "0x00A6",
+    "result": "STAT_MOTORDREHZAHL_ZYLINDERSPEZIFISCH_ZYL6_WERT",
+    "unit": "rpm",
+    "label": "Zylinderspezifische Drehzahl für Zylinder 6"
+  },
+  {
+    "arg": "IMKZ1",
+    "id": "0x00A7",
+    "result": "STAT_MENGENKORREKTUR_ZYLINDERSPEZIFISCH_ZYL1_WERT",
+    "unit": "mg/hub",
+    "label": "Zylinderselektive FBC-Mengenkorrektur für Zylinder 1"
+  },
+  {
+    "arg": "IMKZ2",
+    "id": "0x00A8",
+    "result": "STAT_MENGENKORREKTUR_ZYLINDERSPEZIFISCH_ZYL2_WERT",
+    "unit": "mg/hub",
+    "label": "Zylinderselektive FBC-Mengenkorrektur für Zylinder 2"
+  },
+  {
+    "arg": "IMKZ3",
+    "id": "0x00A9",
+    "result": "STAT_MENGENKORREKTUR_ZYLINDERSPEZIFISCH_ZYL3_WERT",
+    "unit": "mg/hub",
+    "label": "Zylinderselektive FBC-Mengenkorrektur für Zylinder 3"
+  },
+  {
+    "arg": "IMKZ4",
+    "id": "0x00AA",
+    "result": "STAT_MENGENKORREKTUR_ZYLINDERSPEZIFISCH_ZYL4_WERT",
+    "unit": "mg/hub",
+    "label": "Zylinderselektive FBC-Mengenkorrektur für Zylinder 4"
+  },
+  {
+    "arg": "IMKZ5",
+    "id": "0x00AB",
+    "result": "STAT_MENGENKORREKTUR_ZYLINDERSPEZIFISCH_ZYL5_WERT",
+    "unit": "mg/hub",
+    "label": "Zylinderselektive FBC-Mengenkorrektur für Zylinder 5"
+  },
+  {
+    "arg": "IMKZ6",
+    "id": "0x00AC",
+    "result": "STAT_MENGENKORREKTUR_ZYLINDERSPEZIFISCH_ZYL6_WERT",
+    "unit": "mg/hub",
+    "label": "Zylinderselektive FBC-Mengenkorrektur für Zylinder 6"
+  },
+  {
+    "arg": "LIGov_nSetpoint",
+    "id": "0x0031",
+    "result": "STAT_LIGov_nSetpoint_WERT",
+    "unit": "rpm",
+    "label": "Untergrenze Drehzahlintervall des LIGov"
+  },
+  {
+    "arg": "ISLLR",
+    "id": "0x00E2",
+    "result": "STAT_STATUS_LEERLAUFREGLER_WERT",
+    "unit": "-",
+    "label": "Zustand des Leerlaufreglers"
+  },
+  {
+    "arg": "IMLLR",
+    "id": "0x0097",
+    "result": "STAT_LEERLAUFREGLERMOMENT_WERT",
+    "unit": "Nm",
+    "label": "Leerlaufreglermoment"
+  },
+  {
+    "arg": "IAMRV",
+    "id": "0x00EC",
+    "result": "STAT_MENGENREGELVENTIL_ANSTEUERUNG_WERT",
+    "unit": "%",
+    "label": "Ausgangstastverhältnis"
+  },
+  {
+    "arg": "IIMRV",
+    "id": "0x007F",
+    "result": "STAT_STROM_MENGENREGELVENTIL_WERT",
+    "unit": "mA",
+    "label": "Zumesseinheit-Stromregelung gefilterter Strom-Istwert"
+  },
+  {
+    "arg": "SIMRV",
+    "id": "0x0045",
+    "result": "STAT_STROM_MENGENREGELVENTIL_SOLL_WERT",
+    "unit": "mA",
+    "label": "Sollstrom für die Zumesseinheit"
+  },
+  {
+    "arg": "ISOED",
+    "id": "0x00AF",
+    "result": "STAT_OELDRUCKSCHALTER_EIN_WERT",
+    "unit": "-",
+    "label": "Ausgangssignal Öldruckschalter"
+  },
+  {
+    "arg": "ITAVO",
+    "id": "0x009B",
+    "result": "STAT_ABGASTEMPERATUR_VOR_KATALYSATOR_WERT",
+    "unit": "deg C",
+    "label": "Abgastemperatur vor Oxidationskatalysator"
+  },
+  {
+    "arg": "RUAVO",
+    "id": "0x00D5",
+    "result": "STAT_ABGASTEMPERATUR_VOR_KATALYSATOR_SPANNUNG_ROH_WERT",
+    "unit": "mV",
+    "label": "Abgastemperatur vor Oxidationskatalysator Rohwert"
+  },
+  {
+    "arg": "SPLAD",
+    "id": "0x008A",
+    "result": "STAT_LADEDRUCK_SOLL_WERT",
+    "unit": "hPa",
+    "label": "Boost pressure target"
+  },
+  {
+    "arg": "ISLDR",
+    "id": "0x004D",
+    "result": "STAT_STATUS_ABSCHALTUNG_LADEDRUCKREGELUNG_WERT",
+    "unit": "-",
+    "label": "Statusangabe bei Abschaltung der Regelung"
+  },
+  {
+    "arg": "IARDS",
+    "id": "0x00ED",
+    "result": "STAT_RAILDRUCKREGELVENTIL_ANSTEUERUNG_WERT",
+    "unit": "%",
+    "label": "Ausgangstastverhältnis"
+  },
+  {
+    "arg": "PCVCD_iActVal",
+    "id": "0x009E",
+    "result": "STAT_PCVCD_iActVal_WERT",
+    "unit": "mA",
+    "label": "Analogeingang Strom-Istwert"
+  },
+  {
+    "arg": "ITAVP",
+    "id": "0x009D",
+    "result": "STAT_ABGASTEMPERATUR_VOR_PARTIKELFILTER_WERT",
+    "unit": "deg C",
+    "label": "Abgastemp. vor Partikelfilter erster Sensor"
+  },
+  {
+    "arg": "RUTVP",
+    "id": "0x00D6",
+    "result": "STAT_ABGASTEMPERATUR_VOR_PARTIKELFILTER_SPANNUNG_ROH_WERT",
+    "unit": "mV",
+    "label": "Spannungsrohwert der Abgastemperatur vor dem Partikelfilter"
+  },
+  {
+    "arg": "IVABP",
+    "id": "0x004E",
+    "result": "STAT_ABGASVOLUMENSTROM_IM_PARTIKELFILTER_BERECHNET_WERT",
+    "unit": "m^3/h",
+    "label": "berechneter Abgasvolumenstrom im Partikelfilter"
+  },
+  {
+    "arg": "IKOAD",
+    "id": "0x004F",
+    "result": "STAT_KORREKTURFAKTOR_ADDITIVASCHE_WERT",
+    "unit": "-",
+    "label": "Korrekturfaktor Additivasche"
+  },
+  {
+    "arg": "ISLRE",
+    "id": "0x0053",
+    "result": "STAT_GEFAHRENE_STRECKE_BEI_LETZTER_ERFOLGREICHER_REGENERATION_WERT",
+    "unit": "m",
+    "label": "ges. gefahrene Strecke bei der letzten erfolgr. Regeneration"
+  },
+  {
+    "arg": "PFlt_mAsh_mp",
+    "id": "0x006C",
+    "result": "STAT_PFlt_mAsh_mp_WERT",
+    "unit": "g",
+    "label": "Aschemasse"
+  },
+  {
+    "arg": "IMRUP",
+    "id": "0x0068",
+    "result": "STAT_RUSSMASSE_IM_PARTIKELFILTER_WERT",
+    "unit": "g",
+    "label": "Rußmasse im Partikelfilter"
+  },
+  {
+    "arg": "IWSMP",
+    "id": "0x006A",
+    "result": "STAT_STROEMUNGSWIDERSTAND_UMGERECHNET_IN_PARTIKELMASSE_WERT",
+    "unit": "g",
+    "label": "Strömungswdst. in Partikelmasse umgerechnet"
+  },
+  {
+    "arg": "IMPAK",
+    "id": "0x0069",
+    "result": "STAT_PARTIKELMASSE_ADDITIVKORRIGIERT_WERT",
+    "unit": "g",
+    "label": "Partikelmasse additivkorrigiert"
+  },
+  {
+    "arg": "IMPAS",
+    "id": "0x006B",
+    "result": "STAT_PARTIKELMASSE_SIMULIERT_WERT",
+    "unit": "g",
+    "label": "simulierte Partikelmasse"
+  },
+  {
+    "arg": "IREPM",
+    "id": "0x006D",
+    "result": "STAT_REGENERIERMASSNAHME_WEGEN_PARTIKELFILTER_UND_MOTORZUSTAND_WERT",
+    "unit": "-",
+    "label": "Regeneriermaßnahme aufgrund PFlt- und Motorzustand"
+  },
+  {
+    "arg": "IREAN",
+    "id": "0x0070",
+    "result": "STAT_REGENERATIONSANFORDERUNG_WERT",
+    "unit": "-",
+    "label": "gesamte Regenerationsanforderung"
+  },
+  {
+    "arg": "IPDIP",
+    "id": "0x0054",
+    "result": "STAT_DIFFERENZDRUCK_UEBER_PARTIKELFILTER_WERT",
+    "unit": "hPa",
+    "label": "Differenzdruck über Partikelfilter"
+  },
+  {
+    "arg": "IVTLR",
+    "id": "0x007E",
+    "result": "STAT_VERBRAUCHTER_KRAFTSTOFF_SEIT_LETZTER_ERFOLGREICHER_REGENERATION_WERT",
+    "unit": "l",
+    "label": "verbrauchter Treibstoff seit der letzten erfolgreichen Regeneration"
+  },
+  {
+    "arg": "IWSTO",
+    "id": "0x00AD",
+    "result": "STAT_STROEMUNGSWIDERSTAND_OFFSET_WERT",
+    "unit": "hPa/(m^3/h)",
+    "label": "Strömungswiderstandoffset"
+  },
+  {
+    "arg": "RWSTR",
+    "id": "0x00CC",
+    "result": "STAT_STROEMUNGSWIDERSTAND_OFFSET_WERT",
+    "unit": "hPa/(m^3/h)",
+    "label": "Strömungswiderstand Rohwert"
+  },
+  {
+    "arg": "IWSTR",
+    "id": "0x008C",
+    "result": "STAT_STROEMUNGSWIDERSTAND_WERT",
+    "unit": "hPa/(m^3/h)",
+    "label": "Strömungswiderstand"
+  },
+  {
+    "arg": "ISPFL1",
+    "id": "0x00F9",
+    "result": "STAT_STATUS_PARTIKELFILTER_LOWWORD_LOWBYTE_WERT",
+    "unit": "-",
+    "label": "Status des Partikelfilters  LowWord LowByte (->Signals)"
+  },
+  {
+    "arg": "ISPFL",
+    "id": "0x00FA",
+    "result": "STAT_STATUS_PARTIKELFILTER_LOWBYTE_WERT",
+    "unit": "-",
+    "label": "Status des Partikelfilters  LowByte (->Signals)"
+  },
+  {
+    "arg": "ISPFH1",
+    "id": "0x00FB",
+    "result": "STAT_STATUS_PARTIKELFILTER_HIGHWORD_LOWBYTE_WERT",
+    "unit": "-",
+    "label": "Status des Partikelfilters HighWord LowByte (->Signals)"
+  },
+  {
+    "arg": "ISPFH",
+    "id": "0x00FC",
+    "result": "STAT_STATUS_PARTIKELFILTER_HIGHBYTE_WERT",
+    "unit": "-",
+    "label": "Status des Partikelfilters  HighByte (->Signals)"
+  },
+  {
+    "arg": "IBEMO",
+    "id": "0x00D2",
+    "result": "STAT_MOTORBETRIEBSPUNKT_WERT",
+    "unit": "-",
+    "label": "Motorbetriebspunkt"
+  },
+  {
+    "arg": "PFlt_stEngPOp1_mp",
+    "id": "0x00DD",
+    "result": "STAT_PFlt_stEngPOp1_mp_WERT",
+    "unit": "-",
+    "label": "engine state calculated by range check 1"
+  },
+  {
+    "arg": "PFlt_stEngPOp2_mp",
+    "id": "0x00DE",
+    "result": "STAT_PFlt_stEngPOp2_mp_WERT",
+    "unit": "-",
+    "label": "engine state calculated by range check 2"
+  },
+  {
+    "arg": "PFlt_stEngPOp3_mp",
+    "id": "0x00EE",
+    "result": "STAT_PFlt_stEngPOp3_mp_WERT",
+    "unit": "-",
+    "label": "engine state calculated by range check 3"
+  },
+  {
+    "arg": "PFlt_stEngPOp4_mp",
+    "id": "0x00EF",
+    "result": "STAT_PFlt_stEngPOp4_mp_WERT",
+    "unit": "-",
+    "label": "engine state calculated by range check 4"
+  },
+  {
+    "arg": "PFlt_stEngPOp5_mp",
+    "id": "0x0063",
+    "result": "STAT_PFlt_stEngPOp5_mp_WERT",
+    "unit": "-",
+    "label": "engine state calculated by range check 5"
+  },
+  {
+    "arg": "ITVPG",
+    "id": "0x0071",
+    "result": "STAT_ABGASTEMPERATUR_VOR_PARTIKELFILTER_GEFILTERT_WERT",
+    "unit": "deg C",
+    "label": "PFlt_tPre PT1 gefiltert"
+  },
+  {
+    "arg": "IVKMG",
+    "id": "0x0072",
+    "result": "STAT_GESCHWINDIGKEIT_GEFILTERT_WERT",
+    "unit": "km/h",
+    "label": "VSSCD_v PT1 gefiltert"
+  },
+  {
+    "arg": "PSPCD_dvolOut",
+    "id": "0x0081",
+    "result": "STAT_PSPCD_dvolOut_WERT",
+    "unit": "-",
+    "label": "Pre Supply Pump output value"
+  },
+  {
+    "arg": "IPRDR",
+    "id": "0x00C2",
+    "result": "STAT_RAILDRUCK_WERT",
+    "unit": "bar",
+    "label": "Rail pressure"
+  },
+  {
+    "arg": "IURDR",
+    "id": "0x00D3",
+    "result": "STAT_RAILDRUCK_SPANNUNG_ROH_WERT",
+    "unit": "mV",
+    "label": "Rohwert des Raildrucks"
+  },
+  {
+    "arg": "SVRDR",
+    "id": "0x0035",
+    "result": "STAT_VOLUMENSTROM_RAILDRUCKREGELUNG_SOLL_WERT",
+    "unit": "mm3/s",
+    "label": "Sollwert (Volumenstrom) von der Raildruckregelung"
+  },
+  {
+    "arg": "SPRDR",
+    "id": "0x00C3",
+    "result": "STAT_RAILDRUCK_SOLL_WERT",
+    "unit": "bar",
+    "label": "Raildruck-sollwert"
+  },
+  {
+    "arg": "FlFCD_stFlFltRawVal",
+    "id": "0x00DF",
+    "result": "STAT_FlFCD_stFlFltRawVal_WERT",
+    "unit": "-",
+    "label": "fuel filter temp and pressure monitoring"
+  },
+  {
+    "arg": "StSys_trqStrt",
+    "id": "0x0090",
+    "result": "STAT_StSys_trqStrt_WERT",
+    "unit": "Nm",
+    "label": "inneres Moment Startwert"
+  },
+  {
+    "arg": "RWKUP",
+    "id": "0x003B",
+    "result": "STAT_WAKEUP_ROH_WERT",
+    "unit": "-",
+    "label": "Rohwert des Wake Up Signals aus der HWE"
+  },
+  {
+    "arg": "TVACD_rOut",
+    "id": "0x00EA",
+    "result": "STAT_TVACD_rOut_WERT",
+    "unit": "%",
+    "label": "Tastverhältnis zur Endstufenansteuerung"
+  },
+  {
+    "arg": "VSACD_rOut",
+    "id": "0x00EB",
+    "result": "STAT_VSACD_rOut_WERT",
+    "unit": "%",
+    "label": "Tastverhältnis zur Endstufenansteuerung"
+  },
+  {
+    "arg": "IAFZG",
+    "id": "0x0033",
+    "result": "STAT_FAHRZEUGBESCHLEUNIGUNG_WERT",
+    "unit": "m/s^2",
+    "label": "Fahrbeschleunigung"
+  },
+  {
+    "arg": "IVKMH",
+    "id": "0x0032",
+    "result": "STAT_GESCHWINDIGKEIT_WERT",
+    "unit": "km/h",
+    "label": "Vehicle Speed"
+  },
+  {
+    "arg": "VSSCD_vSensVal",
+    "id": "0x000D",
+    "result": "STAT_VSSCD_vSensVal_WERT",
+    "unit": "km/h",
+    "label": "Vehicle speed sensed value"
+  },
+  {
+    "arg": "IVVZN",
+    "id": "0x0084",
+    "result": "STAT_VERHAELTNIS_FAHRGESCHWINDIGKEIT_ZU_MOTORDREHZAHL_WERT",
+    "unit": "(km/h)/rpm",
+    "label": "Verhältnis von Fahrgeschwindigkeit zur Motordrehzahl"
+  },
+  {
+    "arg": "IZBST",
+    "id": "0x009F",
+    "result": "STAT_BETRIEBSSTUNDENZAEHLER_WERT",
+    "unit": "s",
+    "label": "Erfassung der aktuellen Betriebszeit"
+  }
+]

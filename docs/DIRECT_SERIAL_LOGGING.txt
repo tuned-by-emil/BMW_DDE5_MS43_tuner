@@ -1,0 +1,79 @@
+Direct serial live logging - DDE software 361830
+2026-10-12
+
+Start the source editor with install_and_run.bat. Open Live logging, choose
+Direct serial - BMW K-line, and enter the K-line/K+DCAN cable's Windows COM
+port. Refresh optionally lists ports without opening them. Leave Cable echo
+enabled for a standard BMW cable; disable it only for a known no-echo adapter.
+Close other diagnostic tools before connecting. Press Start logging.
+
+Keep your existing saved TestO/editor profile and select Direct serial. The
+Poll at maximum serial rate checkbox is enabled by default. It ignores the
+profile's extra minimum interval for this serial run without changing the
+saved profile. Uncheck it to use that interval. The required 25 ms ECU reply
+spacing remains active in both cases. Other backends retain their intervals.
+
+The connection checks Bosch hardware 0281010565 and software 1037361830 before
+polling. All 210 current catalog channels use the D50M47A PRG's exact scaling.
+Existing saved profiles, gauges, graphs, sparse CSV rows and capture metadata
+are reused. Each CSV row contains only the channels acquired for that group.
+
+Fast engine (10) fits one group. After its first acknowledged full selection,
+the connection sends short 2C10 polls reusing that selection. Profiles with
+multiple groups reconfigure whenever the group changes; the ECU retains one
+global selection, not a selection per group. RPM and injection quantity repeat
+in every group. Thus 15 unique selected channels use groups of 10 and 7,
+including both anchors in each reply. Two groups refresh each non-anchor
+channel once per complete two-request cycle. Each row records only fresh
+channels, while gauges retain the latest values between group replies.
+
+Status reports total replies/sec and each group's refresh rate. Status text
+updates at most four times/sec; samples and graphs receive every valid reply.
+Serial CSV rows are buffered and flushed at the first sample after 250 ms,
+and all remaining rows are flushed when the capture closes. This reduces
+per-sample disk work; an abrupt process or power failure can lose buffered
+rows. Other backends keep their immediate per-row flush.
+
+The serial profile is KWP2000*: 9600 baud, eight data bits, even parity, one
+stop bit, no flow control. DTR and RTS are disabled before opening. Request
+and response framing uses B8, explicit payload length and XOR checksum.
+No wake pulse, diagnostic-session change, reset, authentication, erase,
+download or flash-write request is sent by this connection.
+
+Echo, ECU addresses, checksums, service/subfunction, response lengths and
+identity must match. Response-pending replies wait without replaying the
+request. Busy/negative responses, late/truncated frames and timeouts stop the
+session. Reconnect after fixing the cause; the connection does not silently
+retry and reuse a channel selection after a failure. Stop cancels the read
+and the owning worker closes both COM and CSV before the GUI releases it.
+
+The UART connection runs in a separate process so Python work during table
+selection and 3D redraw cannot delay its framing/checksum/deadline checks.
+The Qt worker still owns samples, CSV recording and shutdown. Stop cancels
+the UART owner and waits for it to close before releasing the logger.
+No reply deadline was relaxed and failed requests are not silently retried.
+
+Held gauge values show their age only from 0.5 seconds onward. This applies
+to the reading strip, graph readings and floating gauges. CSV rows still
+contain only fresh values; the warning threshold does not fill stored data.
+
+This backend uses the normal measurement transport proven by B8 replies.
+The descriptor's protocol tag 3 is not the dispatcher transport state.
+The higher baud rate accepted during session 85 applies to programming;
+normal 2C10 measurements were unavailable in that session. Standard-rate
+logging requires no authentication or programming session.
+
+On-car read-only testing on 2026-10-12, ignition on and engine stopped, with
+CSV enabled: 10 channels reached about 10.1 Hz/channel; 15 unique channels
+in groups 10+7 reached about 8.55 replies/sec total, or 4.27 Hz per group.
+Balanced 9+8 groups reached about 4.29 Hz/group: no meaningful difference.
+These are short-run measurements on one ECU/cable. Changing the host read
+timeout from 20 ms to 5 ms did not improve throughput, so 20 ms is retained.
+
+Dependencies: pyserial 3.5 is added to the normal and pinned build requirements.
+The updated source must be launched to use this feature; previously built
+portable executables do not acquire source changes automatically.
+
+Offline checks use simulated serial I/O and offscreen GUI tests, with physical
+serial opening prohibited. Separate on-car checks use only identification
+and selective measurement requests; all COM handles close after each check.

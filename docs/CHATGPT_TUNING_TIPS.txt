@@ -1,0 +1,83 @@
+BMW Bin Editor — ChatGPT assistant
+
+GET STARTED
+Open Analysis > ChatGPT tuning tips. In Connection & setup, continue with
+ChatGPT, select an available model and choose the reasoning effort separately.
+Enter the gearbox, differential, tyre size, hardware and your tuning goal.
+The supplied 361830 setup has the user-confirmed MaxxECU actual-gear CAN binding
+for first/second/third gear torque ceilings. Uncheck it if that setup changes.
+
+ONE ANALYSIS BUTTON
+Load the primary BIN, matching XDF and saved/live log, then Analyse tables + log.
+A comparison BIN is included automatically. You do not need an open table.
+Every captured XDF table is available to exact evidence tools, together with
+every observation in the chosen log scope and comparison differences.
+By default, the model answers your question with relevant evidence. Full audit
+explicitly sends every decoded table and selected log row in batches, consuming
+more allowance. Undefined BIN regions remain unknown; unavailable tables are
+reported. Preview capture shows the locally available data.
+
+Choose Whole saved log to use the entire CSV without typing its duration.
+Window scopes use the graph selection or cursor; live scope uses the latest
+window. Sparse groups remain separate observations rather than invented samples.
+The editor computes full-scope power, launch/shift candidates, tracking statistics
+and warm cruise estimates before choosing prompt excerpts.
+
+KEEP THE CONVERSATION
+Ask follow-up or Show me the fix continues the selected chat with its history.
+Analyse tables + log updates that chat with the currently loaded BIN/log capture.
+New chat starts another conversation; previous chats remain in History.
+The latest chat is saved locally and restored at restart. Save review/Open saved
+review also preserves its evidence, questions, answers and applied-cell journal.
+ChatGPT website conversations are not imported. Older answers retain their own
+capture basis; follow-ups use the latest capture in the selected editor chat.
+
+USEFUL RESULTS AND PATCHES
+Local results (no allowance) opens calculated power, shift windows, airflow and
+cruise figures without a model/account request. Choose the entire captured scope
+or a detected launch. It requires the loaded BIN/XDF and log, like the main button.
+- Power: a calculated fuel-energy crank-power scenario, usually 40% efficiency
+  with a short range. Airflow checks air/fuel plausibility, not engine efficiency.
+- Shifts: actual logged selector/gear where verified, otherwise time windows and
+  ratio candidates using your stated hardware. Wheel speed alone cannot prove
+  an exact hookup time or true road speed during tyre spin.
+- Economy: warm stable cruise and moving consumption estimates, tracking errors
+  and specific tests. A measured saving needs comparable before/after conditions.
+- Smoothing: axis-aware local shape analysis when requested. A numeric trough
+  alone is not a proven defect or evidence of more boost/power.
+- Patches: the model can stage exact old/new cells. Review/apply cells displays
+  the complete proposal before applying it in memory as one undo step. The
+  current BIN/XDF identity, old values, encoding and gear bindings are rechecked.
+  Save the BIN separately and use your usual checksum/flash workflow. ChatGPT
+  never flashes the ECU. Unverified-function edits and protection bypasses are
+  refused. A staged proposal is not an applied change.
+
+Short questions receive short result bullets. General reviews give the main
+supported problems and fixes. No cosmetic tiny edit is sold as a launch cure.
+
+ALLOWANCE AND CONNECTION
+Manual focused analysis/follow-ups use one model request plus at most two tool
+continuations. Full audits can use additional table/log batches and synthesis.
+Reasoning effort is sent to the service: Low, Medium, High, Extra high or Maximum.
+The model and effort are separate choices; there is no automatic Ultra API tier.
+Automatic tips start disabled and have their own interval/hourly cap. Only
+automatic requests count toward that local cap; manual requests still consume
+your account allowance. Failed/cancelled requests may also consume allowance.
+Manage ChatGPT usage opens the account settings. There is no separately billed
+API-key fallback. No fixed number of edits per allowance can be guaranteed.
+
+Map/log evidence is sent to OpenAI only when analysis is requested or automatic
+tips are enabled. Account tokens use Windows per-user DPAPI protection outside
+the review files. Only one editor process owns the connection store at a time.
+Save work and close the old editor before connecting from the new build.
+Keep the complete portable folder, including _internal, beside the EXE.
+
+COMMUTE / TRACK LOGGING
+The existing economy preset remains available. New launch_traction requests
+RPM, IQ, actual/requested boost, duty, rail pressure, MAF, speed, coolant and the
+CAN-derived ECU torque selector in one coherent 10-channel request group.
+Adding channels can split groups; absent values are not simultaneous readings.
+
+Official implementation references:
+https://developers.openai.com/siwc/token-sharing-open-source/preview-limitations
+https://developers.openai.com/api/docs/guides/function-calling

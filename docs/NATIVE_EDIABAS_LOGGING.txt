@@ -1,0 +1,39 @@
+Direct EDIABAS logging — development source integration
+
+Open Live logging and choose Direct EDIABAS · BMW K-line / K+DCAN.
+The default folder is C:\EDIABAS\BIN. Cable COM-port and ECU-path settings
+come from the installed EDIABAS configuration. D50M47A.PRG must be present
+in its ECU path; this diagnostic file is already installed on this computer.
+Close competing diagnostic tools before connecting.
+
+The editor calls the installed handle-aware __api interface directly. It
+does not launch TestO, Tool32, WinKFP or MPPS for logging. MPPS auto-launch
+defaults to off for new settings and is disabled when direct logging starts.
+Existing user auto-launch preferences apply until then. TestO remains an
+explicit optional connection for older setups.
+
+A worker owns a single EDIABAS session, issues one measurement job at a time,
+and sends the full JA channel selection for every group. Existing profiles,
+graphs and CSV captures are reused. Raw request telegrams must prove the exact
+selection; cached or missing selection evidence stops capture rather than
+labelling stale data. RPM and injection quantity repeat in each group; up to
+ten values are read per request. Each CSV row contains only newly read values.
+
+Stop cancels the active read and closes the session. The GUI keeps its worker
+alive until session and CSV cleanup finish, including during window close.
+Concurrent editor identity reads are rejected by the shared EDIABAS lock.
+
+This removes JSON/WebSocket overhead and integration with an external logging
+application. No speed increase has been measured on hardware. ECU response
+time, K-line bandwidth and the firmware's ten-channel limit still apply.
+
+Programming is not enabled. The existing development connection can read
+identity and review BIN changes. Custom writes still require authentication,
+checksum/signature handling, erase geometry and recovery validation. These
+logging changes do not establish that custom MPC code can be programmed.
+
+Validation uses simulated EDIABAS responses and offscreen GUI tests. No ECU
+communication or flashing was performed. Portable EXE has not been rebuilt.
+
+ABI reference:
+https://github.com/uholeschak/ediabaslib/blob/master/EdiabasLib/Api32/ApiDll.cpp

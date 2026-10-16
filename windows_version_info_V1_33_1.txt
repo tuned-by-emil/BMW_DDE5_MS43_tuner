@@ -1,0 +1,29 @@
+# UTF-8 Windows executable version resource, consumed by PyInstaller.
+VSVersionInfo(
+    ffi=FixedFileInfo(
+        filevers=(1, 33, 1, 0),
+        prodvers=(1, 33, 1, 0),
+        mask=0x3F,
+        flags=0x0,
+        OS=0x40004,
+        fileType=0x1,
+        subtype=0x0,
+        date=(0, 0),
+    ),
+    kids=[
+        StringFileInfo([
+            StringTable("040904B0", [
+                StringStruct("CompanyName", "Emil Larsson"),
+                StringStruct("FileDescription", "BMW Bin Editor"),
+                StringStruct("FileVersion", "1.33.1.0"),
+                StringStruct("InternalName", "BMW_Bin_Editor"),
+                StringStruct("LegalCopyright", "Copyright © 2026 Emil Larsson"),
+                StringStruct("OriginalFilename", "BMW_Bin_Editor_V1_33_1.exe"),
+                StringStruct("ProductName", "BMW Bin Editor"),
+                StringStruct("ProductVersion", "1.33.1"),
+                StringStruct("Comments", "By Emil Larsson"),
+            ]),
+        ]),
+        VarFileInfo([VarStruct("Translation", [0x0409, 1200])]),
+    ],
+)

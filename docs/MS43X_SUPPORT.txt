@@ -1,0 +1,99 @@
+MS43X001 support
+
+Gauge, logging and graph preferences are stored per ECU/software definition profile.
+Existing global preferences are copied once into EDC16C31 361830. The historical
+keys are retained as a backup. New ECUs do not inherit diesel gauge selections.
+Graph layouts remain separate per table type within each ECU profile.
+
+Install your own MS43X001 XDFs and matching ADX locally under definitions/ms43x.
+These third-party files are not distributed in public source or release packages.
+Full/partial XDFs share the same ECU profile. Their base offsets and linked axes
+are normalized before editing. The one unresolved coolant-controller axis link
+in the supplied XDF is marked unverified and displayed with index positions.
+
+Open a BIN and select its matching XDF. With a locally installed definition library,
+matching proposals can also be offered. The reference full image
+and its calibration slice have exact-reference proposals. Modified full images
+can also match unchanged code/axis fingerprints; matching is a proposal to review.
+Other partial files may require selecting their XDF manually.
+
+MS43X Save BIN As and File > Export BIN for flashing select the output from an
+actual comparison against the original opened image, including changes already
+saved in the current editing session:
+- 512 KB image, all changed bytes in 0x70000..0x7FFFF: export 65,536 bytes.
+- Any change before 0x70000: export the full 524,288 bytes.
+- No changes in a full image: retain the full image.
+- Already-partial input: export its 65,536 bytes.
+A full working-image export is also selectable. Export keeps the working image,
+original comparison baseline, undo history and dirty state. Quick Save still
+saves a complete working revision. Partial exports assume the ECU already runs
+the matching full firmware; file comparison does not verify the connected ECU.
+Checksum correction and flashing are not implemented by this export feature.
+
+MS43X live logging now uses the supplied ADX: 96 native/derived value channels
+and 35 digital states. The searchable channel list includes names and units,
+with Engine and throttle response, VE tuning, and All ADX channels presets.
+Custom selections, cable settings and profiles are saved for MS43X separately.
+
+Connection follows the ADX: 9600 8E1, baud request, acknowledgement, then 125000
+8E1 and the extended 0B B0 request. Echo is configurable. For an ECU left at high
+speed after another session, select the already-at-125000 reconnect option.
+Stop attempts the ADX reset-to-9600 sequence and closes the port. Cleanup failure
+is reported explicitly. No engine-off / RPM-zero gate is applied.
+
+Recording creates a CSV, .csv.profile.json metadata and .csv.ds2.jsonl raw trace.
+All use exclusive new filenames. CSV replays in the editor with the MS43X catalog.
+Raw traces include sent/received bytes and baud transitions, including failed
+connections. Preview mode creates none of these files. Timestamps use the
+high-resolution monotonic clock, not ECU acquisition timestamps.
+
+The implementation is tested with simulated packets and cable responses, not
+with the actual vehicle/cable. First-car checks: high baud support, cable echo,
+acknowledgement timing, sensor values against a trusted display, stable sample
+rate, stop/reconnect and confirmation of 9600-baud cleanup. Unknown lookup keys
+are left unavailable instead of extrapolating. VE occupancy tracing is disabled
+until active-table interpolation/filtering is verified; plot Active VE table.
+Only the supplied baud-switch and measurement commands are sent. No ECU reset,
+flash/write command or programming session is involved.
+
+The MS43X-specific documentation explicitly removes the engine-off requirement
+for changing baud rate. Do not apply the stock MS43 RPM == 0 restriction to MS43X001.
+The supplied ADX starts at 9600 baud and requests 125000 baud for its data command.
+Documentation: https://www.ms4x.net/index.php?title=MS43X_Custom_Firmware
+General logging guide: https://www.ms4x.net/index.php?title=TunerPro_Data_Logging
+
+The MS43X navigator uses a separate standalone-style hierarchy: Fuel, Ignition,
+Throttle and pedal, Cam timing, Boost, Engine limiters and other groups. Fuel
+contains VE Table 1..8 and Engine setup > Engine displacement (cc). Drift setup
+contains shortcuts to pedal response, pedal correction rate/duration, dashpot,
+anti-jerk damping and rev limiters. Shortcuts open the same definitions and do not
+apply a preset or change calibration values. Monitoring/diagnostic throttle
+thresholds are not presented as comfort-removal shortcuts.
+
+Displacement is displayed/edited in cc, and VE tables in percent. Inverse scaling
+preserves the original raw representation. Original source files are unchanged.
+Most source definitions lack descriptions. Documented descriptions and curated
+names are shown where available; unresolved names remain visibly undocumented
+instead of being given invented meanings. Original symbols remain searchable
+in tooltips and the XDF editor.
+
+VE table labels read the current selector values and overlap breakpoints. The
+reference file maps tables 1..8 to points 3, 9, 15, 24, 36, 48, 60 and 67.875
+crank degrees of valve overlap. These are selector anchors; the UI does not infer
+exclusive operating bands or between-point switching/blending behavior. Labels
+update after selector/axis edits and undo/redo.
+
+Edit > MS43X drift throttle response preset opens an explicit review before edits.
+It proposes engineering zero for six settings: c_pvs_cor_max_rpl,
+id_tps_req_ltc_gear_at__gear, id_tps_req_ltc_gear_mt__gear,
+ip_pvs_dif_cr_neg__pvs_max__n, ip_iga_aj_ron91__n__maf and
+ip_iga_aj_ron98__n__maf. Every cell shows its current/proposed engineering
+value, file offset and exact stored bytes, including already-satisfied cells.
+Anti-jerk engineering zero encodes as 0x80, not 0x00 (-48 degrees).
+Apply is one undoable in-memory operation; saving/exporting is separate.
+Changed BINs/definitions invalidate old previews; unsupported layouts are rejected.
+Basis: https://www.ms4x.net/index.php?title=Siemens_MS43
+Pedal input and gear closing-correction zero settings are explicitly documented.
+Dashpot factor zero is inferred from the published correction algorithm.
+This is best effort MS43X001 support, not vehicle-validated behavior. It targets
+these comfort corrections; general throttle rate limits remain independent.

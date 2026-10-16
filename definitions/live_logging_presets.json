@@ -1,0 +1,42 @@
+[
+  {
+    "version": 1,
+    "ecu": "D50M47A",
+    "name": "economy",
+    "parameters": [
+      "INMOT",
+      "IMEIA",
+      "IPLAD",
+      "SPLAD",
+      "IALDS",
+      "IPRDR",
+      "ILMMG",
+      "IWHE1",
+      "SMOMO",
+      "IVKMH",
+      "ITKUM",
+      "IDHE1",
+      "ITANS",
+      "SPRDR"
+    ],
+    "interval_ms": 0
+  },
+  {
+    "version": 1,
+    "ecu": "D50M47A",
+    "name": "launch_traction",
+    "parameters": [
+      "INMOT",
+      "IMEIA",
+      "IPLAD",
+      "SPLAD",
+      "IALDS",
+      "IPRDR",
+      "ILMMG",
+      "IVKMH",
+      "Ad_NumTyp_FreeApplic2_CSTR",
+      "ITKUM"
+    ],
+    "interval_ms": 0
+  }
+]

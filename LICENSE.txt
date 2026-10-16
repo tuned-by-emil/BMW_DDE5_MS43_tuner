@@ -1,0 +1,1 @@
+This project is provided for the user's own calibration workflow. Third-party names such as BMW, TunerPro, MaxxECU and MTune are referenced only to describe compatible file formats or familiar keyboard behavior; they are not affiliated with this project.
