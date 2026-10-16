@@ -3,6 +3,8 @@
 The current 361830 definition and eight generated ECU library XDFs are included
 in Git and the installer, with their matching catalog. Original firmware, raw
 A2L/WinOLS packs, disassembly workspaces and intermediate reports are excluded.
+The owner's explicitly selected example BIN and recording are published separately
+under `examples/dde5-361830/`, with download and loading instructions in the README.
 The definitions retain evidence and source hashes. Generation alone does not
 establish redistribution permission for upstream input material; maintainers
 must review those input terms before public distribution.

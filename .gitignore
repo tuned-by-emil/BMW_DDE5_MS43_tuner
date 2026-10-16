@@ -48,5 +48,7 @@ definitions/ms43x/*
 !definitions/ms43x/NOTICE.md
 !definitions/ms43x/Siemens_MS43_MS43X001_512K.xdf
 !definitions/ms43x/Siemens_MS43_MS43X001_64K.xdf
+!examples/dde5-361830/20261012.bin
+!examples/dde5-361830/Live_D50M47A_20261016_132417.csv
 *.exe
 !assets/ols/ols_dump.exe

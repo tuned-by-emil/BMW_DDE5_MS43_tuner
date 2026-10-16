@@ -8,6 +8,9 @@ import sys
 sys.path.insert(0, str(ROOT))
 from public_build_resources import PUBLIC_GENERATED, PUBLIC_DEFINITIONS
 GENERATED = {'definitions/' + name for name in PUBLIC_GENERATED + PUBLIC_DEFINITIONS}
+# Exact owner-selected example files. Other local BINs/logs remain excluded.
+PUBLIC_EXAMPLES = {'examples/dde5-361830/20261012.bin',
+                   'examples/dde5-361830/Live_D50M47A_20261016_132417.csv'}
 FORBIDDEN = {'.bin', '.fls', '.mpc', '.hex', '.ols', '.a2l', '.xdf', '.adx',
              '.csv', '.key', '.pem', '.pfx', '.zip'}
 PREFIXES = ('mpps/', 'mappacks/', 'local_resources/', 'definitions/library/',
@@ -23,7 +26,7 @@ def check():
     for relative in paths:
         name = relative.as_posix()
         lower = name.lower()
-        if ((lower.startswith(PREFIXES) or relative.suffix.lower() in FORBIDDEN) and name not in GENERATED
+        if ((lower.startswith(PREFIXES) or relative.suffix.lower() in FORBIDDEN) and name not in GENERATED | PUBLIC_EXAMPLES
                 or 'disassembly_handoff' in lower
                 or (relative.suffix.lower() == '.exe' and lower != 'assets/ols/ols_dump.exe')):
             issues.append('Excluded reference/artifact in Git: ' + name)

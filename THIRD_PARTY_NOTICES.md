@@ -19,5 +19,6 @@ calibration descriptions; see `docs/LOCAL_RESOURCES.md` for provenance limits.
 The MS4x Dev Team's MS43X001 full/partial XDFs and logging ADX are included under
 GPL-3.0; see `definitions/ms43x/NOTICE.md` and `third_party/license_texts/GPL-3.0.txt`.
 They are excluded from any editor-specific no-resale terms.
-Firmware, map packs, MPPS and disassembly
-are excluded. Project licence terms do not override third-party rights.
+An owner-selected BIN and log are shared as examples under `examples/dde5-361830/`.
+Other firmware, map packs, MPPS and disassembly are excluded.
+Project licence terms do not override third-party rights.

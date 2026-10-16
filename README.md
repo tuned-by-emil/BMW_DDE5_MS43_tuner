@@ -28,6 +28,24 @@ The matching `.sha256` file lets you verify the download:
 Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.3_Setup.exe -Algorithm SHA256
 ```
 
+## Try Emil's BIN and recorded log
+
+Explore the editor using these **EDC16C31 / Bosch software 1037361830** examples:
+
+| File | Description | Download |
+| --- | --- | --- |
+| `20261012.bin` | Emil's 1 MiB calibration image, matched to the included 361830 XDF | [Download BIN](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/20261012.bin) |
+| `Live_D50M47A_20261016_132417.csv` | Recorded 16 October 2026; 6,294 samples over about 12 min 15 sec | [Download log](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/Live_D50M47A_20261016_132417.csv) |
+
+Open the BIN with **File > Open BIN** and select the proposed **EDC16C31 361830**
+definition. Use **Open TestO Log** to load the CSV, then explore playback, graphs
+and gauges. Recorded channels include RPM, injection quantity, boost pressure,
+rail pressure, air mass, injection timing, speed and temperatures.
+
+These downloads are examples for offline exploration. Confirm your own ECU and
+software compatibility before using calibration changes. They are downloaded
+separately from the installer. See [example details and SHA-256 checksums](examples/dde5-361830/README.md).
+
 ## First use
 
 The editor starts without a BIN loaded. Open your own BIN through **File**, then
@@ -36,8 +54,9 @@ review the matching definition proposal or choose an XDF yourself. The current
 included**. A suggestion is not proof that the selected definition matches your ECU.
 
 Use **Save/export** to write changes. Undo/Redo operates on the open document.
-No original firmware images, raw map packs, disassembly dumps or MPPS software
-are included. **MPPS auto-start has been removed.**
+The example BIN and recorded log above are included in the source repository.
+Raw map packs, disassembly dumps and MPPS software are excluded.
+**MPPS auto-start has been removed.**
 
 ## Features
 

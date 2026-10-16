@@ -11,3 +11,5 @@
 *.ico -text
 *.xdf -text
 *.adx -text
+examples/dde5-361830/*.bin -text
+examples/dde5-361830/*.csv -text
