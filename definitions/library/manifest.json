@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "description": "Current generated ECU definitions; original firmware and raw map packs are not included.",
+  "description": "Generated ECU definitions and separately licensed MS4X definitions; no firmware images included.",
   "entries": [
     {
       "key": "retained-361830",
@@ -2623,6 +2623,306 @@
       },
       "import_report": "EDC16C31 361888.import.json",
       "skipped_objects": 117
+    },
+    {
+      "key": "ms43x001-512k",
+      "title": "MS43X001 M54B30 EU4 LHD (512K)",
+      "xdf": "../ms43x/Siemens_MS43_MS43X001_512K.xdf",
+      "xdf_sha256": "d4311e9dff6258887370880db8ffebc517fb0f24614d32cd940ab35ed12e302e",
+      "byte_length": 524288,
+      "byte_order": "little",
+      "usable": true,
+      "map_count": 3772,
+      "table_count": 1479,
+      "layout": "MS43X001 512K full flash",
+      "original_sha256": [
+        "16aac25494b691c6a405ca5336f274804203278a8dede02dd770c897b71f7e44"
+      ],
+      "software_identifiers": [],
+      "axis_fingerprints": [
+        {
+          "offset": 475137,
+          "length": 10,
+          "sha256": "1f825aa2f0020ef7cf91dfa30da4668d791c5d4824fc8e41354b89ec05795ab3"
+        },
+        {
+          "offset": 475148,
+          "length": 16,
+          "sha256": "5adfeedef44dc231a977f9de5d84c67b7bff904ba9345ae388d24d87c2a6b019"
+        },
+        {
+          "offset": 475217,
+          "length": 8,
+          "sha256": "224515c05cf93c62368fb1037ba16b83aa8b2b5c8a9a75b264280db2418395ff"
+        },
+        {
+          "offset": 475208,
+          "length": 8,
+          "sha256": "c15ea531040d7fa8d9619095c98849a68315dbcddf4f77e1564a1825150fbc97"
+        },
+        {
+          "offset": 475233,
+          "length": 16,
+          "sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e"
+        },
+        {
+          "offset": 475262,
+          "length": 8,
+          "sha256": "a09cb4a57fdd5fdf7bc3019691266647e475475c8bccccda8d49fe967217c23a"
+        },
+        {
+          "offset": 475314,
+          "length": 16,
+          "sha256": "be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991"
+        },
+        {
+          "offset": 475297,
+          "length": 16,
+          "sha256": "3efad976b6cadb87c7da03753e8b485335cb19111f23a0c5aea321094cac8629"
+        },
+        {
+          "offset": 475331,
+          "length": 16,
+          "sha256": "be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991"
+        },
+        {
+          "offset": 478032,
+          "length": 28,
+          "sha256": "cf63f34cd7d50c40765fbee5c4cbd1bfaa436d9bdd6f3ea9148c1a7653d2f62e"
+        },
+        {
+          "offset": 475413,
+          "length": 14,
+          "sha256": "ab107f1bd632d3c3f5c724a99d024f7faa033f33c07696384b604bfe78ac352d"
+        },
+        {
+          "offset": 478062,
+          "length": 32,
+          "sha256": "7f048a3d323ed66b5c92eba38a505c6ea0a00f0e36df722b8489ca0c62e54ee2"
+        },
+        {
+          "offset": 478096,
+          "length": 16,
+          "sha256": "d1b824ea0d1f581afe7ec3d15ba11affbf6aeec6f269572dace0eb680e98bdb9"
+        },
+        {
+          "offset": 475437,
+          "length": 8,
+          "sha256": "8a87c6a3029f02f7340c3641129a7f1e8fc25e1bb88870798d84451f79a58642"
+        },
+        {
+          "offset": 475428,
+          "length": 8,
+          "sha256": "4e451f93f8235923c1b1dc6db830d015c403e27613833428e33e1982295dfdcf"
+        },
+        {
+          "offset": 475463,
+          "length": 16,
+          "sha256": "be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991"
+        }
+      ],
+      "code_fingerprints": [
+        {
+          "offset": 65536,
+          "length": 4096,
+          "sha256": "a2435b850aae010eb71e82bc3f5b21b0ee138f5991a8f84631051074f0d20618"
+        },
+        {
+          "offset": 90112,
+          "length": 4096,
+          "sha256": "55e16d3d267e05af1c05cee041faba64fe885347d5fd24718d2eb61a8f991ca9"
+        },
+        {
+          "offset": 114688,
+          "length": 4096,
+          "sha256": "99e4eda3aea3a33c75e4cd42c35075e74485e05fd5c6f8c610725ec196661b79"
+        },
+        {
+          "offset": 139264,
+          "length": 4096,
+          "sha256": "b9ebc98a37e632089addbf11dbcd34b369d25bbb6bdb3fbe21319005ca2fefcc"
+        },
+        {
+          "offset": 163840,
+          "length": 4096,
+          "sha256": "46a245b8f23f255c28d4347f8a809cac77f718afa552c1eae4b0dd82622827db"
+        },
+        {
+          "offset": 188416,
+          "length": 4096,
+          "sha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6"
+        },
+        {
+          "offset": 212992,
+          "length": 4096,
+          "sha256": "9e7ba6db77858803a2876dc7d0e2c33cb4d320f44022092f516088144abf2d53"
+        },
+        {
+          "offset": 237568,
+          "length": 4096,
+          "sha256": "49061ed203e6989b3a6983ceef01954b9ab98cfd4694229683a5b949a10d03d8"
+        },
+        {
+          "offset": 262144,
+          "length": 4096,
+          "sha256": "28ee2bfa2cd2f411a88f655f0d98bd860cbb2a9db2698c61a1905f32e01ed944"
+        },
+        {
+          "offset": 286720,
+          "length": 4096,
+          "sha256": "e9dc95804fe22738ba1a86963ea44432bfe6898fdf89f4e71f1d24d7c48e5405"
+        },
+        {
+          "offset": 311296,
+          "length": 4096,
+          "sha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6"
+        },
+        {
+          "offset": 335872,
+          "length": 4096,
+          "sha256": "59913e4703d2518d2a90c00cd079a2a965130316be1acfa84bbc745867b1f695"
+        },
+        {
+          "offset": 360448,
+          "length": 4096,
+          "sha256": "dd29f0762f1fbe885492e6b86e5807c3d27332a3fa9b8d2580e0ceb18b1ebe83"
+        },
+        {
+          "offset": 385024,
+          "length": 4096,
+          "sha256": "f3825029bb97ee3fa9ed4bcfdd77ca3f5bd0d4ae5bfc7eb35142be97b6d062fb"
+        },
+        {
+          "offset": 409600,
+          "length": 4096,
+          "sha256": "99035e21cf9c27b2f7c56759d6bbfaf55c0741eca2e9ad28ddc1bad94bae5870"
+        },
+        {
+          "offset": 434176,
+          "length": 4096,
+          "sha256": "3a648523f3fce8c2f2d99119ae6d3bf935101e461a3211b3fdd6c6f74e20ec53"
+        }
+      ],
+      "family": "ms43x001",
+      "identity_anchors": [
+        {
+          "offset": 458760,
+          "bytes": "343358303031"
+        },
+        {
+          "offset": 458816,
+          "bytes": "63613433583030312e444154"
+        }
+      ]
+    },
+    {
+      "key": "ms43x001-64k",
+      "title": "MS43X001 M54B30 EU4 LHD (64K)",
+      "xdf": "../ms43x/Siemens_MS43_MS43X001_64K.xdf",
+      "xdf_sha256": "9249ad5d62217f5ba6113433c5d8b065bbd341bbc8b839765865eee6ed32a95a",
+      "byte_length": 65536,
+      "byte_order": "little",
+      "usable": true,
+      "map_count": 3772,
+      "table_count": 1479,
+      "layout": "MS43X001 64K calibration, full-image offsets 0x70000\u00e2\u20ac\u201c0x7FFFF",
+      "original_sha256": [
+        "6f83037a1be52124e6977d8db346cf535aa48f5e6ee6a68483b7ceea452cfc42"
+      ],
+      "software_identifiers": [],
+      "axis_fingerprints": [
+        {
+          "offset": 16385,
+          "length": 10,
+          "sha256": "1f825aa2f0020ef7cf91dfa30da4668d791c5d4824fc8e41354b89ec05795ab3"
+        },
+        {
+          "offset": 16396,
+          "length": 16,
+          "sha256": "5adfeedef44dc231a977f9de5d84c67b7bff904ba9345ae388d24d87c2a6b019"
+        },
+        {
+          "offset": 16465,
+          "length": 8,
+          "sha256": "224515c05cf93c62368fb1037ba16b83aa8b2b5c8a9a75b264280db2418395ff"
+        },
+        {
+          "offset": 16456,
+          "length": 8,
+          "sha256": "c15ea531040d7fa8d9619095c98849a68315dbcddf4f77e1564a1825150fbc97"
+        },
+        {
+          "offset": 16481,
+          "length": 16,
+          "sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e"
+        },
+        {
+          "offset": 16510,
+          "length": 8,
+          "sha256": "a09cb4a57fdd5fdf7bc3019691266647e475475c8bccccda8d49fe967217c23a"
+        },
+        {
+          "offset": 16562,
+          "length": 16,
+          "sha256": "be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991"
+        },
+        {
+          "offset": 16545,
+          "length": 16,
+          "sha256": "3efad976b6cadb87c7da03753e8b485335cb19111f23a0c5aea321094cac8629"
+        },
+        {
+          "offset": 16579,
+          "length": 16,
+          "sha256": "be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991"
+        },
+        {
+          "offset": 19280,
+          "length": 28,
+          "sha256": "cf63f34cd7d50c40765fbee5c4cbd1bfaa436d9bdd6f3ea9148c1a7653d2f62e"
+        },
+        {
+          "offset": 16661,
+          "length": 14,
+          "sha256": "ab107f1bd632d3c3f5c724a99d024f7faa033f33c07696384b604bfe78ac352d"
+        },
+        {
+          "offset": 19310,
+          "length": 32,
+          "sha256": "7f048a3d323ed66b5c92eba38a505c6ea0a00f0e36df722b8489ca0c62e54ee2"
+        },
+        {
+          "offset": 19344,
+          "length": 16,
+          "sha256": "d1b824ea0d1f581afe7ec3d15ba11affbf6aeec6f269572dace0eb680e98bdb9"
+        },
+        {
+          "offset": 16685,
+          "length": 8,
+          "sha256": "8a87c6a3029f02f7340c3641129a7f1e8fc25e1bb88870798d84451f79a58642"
+        },
+        {
+          "offset": 16676,
+          "length": 8,
+          "sha256": "4e451f93f8235923c1b1dc6db830d015c403e27613833428e33e1982295dfdcf"
+        },
+        {
+          "offset": 16711,
+          "length": 16,
+          "sha256": "be45cb2605bf36bebde684841a28f0fd43c69850a3dce5fedba69928ee3a8991"
+        }
+      ],
+      "family": "ms43x001",
+      "identity_anchors": [
+        {
+          "offset": 8,
+          "bytes": "343358303031"
+        },
+        {
+          "offset": 64,
+          "bytes": "63613433583030312e444154"
+        }
+      ]
     }
   ]
 }

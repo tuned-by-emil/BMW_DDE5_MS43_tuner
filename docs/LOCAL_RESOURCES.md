@@ -7,10 +7,12 @@ The definitions retain evidence and source hashes. Generation alone does not
 establish redistribution permission for upstream input material; maintainers
 must review those input terms before public distribution.
 
-The MS43X001 ADX logging definition is included under its upstream GPL-3.0
-licence, with attribution in `definitions/ms43x/NOTICE.md`. Your matching MS43X
-XDF remains a separate local resource: open it through File. On an installed
-copy, `current-app.txt` under the install root identifies the app directory.
+The MS43X001 512K/64K XDFs and ADX logging definition are included under their
+upstream GPL-3.0 licence, with attribution in `definitions/ms43x/NOTICE.md`.
+Validated MS43X001 BINs select their matching XDF automatically, including
+edited calibration reads with matching version markers and axis layout.
+On an installed copy, `current-app.txt` under the install root identifies the
+app directory. Unsupported firmware versions still require their own XDF.
 Source: https://www.ms4x.net/index.php?title=TunerPro_Data_Logging.
 
 Optional hardware/integration fixtures belong under ignored `local_resources/`:

@@ -169,6 +169,17 @@ def propose_matches(data: bytes, root: Path | str | None = None,
         # evidence. Full-image hashes are only the strongest optional shortcut.
         code_match = code_total >= 8 and code_ok >= (code_total * 3 + 3) // 4
         axes_match = axes_total >= 8 and axes_ok >= (axes_total * 2 + 2) // 3
+        if record.get('family') == 'ms43x001':
+            # Calibration-only reads have no executable code. Require both
+            # version markers and independent layout evidence; size alone is
+            # never sufficient, and edited table cells need not match a hash.
+            if record.get('identity_anchors') and axes_match and (entry.size == 0x10000 or code_match):
+                reasons = ['MS43X001 calibration version markers match.',
+                           f'Unchanged axis-layout fingerprints: {axes_ok}/{axes_total}.']
+                if entry.size != 0x10000:
+                    reasons.append(f'Unchanged executable-code fingerprints: {code_ok}/{code_total}.')
+                matches.append(DefinitionMatch(entry, entry.path, 93, 'MS43X001 version and layout match', reasons))
+            continue
         if not (code_match and axes_match):
             continue
         if expected_ids and not id_ok:

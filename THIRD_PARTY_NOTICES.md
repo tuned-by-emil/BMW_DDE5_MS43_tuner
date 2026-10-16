@@ -16,8 +16,8 @@
 The nine generated XDFs listed in `public_build_resources.py` are included in
 source and setup. Conversion does not establish ownership of underlying
 calibration descriptions; see `docs/LOCAL_RESOURCES.md` for provenance limits.
-The MS4x Dev Team's MS43X001 logging ADX is also included, unmodified under
+The MS4x Dev Team's MS43X001 full/partial XDFs and logging ADX are included under
 GPL-3.0; see `definitions/ms43x/NOTICE.md` and `third_party/license_texts/GPL-3.0.txt`.
-It is excluded from any editor-specific no-resale terms.
-Original MS43X supplier XDF files, firmware, map packs, MPPS and disassembly
+They are excluded from any editor-specific no-resale terms.
+Firmware, map packs, MPPS and disassembly
 are excluded. Project licence terms do not override third-party rights.

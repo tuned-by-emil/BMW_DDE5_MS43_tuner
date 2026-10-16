@@ -45,10 +45,10 @@ The repository's current project-wide licence remains undecided. A no-resale
 licence draft is separate from third-party licences. This document records
 engineering findings; it is not a legal clearance opinion.
 
-The separately supplied MS43X001 ADX is unmodified MS4X GPL-3.0 source data.
+The separately supplied MS43X001 full/partial XDFs and ADX are MS4X GPL-3.0 source data.
 Its upstream author, pinned source and licence are recorded in
 `definitions/ms43x/NOTICE.md`. Editor-specific restrictions cannot restrict
-recipients' GPL rights in that ADX, including commercial redistribution.
+recipients' GPL rights in those definitions, including commercial redistribution.
 
 ## Primary references
 

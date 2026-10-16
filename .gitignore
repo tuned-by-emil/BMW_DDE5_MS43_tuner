@@ -46,5 +46,7 @@ definitions/library/*
 definitions/ms43x/*
 !definitions/ms43x/Siemens_MS43_MS43X001_Logging.adx
 !definitions/ms43x/NOTICE.md
+!definitions/ms43x/Siemens_MS43_MS43X001_512K.xdf
+!definitions/ms43x/Siemens_MS43_MS43X001_64K.xdf
 *.exe
 !assets/ols/ols_dump.exe

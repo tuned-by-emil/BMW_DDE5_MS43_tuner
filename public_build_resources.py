@@ -2,6 +2,8 @@
 PUBLIC_DEFINITIONS = ('direct_serial_parameters.json', 'live_logging_presets.json',
                       'live_parameters.json', 'testo_signals.tsv',
                       'ms43x/Siemens_MS43_MS43X001_Logging.adx', 'ms43x/NOTICE.md')
+PUBLIC_DEFINITIONS += ('ms43x/Siemens_MS43_MS43X001_512K.xdf',
+                       'ms43x/Siemens_MS43_MS43X001_64K.xdf')
 PUBLIC_ASSETS = ('editor.ico', 'editor.png', 'editor.svg', 'ols/ols_dump.exe')
 PUBLIC_GENERATED = ('EDC16C31 361830.xdf', 'library/EDC16 369821.xdf',
     'library/EDC16 372066.xdf', 'library/EDC16C31 361888.xdf',

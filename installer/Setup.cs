@@ -25,6 +25,7 @@ class Setup : Form {
     static string root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "BMW_DDE5_MS43_Tuner");
 
     Setup() {
+        Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         Text = "BMW DDE5 MS43 Tuner Setup"; ClientSize = new Size(680, 470);
         StartPosition = FormStartPosition.CenterScreen;
         FormBorderStyle = FormBorderStyle.FixedDialog; MaximizeBox = false;

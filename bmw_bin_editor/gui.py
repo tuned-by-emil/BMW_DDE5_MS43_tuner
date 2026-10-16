@@ -4294,7 +4294,9 @@ class MainWindow(QMainWindow):
         if is_ms43x(self.xdf):
             try:
                 database_for_size(self.xdf, len(data))
-                return True
+                base = 0x70000 if len(data) == 0x80000 else 0
+                return (data[base + 8:base + 14] == b'43X001'
+                        and data[base + 64:base + 76] == b'ca43X001.DAT')
             except EditorError:
                 return False
         size = len(data)
@@ -4329,6 +4331,12 @@ class MainWindow(QMainWindow):
     def _choose_bin_definition(self, data, path, *, require_proposal=False):
         matches = propose_matches(data)
         compatible = self._current_xdf_compatible(data, matches)
+        if (not require_proposal and len(matches) == 1 and matches[0].score >= 93
+                and matches[0].entry.metadata.get('family') == 'ms43x001'):
+            if compatible and is_ms43x(self.xdf):
+                return self.xdf, self.current_xdf_path, 'Detected MS43X001; kept current matching XDF.'
+            database = XDFDatabase(matches[0].path)
+            return database, database.path, 'Automatically loaded matching MS43X001 XDF.'
         if matches:
             dialog = DefinitionProposalDialog(data, Path(path).name, matches, self.xdf, compatible, self)
             if dialog.exec() != QDialog.Accepted:
@@ -4974,11 +4982,14 @@ class MainWindow(QMainWindow):
 
 
 def run() -> int:
+    if sys.platform == 'win32':
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('EmilLarsson.BMWDDE5MS43Tuner')
     app = QApplication(sys.argv)
     app.setApplicationName(APP_NAME)
     app.setApplicationVersion(__version__)
     app.setOrganizationName(APP_AUTHOR)
-    icon = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[1])) / "assets" / "editor.svg"
+    icon = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[1])) / "assets" / "editor.ico"
     app.setWindowIcon(QIcon(str(icon)))
     win = MainWindow()
     win.showMaximized()

@@ -6,7 +6,7 @@ review CSV logs, configure gauges and keep logging/graph profiles separate by EC
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.33.1_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.33.2_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -21,7 +21,7 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.1_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.2_Setup.exe -Algorithm SHA256
 ```
 
 ## First use
@@ -47,8 +47,10 @@ are included. **MPPS auto-start has been removed.**
 | Drift response | Preview six comfort-response settings cell by cell, then apply as one Undo step |
 | Analysis | Local log analysis and optional ChatGPT sign-in with explicit patch review |
 
-MS43X requires your own matching XDF. The MS43X001 ADX logging definition is
-included separately under MS4X's GPL-3.0 licence, with attribution and source.
+MS43X001 full and 64 KB XDFs and its ADX logging definition are included under
+MS4X's GPL-3.0 licence, with attribution and source. Opening a recognized MS43X001
+BIN automatically loads the matching full or partial XDF. Detection requires
+matching software/layout evidence; unrelated or ambiguous images remain manual.
 See [resource setup](docs/LOCAL_RESOURCES.md) and
 [MS43X support](docs/MS43X_SUPPORT.txt).
 

@@ -17,10 +17,10 @@ class PublicCheckoutTests(unittest.TestCase):
     def test_build_data_allowlist_ignores_installed_reference_packs(self):
         data = public_data(ROOT)
         names = [Path(source).suffix.lower() for source, _ in data]
-        self.assertEqual(names.count('.xdf'), 9)
+        self.assertEqual(names.count('.xdf'), 11)
         self.assertEqual(names.count('.adx'), 1)
         self.assertTrue(all(Path(source).is_file() for source, _ in data))
-        self.assertEqual(len(data), 20)
+        self.assertEqual(len(data), 22)
 
     def test_missing_local_resources_keep_startup_and_ms43_editor_available(self):
         with tempfile.TemporaryDirectory() as temp:

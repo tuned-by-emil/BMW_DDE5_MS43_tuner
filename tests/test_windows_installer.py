@@ -40,7 +40,7 @@ class PayloadTests(unittest.TestCase):
 
     def test_public_payload_contains_generated_definitions_without_runtime_binaries(self):
         names = [p.relative_to(ROOT).as_posix() for p in payload_files()]
-        self.assertEqual(sum(name.endswith('.xdf') for name in names), 9)
+        self.assertEqual(sum(name.endswith('.xdf') for name in names), 11)
         self.assertIn('definitions/EDC16C31 361830.xdf', names)
         self.assertEqual(sum(name.endswith('.adx') for name in names), 1)
         self.assertFalse(any(name.lower().endswith(('.dll', '.pyd', '.whl', '.bin')) for name in names))
