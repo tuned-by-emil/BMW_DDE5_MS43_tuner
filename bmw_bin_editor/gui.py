@@ -90,6 +90,7 @@ from .logdata import (
 from . import APP_NAME, APP_AUTHOR, __version__
 from .settings import editor_settings, ECUSettings
 from .ms43 import is_ms43x, database_for_size, export_plan, export_binary
+from .dde5_labels import table_name as dde5_table_name
 from .ms43_navigation import is_ms43_definition, readable_name, category_path, drift_shortcuts, ve_selection_labels
 from .ms43_help import setting_tooltip, help_text as ms43_help_text, GROUP_HELP, tooltip_html
 from .bin_analysis import bin_metadata
@@ -153,26 +154,16 @@ def short_map_name(definition: CalibrationDefinition) -> str:
     """Compact navigator title; full audit/XDF title remains in tooltips/info."""
     if is_ms43_definition(definition):
         return readable_name(definition)
-    addr = int(definition.z_address)
-    fixed = {
-        0xF7F44: "N75 A", 0xF8478: "N75 C", 0xF86BC: "N75 D", 0xF8900: "N75 B", 0xFA3DC: "N75 upper bound",
-        0xF9394: "Boost Target A", 0xF95D8: "Boost Target B", 0xF981C: "Boost Target C",
-        0xE77D2: "Lambda A", 0xE7A16: "Lambda B",
-        0xE80EA: "TQ2IQ A", 0xE832E: "TQ2IQ B", 0xE8572: "TQ2IQ C",
-        0xEC71C: "Pilot 1 angle separation", 0xEEBE8: "Pilot 1 quantity", 0xEF114: "Pilot qty bit 0x20", 0xF1A36: "Pilot qty bit 0x40",
-        0xEA80C: "SOI A", 0xEAA50: "SOI B", 0xEAC94: "SOI C", 0xEAED8: "SOI D", 0xEB11C: "SOI E",
-        0xE9408: "TQ Limit Shift", 0xE95F2: "TQ Limit 5", 0xE945A: "TQ Limit 1", 0xE958C: "TQ Limit 4",
-        0xE96BE: "TQ Limit R", 0xE94C0: "TQ Limit 2", 0xE9658: "TQ Limit 6", 0xE9526: "TQ Limit 3",
-    }
-    if addr in fixed and definition.profile_id == '361830' and not definition.discovery_unverified:
-        return f"0x{addr:X} {fixed[addr]}"
+    english = dde5_table_name(definition)
+    if english:
+        return english
     title = re.sub(r"^0x[0-9A-Fa-f]+\s*", "", definition.title or "")
     title = re.sub(r"\[[A-Z]{2}\]\s*", "", title)
     title = re.sub(r"^(BOOST CTRL|BOOST|FUEL/AIR LIMITER|FUEL|AIR|RAIL)\s*[-—:]\s*", "", title, flags=re.I)
     title = re.sub(r"\s+", " ", title).strip(" -—:")
     if len(title) > 42:
         title = title[:39].rstrip() + "…"
-    return f"0x{addr:X} {title or definition.category or 'Table'}"
+    return title or definition.category or 'Table'
 
 
 def short_signal_name(signal: str) -> str:
@@ -580,7 +571,7 @@ class InfoPanel(QWidget):
             self.desc.setToolTip("")
             self.title.setToolTip("")
             return
-        self.title.setText(f"<b>{readable_name(d) if is_ms43_definition(d) else d.title}</b>")
+        self.title.setText(f"<b>{short_map_name(d)}</b>")
         self.title.setToolTip(tooltip_html(setting_tooltip(d)) if is_ms43_definition(d) else d.title)
         self.meta.setText(
             f"Z: 0x{d.z_address:06X}    Size: {d.rows} x {d.cols}\n"
@@ -3884,10 +3875,13 @@ class MainWindow(QMainWindow):
         self.current_xdf_path: Path | None = None
 
         self.search = QLineEdit()
-        self.search.setPlaceholderText("Filter maps…")
+        self.search.setPlaceholderText("Search names or addresses…")
         self.search.textChanged.connect(self.filter_tree)
         self.tree = QTreeWidget()
-        self.tree.setHeaderHidden(True)
+        self.tree.setHeaderLabels(['Name', 'Address'])
+        self.tree.header().setStretchLastSection(False)
+        self.tree.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.tree.header().setSectionResizeMode(1, QHeaderView.ResizeToContents)
         self.tree.itemActivated.connect(self.open_tree_item)
         self.tree.itemClicked.connect(self.open_tree_item)
         all_page = QWidget()
@@ -3895,10 +3889,13 @@ class MainWindow(QMainWindow):
         all_layout.addWidget(self.search); all_layout.addWidget(self.tree)
 
         self.favorite_search = QLineEdit()
-        self.favorite_search.setPlaceholderText("Filter favorites…")
+        self.favorite_search.setPlaceholderText("Search favorite names or addresses…")
         self.favorite_search.textChanged.connect(self.filter_favorites)
         self.favorite_tree = QTreeWidget()
-        self.favorite_tree.setHeaderHidden(True)
+        self.favorite_tree.setHeaderLabels(['Name', 'Address'])
+        self.favorite_tree.header().setStretchLastSection(False)
+        self.favorite_tree.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.favorite_tree.header().setSectionResizeMode(1, QHeaderView.ResizeToContents)
         self.favorite_tree.itemActivated.connect(self.open_tree_item)
         self.favorite_tree.itemClicked.connect(self.open_tree_item)
         fav_page = QWidget()
@@ -4836,11 +4833,17 @@ class MainWindow(QMainWindow):
         for d in sorted(self.xdf.definitions, key=lambda x: (x.category.casefold(), x.z_address, x.title.casefold())):
             group = groups.get(d.category)
             if group is None:
-                group = QTreeWidgetItem([d.category])
+                category_names = {'SOI': 'Injection timing', 'Nm to IQ': 'Torque to fuel quantity',
+                                  'N75': 'Turbo control', 'Air Maf': 'Air and EGR',
+                                  'Gear': 'Gear torque limits', 'Injector Cal': 'Injector calibration',
+                                  'Misc': 'Other settings', 'Boost Closed Loop [CC]': 'Shared controller (unverified)',
+                                  'Rail Closed Loop [CC]': 'Rail pressure controller'}
+                category = category_names.get(d.category, d.category) if d.profile_id == '361830' else d.category
+                group = QTreeWidgetItem([category])
                 group.setFlags(group.flags() & ~Qt.ItemIsSelectable)
                 self.tree.addTopLevelItem(group)
                 groups[d.category] = group
-            item = QTreeWidgetItem([short_map_name(d)])
+            item = QTreeWidgetItem([short_map_name(d), f'0x{d.z_address:X}'])
             item.setData(0, Qt.UserRole, d.unique_id or f"{d.kind}:{d.z_address:X}")
             cats = " → ".join(d.categories) if d.categories else d.category
             item.setToolTip(0, f"{d.title}\n0x{d.z_address:06X} — {d.rows}x{d.cols} — {cats}\n{d.description or ''}")
@@ -4866,7 +4869,7 @@ class MainWindow(QMainWindow):
                       "Configuration", "Diagnostics", "Advanced"):
             group_for((group,))
         def add(d, path):
-            item = QTreeWidgetItem([readable_name(d)])
+            item = QTreeWidgetItem([readable_name(d), f'0x{d.z_address:X}'])
             item.setData(0, Qt.UserRole, d.unique_id or f"{d.kind}:{d.z_address:X}")
             item.setToolTip(0, tooltip_html(setting_tooltip(d)))
             group_for(path).addChild(item)
@@ -4902,7 +4905,7 @@ class MainWindow(QMainWindow):
             return
         definitions = [d for d in self.xdf.definitions if definition_key(d) in self.favorites]
         for d in sorted(definitions, key=lambda x: (x.category.casefold(), x.title.casefold(), x.z_address)):
-            item = QTreeWidgetItem([f"★ {short_map_name(d)}"])
+            item = QTreeWidgetItem([f"★ {short_map_name(d)}", f'0x{d.z_address:X}'])
             item.setData(0, Qt.UserRole, d.unique_id or f"{d.kind}:{d.z_address:X}")
             cats = " → ".join(d.categories) if d.categories else d.category
             item.setToolTip(0, f"{d.title}\n0x{d.z_address:06X} — {d.rows}x{d.cols} — {cats}\n{d.description or ''}")
@@ -4919,13 +4922,14 @@ class MainWindow(QMainWindow):
         needle = text.casefold().strip()
         for i in range(self.favorite_tree.topLevelItemCount()):
             item = self.favorite_tree.topLevelItem(i)
-            searchable = (item.text(0) + " " + item.toolTip(0)).casefold()
+            searchable = (' '.join(item.text(column) for column in range(self.favorite_tree.columnCount())) + " " + item.toolTip(0)).casefold()
             item.setHidden(bool(needle and needle not in searchable))
 
     def filter_tree(self, text: str):
         needle = text.casefold().strip()
         def visit(item, parent_matches=False):
-            matches = parent_matches or not needle or needle in (item.text(0) + " " + item.toolTip(0)).casefold()
+            searchable = ' '.join(item.text(column) for column in range(self.tree.columnCount())) + ' ' + item.toolTip(0)
+            matches = parent_matches or not needle or needle in searchable.casefold()
             if item.childCount():
                 visible = [visit(item.child(i), matches) for i in range(item.childCount())]
                 show = any(visible)

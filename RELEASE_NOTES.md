@@ -1,12 +1,19 @@
-# BMW DDE5 MS43 Tuner 1.33.4 — Windows x64
+# BMW DDE5 MS43 Tuner 1.33.5 — Windows x64
 
-Run **BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe**. Setup downloads private Python
+Run **BMW_DDE5_MS43_Tuner_1.33.5_Setup.exe**. Setup downloads private Python
 from python.org and verified runtime libraries from PyPI. Internet is required.
 It installs for the current Windows user, adds a Start menu shortcut, offers a
 desktop shortcut and registers an uninstaller in Installed apps. System Python
 is unchanged. The installer is unsigned.
 
 - Current 361830 definition plus eight generated ECU library XDFs.
+- Readable English display names for all 251 retained 361830 definitions,
+  with original evidence in tooltips and unverified labels preserved.
+- Table navigator and Favorites: separate searchable Name and Address columns.
+- DDE5 logger: English name, original BMW result name and hex code columns,
+  searchable alongside original descriptions and argument names. All 210
+  parameters have English names; units and capture groups remain in tooltips.
+- Existing calibration addresses, XDF source, channel IDs and profiles retained.
 - MS43X001 full/64 KB XDFs and logging ADX under their upstream GPL-3.0 licence.
 - Automatic XDF loading for a uniquely validated MS43X001 BIN, including
   edited 64 KB calibration reads with matching version and layout evidence.

@@ -1,6 +1,7 @@
 """D50M47A logging profiles, capture, setup and TestO transport."""
 from __future__ import annotations
 from .settings import editor_settings, ECUSettings
+from .dde5_labels import PARAMETER_NAMES
 import csv
 import json
 import math
@@ -271,7 +272,7 @@ class LoggingDialog(QDialog):
         self.catalog = catalog
         self.settings = settings if settings is not None else ECUSettings(editor_settings(QSettings))
         self.setWindowTitle('Live logging — D50M47A')
-        self.resize(880, 700)
+        self.resize(1180, 760)
         self.saved = {}
         try:
             for p in json.loads(str(self.settings.value('live126/profiles', '[]'))):
@@ -312,21 +313,26 @@ class LoggingDialog(QDialog):
         form = QFormLayout(); form.addRow('Connection', self.transport); form.addRow('EDIABAS BIN folder', self.bin_dir); form.addRow('TestO address', self.endpoint)
         form.addRow('Serial port', port_row); form.addRow('', self.echo); form.addRow('', self.serial_max_rate)
         form.addRow('Minimum request interval', self.interval)
-        self.search = QLineEdit(); self.search.setPlaceholderText('Search parameters…')
+        self.search = QLineEdit(); self.search.setPlaceholderText('Search English name, BMW name or hex code…')
         self.selected_only = QCheckBox('Show selected only')
         self.selected_only.toggled.connect(lambda: self.filter(self.search.text()))
-        self.tree = QTreeWidget(); self.tree.setHeaderLabels(['Parameter', 'Unit', 'Group']); self.tree.setRootIsDecorated(False)
+        self.tree = QTreeWidget(); self.tree.setHeaderLabels(['English name', 'BMW name', 'Hex code']); self.tree.setRootIsDecorated(False)
         self.tree.setSelectionMode(QAbstractItemView.SingleSelection)
-        for arg, d in sorted(catalog.items(), key=lambda x: x[1]['label'].casefold()):
-            item = QTreeWidgetItem([d['label'], d['unit'], ''])
+        for arg, d in sorted(catalog.items(), key=lambda x: PARAMETER_NAMES.get(x[0], x[1]['label']).casefold()):
+            item = QTreeWidgetItem([PARAMETER_NAMES.get(arg, d['label']), d['result'], d['id']])
             item.setData(0, Qt.UserRole, arg)
-            item.setToolTip(0, d['result']+' · '+arg)
+            details = d['label'] + '\n' + d['result'] + ' · ' + arg + '\nUnits: ' + (d['unit'] or '—')
+            for column in range(3):
+                item.setToolTip(column, details)
+            item.setData(0, Qt.UserRole + 1, details)
             item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
             item.setCheckState(0, Qt.Unchecked)
             if arg in ANCHORS:
                 item.setFlags(item.flags() & ~Qt.ItemIsUserCheckable)
             self.tree.addTopLevelItem(item)
-        self.tree.setColumnWidth(0, 590)
+        self.tree.setColumnWidth(0, 390)
+        self.tree.setColumnWidth(1, 600)
+        self.tree.setColumnWidth(2, 95)
         self.summary = QLabel(); self.summary.setWordWrap(True)
         self.save_csv = QCheckBox('Store to CSV while logging'); self.save_csv.setChecked(True)
         self.keep_awake = QCheckBox('Keep laptop awake while logging')
@@ -419,14 +425,18 @@ class LoggingDialog(QDialog):
             self.tree.blockSignals(True)
             for item in self.items():
                 arg=item.data(0, Qt.UserRole)
-                item.setText(2, ', '.join(str(n+1) for n,g in enumerate(groups) if arg in g))
+                group_text = ', '.join(str(n+1) for n,g in enumerate(groups) if arg in g)
+                details = item.data(0, Qt.UserRole + 1) + '\nCapture groups: ' + (group_text or 'not selected')
+                for column in range(3):
+                    item.setToolTip(column, details)
             self.tree.blockSignals(False)
         except ValueError as e:
             self.summary.setText(str(e))
 
     def filter(self, text):
         for item in self.items():
-            item.setHidden((self.selected_only.isChecked() and item.checkState(0) != Qt.Checked) or text.casefold() not in (item.text(0)+' '+item.toolTip(0)).casefold())
+            searchable = ' '.join(item.text(column) for column in range(3)) + ' ' + item.toolTip(0)
+            item.setHidden((self.selected_only.isChecked() and item.checkState(0) != Qt.Checked) or text.strip().casefold() not in searchable.casefold())
 
     def persist(self):
         self.settings.setValue('live126/profiles', json.dumps(list(self.saved.values())))

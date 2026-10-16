@@ -22,7 +22,7 @@ to save a separate copy.
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.33.5_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -37,7 +37,7 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.4_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.5_Setup.exe -Algorithm SHA256
 ```
 
 ## Try Emil's BIN and recorded log
@@ -111,6 +111,15 @@ py -3.11 -m venv .venv
 
 Existing preference storage identifiers are retained, so older ECU profile,
 gauge and graph settings remain available after the branding change.
+
+The table navigator and Favorites show separate **Name** and **Address** columns.
+Search either field, or the original XDF notes. The 361830 definitions use English
+display names while retaining their original titles and evidence in tooltips.
+Unverified definitions keep an explicit **unverified** label.
+
+DDE5 live logging setup shows **English name**, **BMW name** and **Hex code**.
+Search any column, the original description or the BMW argument. Hover for units
+and capture groups. Existing logging profiles still use their original channel IDs.
 
 ## Test and build
 
