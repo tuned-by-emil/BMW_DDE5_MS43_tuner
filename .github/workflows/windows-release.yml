@@ -1,0 +1,93 @@
+name: Windows release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*.[0-9]*.[0-9]*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+          cache: pip
+          cache-dependency-path: requirements-build.txt
+      - name: Check release tag matches application version
+        shell: python
+        run: |
+          import os
+          import runpy
+          version = runpy.run_path('bmw_bin_editor/__init__.py')['__version__']
+          if os.environ['GITHUB_REF_TYPE'] == 'tag':
+              tag = os.environ['GITHUB_REF_NAME']
+              if tag != f'v{version}':
+                  raise SystemExit(f'Tag {tag} must match application version v{version}')
+      - name: Install pinned development dependencies
+        run: python -m pip install -r requirements-build.txt
+      - name: Check dependencies
+        run: python -m pip check
+      - name: Audit public source tree
+        run: python tools/check_public_tree.py
+      - name: Run offline tests
+        run: python tools/run_tests.py
+      - name: Verify application startup and editing
+        run: python run_editor.py --self-check-public build/public-self-check.json
+      - name: Build Windows installer and checksum
+        run: python tools/build_windows_installer.py
+      - name: Retain installer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            dist/*_Setup.exe
+            dist/*_Setup.exe.sha256
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain validation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-reports
+          path: |
+            build/public-self-check.json
+            build/windows-installer/build-info.json
+          if-no-files-found: ignore
+
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-installer
+          path: dist
+      - name: Create draft GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" dist/* \
+            --verify-tag --draft --generate-notes \
+            --title "BMW DDE5 MS43 Tuner $RELEASE_TAG"

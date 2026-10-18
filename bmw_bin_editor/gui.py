@@ -743,7 +743,7 @@ class LogViewerPanel(QWidget):
         self._display_lookup_log = None
         self._display_lookup = {}
 
-        self.file_label = QLabel("No TestO log loaded")
+        self.file_label = QLabel("No log loaded")
         self.file_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         self.profile_label = QLabel("")
         self.profile_label.setWordWrap(True)
@@ -1362,7 +1362,7 @@ class LogViewerPanel(QWidget):
         try:
             log = TestOLog(path, self.catalog, fuel_estimate_config=self.fuel_estimate_config)
         except Exception as exc:
-            QMessageBox.critical(self, APP_NAME, f"Could not open TestO log:\n{exc}")
+            QMessageBox.critical(self, APP_NAME, f"Could not open log:\n{exc}")
             return False
         if not self.stop_live():
             return False
@@ -1391,7 +1391,7 @@ class LogViewerPanel(QWidget):
         self._redraw()
         self.logLoaded.emit(log)
         self.cursorChanged.emit(0)
-        self.statusChanged.emit(f"Loaded TestO log: {log.path.name} ({log.sample_count:,} unique samples)")
+        self.statusChanged.emit(f"Loaded log: {log.path.name} ({log.sample_count:,} unique samples)")
         return True
 
     def _populate_signal_combo(self):
@@ -1705,7 +1705,7 @@ class LogViewerPanel(QWidget):
                 readings.deleteLater()
             ax = self.figure.add_subplot(111)
             self.axes = [ax]
-            ax.text(0.5, 0.5, "Open a TestO CSV log", ha="center", va="center", transform=ax.transAxes)
+            ax.text(0.5, 0.5, "Open a log file", ha="center", va="center", transform=ax.transAxes)
             ax.set_axis_off()
             self.canvas.draw_idle()
             self._update_readout()
@@ -2140,7 +2140,7 @@ class MapEditor(QWidget):
         self.btn_log = QPushButton("Log")
         self.btn_log.setCheckable(True)
         self.btn_log.setChecked(True)
-        self.btn_log.setToolTip("Show/hide the synchronized TestO log panel")
+        self.btn_log.setToolTip("Show/hide the synchronized log panel")
         self.btn_log.toggled.connect(self._toggle_log_panel)
         self.btn_info = QPushButton("XDF info")
         self.btn_info.setCheckable(True)
@@ -2300,7 +2300,7 @@ class MapEditor(QWidget):
             QMessageBox.information(self, APP_NAME, "Open a table first.")
             return
         if not self.log_data:
-            QMessageBox.information(self, APP_NAME, "Load a TestO log first so the available parameters are known.")
+            QMessageBox.information(self, APP_NAME, "Load a log first so the available parameters are known.")
             return
         current = self.log_panel.profile or profile_for_definition(self.definition, self.log_data)
         dlg = QDialog(self)
@@ -4400,7 +4400,7 @@ class MainWindow(QMainWindow):
     def show_eoi(self):
         log = self.editor.log_panel.log
         if log is None or isinstance(log, LiveTestOLog):
-            QMessageBox.information(self, APP_NAME, "Open a recorded TestO log first. EOI currently evaluates recorded snapshots, not a live stream.")
+            QMessageBox.information(self, APP_NAME, "Open a recorded log first. EOI currently evaluates recorded snapshots, not a live stream.")
             return
         from .eoi_gui import EOIDialog
         EOIDialog(log, self.document, self).exec()

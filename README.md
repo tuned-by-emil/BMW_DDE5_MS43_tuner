@@ -144,6 +144,42 @@ The setup EXE and its SHA-256 file are written under `dist/`.
 Tests create synthetic data. Optional integration tests requiring non-distributed
 resources are reported as skipped. No physical ECU is used in checks.
 
+## Automated Windows releases
+
+The [Windows release workflow](.github/workflows/windows-release.yml) runs on
+GitHub's Windows runner, which supplies its own Python and .NET Framework
+compiler. Your local Python installation is not required for CI.
+
+- **Try a build:** push the workflow to GitHub, open **Actions > Windows release >
+  Run workflow**, and select a branch. After checks pass, download the
+  `windows-installer` artifact from that run. A branch run does not create a release.
+- **Prepare a release:** update `__version__` in `bmw_bin_editor/__init__.py`,
+  commit it, and push a matching tag, for example `v1.33.6` for version `1.33.6`.
+  The tag must point to a commit containing this workflow.
+- **Publish:** after all checks and the build pass, the workflow creates a draft
+  GitHub Release with the setup EXE, SHA-256 file, and generated release notes.
+  Review the notes and installer on Windows, then publish the draft in **Releases**.
+
+For example, after committing version `1.33.6`:
+
+```sh
+git tag v1.33.6
+git push origin v1.33.6
+```
+
+Tests, dependency checks, the public-tree audit, and the public GUI self-check
+are required gates. Missing optional private fixtures remain explicit skips.
+The current committed direct-serial parameter checksum mismatch must be
+resolved before this workflow can pass; the workflow preserves that integrity
+check. Build logs appear in Actions, and available JSON reports are retained as
+the `windows-build-reports` artifact even when a later step fails.
+
+The workflow uses GitHub's automatic token; no personal access token is needed.
+Repository or organization policy must allow Actions and release creation.
+An existing release is never overwritten: if release creation is rerun after a
+draft already exists, that step fails rather than replacing its assets.
+Installers remain unsigned, and CI does not validate physical ECU integration.
+
 ## Libraries and licensing
 
 Versions and wheel hashes are pinned in `requirements-runtime-windows.txt`.
