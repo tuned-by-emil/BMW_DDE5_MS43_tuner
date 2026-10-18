@@ -783,7 +783,7 @@ class LogViewerPanel(QWidget):
         self._status_timer.start()
         self.profile_label.setWordWrap(True)
 
-        self.load_button = QPushButton("Open log…")
+        self.load_button = QPushButton("Open Log…")
         self.load_button.clicked.connect(self.open_dialog)
         self.live_button = QPushButton("Live logging…")
         self.live_button.setToolTip("Live logging with cable or TestO, adjustable parameters, profiles and CSV capture")
@@ -1354,7 +1354,7 @@ class LogViewerPanel(QWidget):
 
     def open_dialog(self):
         start = str(Path.home())
-        path, _ = QFileDialog.getOpenFileName(self, "Open TestO CSV log", start, "CSV logs (*.csv *.txt);;All files (*.*)")
+        path, _ = QFileDialog.getOpenFileName(self, "Open Log", start, "CSV logs (*.csv *.txt);;All files (*.*)")
         if path:
             self.open_log(path)
 
@@ -3480,7 +3480,7 @@ class HelpDialog(QDialog):
             "<b>V1.10 workflow</b><br>"
             "Settings &gt; W / Q edit steps sets global or current-map steps. The bundled N75 and boost maps have useful first-run presets. "
             "Use the ★ toolbar button to add/remove the current table from the Favorites tab. Quick Save asks for a one-line revision note and increments _r001, _r002, etc.<br>"
-            "Open a TestO CSV from File &gt; Open TestO Log. F6 or the Log button shows/hides the synchronized log pane. Add traces or stacked graphs without changing the map-position binding. Mouse-wheel zooms the time axis; Fit time resets it; drag a range for the cell-visit heatmap and N75 statistics.<br><br>"
+            "Open a CSV log from File &gt; Open Log. F6 or the Log button shows/hides the synchronized log pane. Add traces or stacked graphs without changing the map-position binding. Mouse-wheel zooms the time axis; Fit time resets it; drag a range for the cell-visit heatmap and N75 statistics.<br><br>"
             "<b>Mouse</b><br>"
             "Click selects one cell. Click-drag makes a stable rectangle. Shift+click extends from the existing anchor. "
             "Double-click a table cell or press Enter to enter a value. Double-click an axis header to edit an axis value.<br><br>"
@@ -4149,7 +4149,7 @@ class MainWindow(QMainWindow):
         self.act_bundled.setEnabled(bundled_definition_path().is_file())
         self.act_bin = QAction("Open &BIN…", self); self.act_bin.triggered.connect(self.open_bin)
         self.act_compare_bin = QAction("Open Compare BIN…", self); self.act_compare_bin.triggered.connect(self.open_compare_bin)
-        self.act_log = QAction("Open TestO &Log…", self); self.act_log.triggered.connect(self.open_log)
+        self.act_log = QAction("Open &Log…", self); self.act_log.triggered.connect(self.open_log)
         self.act_live_log = QAction("Live logging…", self)
         self.act_live_log.triggered.connect(self.open_live_logging)
         self.act_quick_save = QAction("Quick Save Revision", self); self.act_quick_save.triggered.connect(self.quick_save_revision); self.act_quick_save.setEnabled(False)
@@ -4583,7 +4583,7 @@ class MainWindow(QMainWindow):
 
     def open_log(self):
         start = self.settings.value("last_log_dir", str(Path.home()))
-        path, _ = QFileDialog.getOpenFileName(self, "Open TestO CSV log", start, "CSV logs (*.csv *.txt);;All files (*.*)")
+        path, _ = QFileDialog.getOpenFileName(self, "Open Log", start, "CSV logs (*.csv *.txt);;All files (*.*)")
         if not path:
             return
         if self.editor.log_panel.open_log(path):

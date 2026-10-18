@@ -13,7 +13,7 @@ review CSV logs, configure gauges and keep logging/graph profiles separate by EC
 2. **Start the app:** open **BMW DDE5 MS43 Tuner** from the Windows Start menu.
 3. **Get the examples:** download both [20261012.bin](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/20261012.bin) and [the example CSV log](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/Live_D50M47A_20261016_132417.csv). They normally go into your Windows **Downloads** folder. The app's **Download example BIN and log** link also opens the example page.
 4. **Open the BIN:** return to the app, click **Open BIN** in the top toolbar and select **`20261012.bin`** from Downloads. In the definition window, select **EDC16C31 361830** and click **Use selected XDF**. An **XDF** tells the editor where the BIN's settings and tables are stored.
-5. **Open the log:** click **Open TestO Log** in the top toolbar and select **`Live_D50M47A_20261016_132417.csv`**. The CSV is a recording of engine readings.
+5. **Open the log:** click **Open Log** in the top toolbar and select **`Live_D50M47A_20261016_132417.csv`**. The CSV is a recording of engine readings.
 6. **Explore:** select a table on the left, then click **Play** above the graphs. Use **2D**, **3D** or **Split** to change the map view. You can try this example without a cable or a car connected.
 
 Keep the downloaded BIN as your original. If you edit it, use **Save BIN As**
@@ -22,7 +22,7 @@ to save a separate copy.
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.33.5_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.33.6_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -37,7 +37,7 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.5_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.6_Setup.exe -Algorithm SHA256
 ```
 
 ## Try Emil's BIN and recorded log
@@ -56,7 +56,7 @@ The app's welcome screen also has a **Download example BIN and log** link.
 | `Live_D50M47A_20261016_132417.csv` | Recorded 16 October 2026; 6,294 samples over about 12 min 15 sec | [Download log](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/raw/refs/heads/main/examples/dde5-361830/Live_D50M47A_20261016_132417.csv) |
 
 Open the BIN with **File > Open BIN** and select the proposed **EDC16C31 361830**
-definition. Use **Open TestO Log** to load the CSV, then explore playback, graphs
+definition. Use **Open Log** to load the CSV, then explore playback, graphs
 and gauges. Recorded channels include RPM, injection quantity, boost pressure,
 rail pressure, air mass, injection timing, speed and temperatures.
 
@@ -98,6 +98,12 @@ See [resource setup](docs/LOCAL_RESOURCES.md) and
 The drift preset's dashpot cancellation is inferred from the documented MS43
 algorithm and needs vehicle validation. Direct ECU flash writes remain disabled.
 Offline/simulated checks do not establish flash readiness.
+
+## Reported MS43X testing
+
+Emil reports that MS43X logging and saving the partial 64 KB calibration file
+worked perfectly. This report covers those operations; the automated checks
+below use synthetic data and simulated traffic.
 
 ## Run from source
 

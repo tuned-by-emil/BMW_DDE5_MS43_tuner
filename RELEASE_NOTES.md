@@ -1,11 +1,15 @@
-# BMW DDE5 MS43 Tuner 1.33.5 — Windows x64
+# BMW DDE5 MS43 Tuner 1.33.6 — Windows x64
 
-Run **BMW_DDE5_MS43_Tuner_1.33.5_Setup.exe**. Setup downloads private Python
+Run **BMW_DDE5_MS43_Tuner_1.33.6_Setup.exe**. Setup downloads private Python
 from python.org and verified runtime libraries from PyPI. Internet is required.
 It installs for the current Windows user, adds a Start menu shortcut, offers a
 desktop shortcut and registers an uninstaller in Installed apps. System Python
 is unchanged. The installer is unsigned.
 
+- Renamed the File menu, toolbar action, log-panel button and file dialogs to
+  **Open Log**, with matching help and example instructions.
+- Tested with **MS43X**: logging and saving the partial **64 KB** calibration
+  file worked perfectly, as reported by Emil.
 - Current 361830 definition plus eight generated ECU library XDFs.
 - Readable English display names for all 251 retained 361830 definitions,
   with original evidence in tooltips and unverified labels preserved.
@@ -30,4 +34,6 @@ disassembly dumps are embedded. The small OLS import helper is included under
 0BSD, with its source and licence. See the README for first-use instructions.
 
 Runtime and dependency hashes are pinned. Checks use synthetic calibration
-bytes and simulated serial traffic; vehicle behavior remains untested.
+bytes and simulated serial traffic. The MS43X logging and partial 64 KB save
+results above are user-reported testing; other vehicle behavior is not covered
+by that report.

@@ -15,7 +15,7 @@ Shared by Emil for exploring the editor with recorded data.
 1. Download both files using the links on the repository's opening page.
 2. Start BMW DDE5 MS43 Tuner and choose **File > Open BIN**.
 3. Select `20261012.bin`, then accept the proposed **EDC16C31 361830** XDF.
-4. Click **Open TestO Log** and select the CSV.
+4. Click **Open Log** and select the CSV.
 5. Use playback, gauges and graphs to inspect the recording. Open a map to
    explore compatible logged-axis overlays.
 
