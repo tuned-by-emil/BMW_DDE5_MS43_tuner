@@ -187,6 +187,11 @@ class ReadingCell(QWidget):
         self._press = None
         super().mouseReleaseEvent(event)
 
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, "remove_button"):
+            self.remove_button.move(self.width() - self.remove_button.width() - 5, 3)
+
 
 class ReadingStrip(QScrollArea):
     layoutChanged = Signal(object)
@@ -203,22 +208,49 @@ class ReadingStrip(QScrollArea):
         self.setFixedHeight(88)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.setStyleSheet("QScrollArea {background:#191c21; border:0;}"
-                           "QWidget#readingBody {background:#191c21;}"
-                           "QWidget#readingCell {background:#191c21; border-right:1px solid #444a54;}"
-                           "QLabel {color:#f4f6f8; background:transparent; border:0;}")
+        self.setStyleSheet("QScrollArea {background:#f3f5f8; border:0;}"
+                           "QWidget#readingBody {background:#f3f5f8;}"
+                           "QWidget#readingCell {background:#1b2636; border:1px solid #354257; border-radius:6px;}"
+                           "QLabel {color:#f5f8ff; background:transparent; border:0;}")
+        # Keep channel management reachable even when the cards overflow. The
+        # actions live beside the viewport, outside its horizontal scroll body.
+        self.setViewportMargins(132, 0, 0, 0)
+        self.actions = QWidget(self)
+        actions = QVBoxLayout(self.actions)
+        actions.setContentsMargins(4, 2, 4, 2)
+        actions.setSpacing(3)
+        heading = QLabel("BOTTOM GAUGES")
+        heading.setStyleSheet("color:#65728a; font-size:10px; font-weight:700;")
+        actions.addWidget(heading)
+        self.manage_button = QPushButton("+ Add gauge")
+        self.manage_button.setMinimumHeight(30)
+        self.manage_button.setCursor(Qt.PointingHandCursor)
+        self.manage_button.setToolTip("Add, remove and reorder bottom gauges. Extra live channels require your confirmation.")
+        self.manage_button.setStyleSheet("QPushButton {background:#245de7; color:white; border:1px solid #245de7; border-radius:5px; padding:4px; font-weight:600;}"
+                                        "QPushButton:hover {background:#1c4fc9;}")
+        self.manage_button.clicked.connect(self.manageRequested)
+        actions.addWidget(self.manage_button)
+        help_text = QLabel("Drag to reorder")
+        help_text.setStyleSheet("color:#65728a; font-size:10px;")
+        actions.addWidget(help_text)
+        actions.addStretch(1)
         self.body = QWidget()
         self.body.setObjectName("readingBody")
         self.row = QHBoxLayout(self.body)
         self.row.setSizeConstraint(QLayout.SetMinimumSize)
-        self.row.setContentsMargins(4, 3, 4, 3)
-        self.row.setSpacing(0)
+        self.row.setContentsMargins(4, 2, 4, 2)
+        self.row.setSpacing(8)
         self.setWidget(self.body)
         self.cells = {}
         self.schema = None
         self.setAcceptDrops(True)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(lambda pos: self._menu(None, self.viewport(), pos))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, "actions"):
+            self.actions.setGeometry(0, 0, 128, self.height())
 
     def set_signals(self, signals):
         schema = tuple(signals)
@@ -231,22 +263,17 @@ class ReadingStrip(QScrollArea):
                 item.widget().hide()
                 item.widget().deleteLater()
         self.cells = {}
-        manage = QPushButton("Gauges…")
-        manage.setFixedWidth(82)
-        manage.setToolTip("Add, remove and reorder bottom gauges. Drag a gauge to move it; right-click for more options.")
-        manage.setStyleSheet("background:#2a3039; color:#e7edf5; border:1px solid #454e5b; padding:5px;")
-        manage.clicked.connect(self.manageRequested)
-        self.row.addWidget(manage)
         for signal in signals:
             cell = ReadingCell(signal)
             cell.setObjectName("readingCell")
             cell.setMinimumWidth(112)
             cell.setCursor(Qt.OpenHandCursor)
             column = QVBoxLayout(cell)
-            column.setContentsMargins(10, 1, 10, 1)
+            column.setContentsMargins(12, 3, 10, 3)
             column.setSpacing(0)
             name = QLabel(self.label_for(signal))
-            name.setStyleSheet("font-size:11px; color:#b9c2ce;")
+            name.setContentsMargins(0, 0, 22, 0)
+            name.setStyleSheet("font-size:11px; color:#b9c8de;")
             value = QLabel("—")
             value.setStyleSheet("font-size:22px; font-weight:600;")
             age = QLabel("")
@@ -254,15 +281,25 @@ class ReadingStrip(QScrollArea):
             column.addWidget(name)
             column.addWidget(value)
             column.addWidget(age)
+            cell.remove_button = QPushButton("×", cell)
+            cell.remove_button.setFixedSize(20, 18)
+            cell.remove_button.setCursor(Qt.PointingHandCursor)
+            cell.remove_button.setAccessibleName("Remove " + self.label_for(signal) + " gauge")
+            cell.remove_button.setToolTip("Remove this gauge; its channel stays in the recording")
+            cell.remove_button.setStyleSheet("QPushButton {background:transparent; color:#a6b6cc; border:0; font-size:17px; padding:0;}"
+                                            "QPushButton:hover {background:#354257; color:white; border-radius:3px;}")
+            cell.remove_button.clicked.connect(lambda _checked=False, s=signal: self.remove_signal(s))
+            cell.remove_button.raise_()
             cell.setContextMenuPolicy(Qt.CustomContextMenu)
             cell.customContextMenuRequested.connect(lambda pos, s=signal, w=cell: self._menu(s, w, pos))
-            self.row.addWidget(cell)
+            self.row.addWidget(cell, 1)
             self.cells[signal] = (cell, value, age)
             self._fit_cell(cell)
         if not signals:
             empty = QLabel("Choose gauges to show readings")
             self.row.addWidget(empty)
-        self.row.addStretch(1)
+        if not signals:
+            self.row.addStretch(1)
 
     def _menu(self, signal, cell, position):
         menu = QMenu(self)
@@ -352,36 +389,48 @@ class ReadingStrip(QScrollArea):
     def update_value(self, signal, value, unit, age):
         if signal in self.cells:
             cell, text, age_text = self.cells[signal]
-            text.setText(reading_text(value) + (f" {unit}" if unit else ""))
-            # Keep units readable and retain the widest value seen, avoiding row
-            # movement when digit counts change during playback.
-            text.setMinimumWidth(max(text.minimumWidth(), text.fontMetrics().horizontalAdvance(text.text()) + 2))
-            age_text.setText(age.strip().strip("()"))
-            self._fit_cell(cell)
+            changed = []
+            for label, display in ((text, reading_text(value) + (f" {unit}" if unit else "")),
+                                   (age_text, age.strip().strip("()"))):
+                if label.text() != display:
+                    label.setText(display)
+                    changed.append(label)
+            if changed:
+                self._fit_cell(cell, changed)
             explanation = self.tooltip_for(signal)
             cell.setToolTip((f"{signal}\n{value:.3f} {unit}{age}" if math.isfinite(value) else f"{signal}\nNo data")
                             + ("\n" + explanation if explanation else ""))
 
-    def _fit_cell(self, cell):
+    def _fit_cell(self, cell, labels=None):
         # An explicit cell minimum overrides Qt's automatic layout minimum.
         # Include all labels and padding so long values cannot spill into the
         # next gauge; the body grows and the scroll area handles the overflow.
         column = cell.layout()
         margins = column.contentsMargins()
         content_width = 0
-        for index in range(column.count()):
-            label = column.itemAt(index).widget()
+        if labels is None:
+            labels = [column.itemAt(index).widget() for index in range(column.count())]
+        for label in labels:
             label.ensurePolished()
-            content_width = max(content_width, label.fontMetrics().horizontalAdvance(label.text()) + 2,
-                                label.minimumWidth())
-        cell.setMinimumWidth(max(cell.minimumWidth(), content_width + margins.left() + margins.right() + 2))
-        column.activate()
-        self.row.activate()
+            padding = label.contentsMargins()
+            width = max(label.fontMetrics().horizontalAdvance(label.text()) + padding.left() + padding.right() + 2,
+                        label.minimumWidth())
+            if width > label.minimumWidth():
+                label.setMinimumWidth(width)
+            content_width = max(content_width, width)
+        minimum = content_width + margins.left() + margins.right() + 2
+        if minimum > cell.minimumWidth():
+            cell.setMinimumWidth(minimum)
+            # Most samples fit the existing cell. Only force an immediate layout
+            # for a wider reading, keeping long units readable without redoing
+            # the entire strip layout on every incoming channel value.
+            column.activate()
+            self.row.activate()
 
 
 class GaugeSetupDialog(QDialog):
     def __init__(self, selected, available, label_for, parent=None, *, session_signals=None, available_only=True,
-                 tooltip_for=None):
+                 tooltip_for=None, request_live=False):
         super().__init__(parent)
         self.setWindowTitle("Bottom gauges")
         self.resize(680, 470)
@@ -406,7 +455,8 @@ class GaugeSetupDialog(QDialog):
             item = self._item(self.available, signal)
             if signal not in self.session_signals:
                 item.setForeground(QColor("#657080"))
-                item.setToolTip(item.toolTip() + "\nNot available in the current log/live session. Adding a gauge does not request TestO data.")
+                item.setToolTip(item.toolTip() + ("\nNot currently logged. You will be asked to add it to live logging when you apply these gauges."
+                                                if request_live else "\nNot available in this log. Recorded files cannot gain missing channels."))
         left.addWidget(self.available)
         self.count_label = QLabel()
         left.addWidget(self.count_label)
@@ -430,7 +480,8 @@ class GaugeSetupDialog(QDialog):
         right.addLayout(buttons)
         columns.addLayout(right, 1)
         layout.addLayout(columns)
-        note = QLabel("Adding a gauge changes the display. To collect extra live channels, select them in TestO LIVE setup before starting a new capture.")
+        note = QLabel("Extra live channels require your confirmation when you apply these gauges. Removing a gauge keeps its channel in the recording."
+                      if request_live else "Choose which readings to display. Channels missing from a recorded file cannot be collected during playback.")
         note.setWordWrap(True)
         layout.addWidget(note)
         self.search.textChanged.connect(self._filter)
@@ -493,7 +544,8 @@ class GaugeSetupDialog(QDialog):
 
 class ChannelSetupDialog(QDialog):
     def __init__(self, graphs, styles, readings, available, label_for, parent=None, *,
-                 gauge_available=None, session_signals=None, available_only=True, tooltip_for=None):
+                 gauge_available=None, session_signals=None, available_only=True, tooltip_for=None,
+                 request_live=False):
         super().__init__(parent)
         self.setWindowTitle("Log channel setup")
         self.resize(780, 540)
@@ -504,6 +556,7 @@ class ChannelSetupDialog(QDialog):
         self.gauge_available = list(available if gauge_available is None else gauge_available)
         self.session_signals = list(available if session_signals is None else session_signals)
         self.gauge_available_only = available_only
+        self.request_live = request_live
         self.label_for = label_for
         self.tooltip_for = tooltip_for or (lambda _signal: "")
         self.current = None
@@ -733,7 +786,8 @@ class ChannelSetupDialog(QDialog):
             return
         dialog = GaugeSetupDialog(self.readings, self.gauge_available, self.label_for, self,
                                   session_signals=self.session_signals,
-                                  available_only=self.gauge_available_only, tooltip_for=self.tooltip_for)
+                                  available_only=self.gauge_available_only, tooltip_for=self.tooltip_for,
+                                  request_live=self.request_live)
         if dialog.exec() == QDialog.Accepted:
             self.readings = dialog.selected()
             self.gauge_available_only = dialog.available_only.isChecked()

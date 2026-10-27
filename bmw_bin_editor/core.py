@@ -151,6 +151,8 @@ class AxisDefinition:
     units: str = ""
     decimal_places: int = 2
     labels: list[str] = field(default_factory=list)
+    # Original linked-axis symbol, retained even when the XDF omits its units.
+    source_name: str = ""
 
     @property
     def editable(self) -> bool:
@@ -266,6 +268,14 @@ class XDFDatabase:
         self._parse_constants()
         for definition in self.definitions:
             definition.profile_id = self.profile_id
+        if self.title.strip() == "MS43X001":
+            axis_sources = {(d.z_address, d.size, d.z_element_bits, d.z_equation): d.title
+                            for d in self.definitions if d.category == "Axis"}
+            for definition in self.definitions:
+                for axis in (definition.x_axis, definition.y_axis):
+                    if axis is not None and axis.address is not None:
+                        axis.source_name = axis_sources.get(
+                            (axis.address, axis.count, axis.element_bits, axis.equation), "")
         unresolved = {node.get('uniqueid') for node in self.root.findall('./XDFTABLE')
                       if any(axis.get('bmw_unresolved_link') for axis in node.findall('XDFAXIS'))}
         for definition in self.definitions:

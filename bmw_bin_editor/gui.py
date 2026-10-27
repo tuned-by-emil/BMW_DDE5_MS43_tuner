@@ -7,6 +7,7 @@ import json
 import math
 import re
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -70,7 +71,7 @@ from .log_widgets import ChannelSetupDialog, FuelEstimateDialog, GaugeSetupDialo
 from .ecu_programming_gui import EcuProgrammingDialog
 from .log_delta import LogDeltaDialog
 from .logging_power import LoggingPowerGuard
-from .live_logging import LiveLogger, LoggingDialog, load_parameters
+from .live_logging import LiveLogger, LoggingDialog, load_parameters, parameter_update_plan
 from .native_live_logging import NativeLiveLogger
 from .serial_live_logging import SerialLiveLogger
 from .testo_mcp import TestOMcpClient, TestOMcpError, flatten_numeric_fields
@@ -689,11 +690,43 @@ class LogViewerPanel(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.catalog = SignalCatalog.load_tsv(bundled_signal_catalog_path())
+        self.setObjectName("logWorkspace")
+        self.setStyleSheet("""
+            QWidget#logWorkspace {background:#f3f5f8;}
+            QPushButton[logAction="true"] {
+                background:#ffffff; color:#24334a; border:1px solid #cbd3df;
+                border-radius:5px; padding:5px 8px; min-height:18px;
+            }
+            QPushButton[logAction="true"]:hover {background:#edf2fc; border-color:#a5b8d9;}
+            QPushButton[logAction="true"]:pressed,
+            QPushButton[logAction="true"]:checked {background:#dfe8fa; border-color:#9ab0d5;}
+            QPushButton[logAction="true"]:disabled {background:#f5f6f8; color:#939aa6; border-color:#dce1e9;}
+            QPushButton#addMissingChannels {
+                background:#245de7; color:white; border:1px solid #245de7;
+                border-radius:5px; padding:6px 12px; font-weight:600;
+            }
+            QPushButton#addMissingChannels:hover {background:#194dcc;}
+            QWidget#liveLoggingHeader {
+                background:#e7f4ee; border:1px solid #c8e6d7; border-radius:6px;
+            }
+            QWidget#liveLoggingHeader QLabel {color:#2d5745; background:transparent; border:0;}
+            QWidget#liveLoggingHeader[state="inactive"] {background:#eaf0f7; border-color:#ced8e6;}
+            QWidget#liveLoggingHeader[state="inactive"] QLabel {color:#42566f;}
+            QWidget#liveLoggingHeader[state="error"] {background:#fff0ee; border-color:#efc8c2;}
+            QWidget#liveLoggingHeader[state="error"] QLabel {color:#9c372b;}
+            QWidget#traceNotice {background:#fff5df; border:1px solid #ead3a1; border-radius:6px;}
+            QWidget#traceNotice QLabel {color:#79551d; background:transparent; border:0;}
+        """)
         self.log: TestOLog | LiveTestOLog | None = None
         self.live_thread: QThread | None = None
         self.live_worker: TestOLiveWorker | None = None
         self.live_mode = False
         self.direct_logger = None
+        self._requested_live_parameters = None
+        self._trace_prompted = set()
+        self._channel_prompt_active = False
+        self._deferred_trace_definition = None
+        self._last_live_plot = 0.0
         journal = Path(QStandardPaths.writableLocation(QStandardPaths.GenericDataLocation)) / 'BMW_Bin_Editor' / 'logging-power.json'
         self.power_guard = LoggingPowerGuard(journal)
         recovery_notice = self.power_guard.recover()
@@ -749,9 +782,12 @@ class LogViewerPanel(QWidget):
         self.profile_label.setWordWrap(True)
         self.missing_label = QLabel("")
         self.missing_label.setWordWrap(True)
-        self.missing_label.setStyleSheet("color: #8a4f00;")
+        self.missing_label.setTextFormat(Qt.PlainText)
+        self.missing_label.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
         self.time_label = QLabel("Time —")
         self.time_label.setFixedWidth(145)
+        self.time_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.time_label.setStyleSheet("color:#25344b; font-weight:600;")
         self.time_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         self.gauges = {}
         self.reading_strip = ReadingStrip(self._signal_name, self.add_floating_gauge, self,
@@ -776,6 +812,26 @@ class LogViewerPanel(QWidget):
         self.live_status.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.live_status.setTextFormat(Qt.PlainText)
         self.live_status.hide()
+        self.live_header = QWidget()
+        self.live_header.setObjectName("liveLoggingHeader")
+        self.live_header.setProperty("state", "live")
+        live_row = QHBoxLayout(self.live_header)
+        live_row.setContentsMargins(12, 6, 8, 6)
+        live_row.setSpacing(12)
+        self.live_badge = QLabel("● LIVE")
+        self.live_badge.setStyleSheet("font-weight:700;")
+        live_row.addWidget(self.live_badge)
+        live_row.addWidget(self.live_status, 1)
+        self.block_budget_label = QLabel("")
+        self.block_budget_label.setTextFormat(Qt.PlainText)
+        self.block_budget_label.setToolTip("Realtime values and blocks requested from the ECU")
+        live_row.addWidget(self.block_budget_label)
+        self.configure_live_channels_button = QPushButton("Logging channels…")
+        self.configure_live_channels_button.setProperty("logAction", True)
+        self.configure_live_channels_button.setToolTip("Change the parameters acquired during this live logging session")
+        self.configure_live_channels_button.clicked.connect(self.configure_live_channels)
+        live_row.addWidget(self.configure_live_channels_button)
+        self.live_header.hide()
         self._pending_status = ""
         self._status_timer = QTimer(self)
         self._status_timer.setInterval(500)
@@ -799,7 +855,7 @@ class LogViewerPanel(QWidget):
         self.zoom_range_button = QPushButton("Zoom sel")
         self.zoom_range_button.setEnabled(False)
         self.zoom_range_button.clicked.connect(self.zoom_to_range)
-        self.channel_setup_button = QPushButton("Channels…")
+        self.channel_setup_button = QPushButton("Graph channels…")
         self.channel_setup_button.setToolTip("Assign channels to graph areas, choose colors and scales, and configure bottom readings")
         self.channel_setup_button.clicked.connect(self.open_channel_setup)
         self.fuel_estimates_button = QPushButton("Fuel estimates…")
@@ -842,8 +898,15 @@ class LogViewerPanel(QWidget):
         self.clear_layout_button = QPushButton("Forget")
         self.clear_layout_button.setToolTip("Forget the saved graph layout for this table type and return to Auto")
         self.clear_layout_button.clicked.connect(self.clear_saved_layout_for_type)
+        for button in (self.load_button, self.live_button, self.play_button, self.clear_range_button,
+                       self.fit_button, self.zoom_range_button, self.channel_setup_button,
+                       self.fuel_estimates_button, self.add_trace_button, self.new_graph_button,
+                       self.remove_trace_button, self.remove_graph_button, self.auto_graph_button,
+                       self.save_layout_button, self.clear_layout_button):
+            button.setProperty("logAction", True)
 
         row = QHBoxLayout()
+        row.setSpacing(6)
         row.addWidget(self.load_button)
         row.addWidget(self.live_button)
         row.addWidget(self.play_button)
@@ -851,13 +914,15 @@ class LogViewerPanel(QWidget):
         row.addWidget(self.fit_button)
         row.addWidget(self.zoom_range_button)
         row.addWidget(self.channel_setup_button)
-        row.addWidget(self.time_label)
         row.addStretch(1)
+        row.addWidget(self.time_label)
         self.compact_button = QPushButton("Hide setup")
+        self.compact_button.setProperty("logAction", True)
         self.compact_button.setCheckable(True)
         self.compact_button.setToolTip("Collapse graph setup to make room for the log plot")
         row.addWidget(self.compact_button)
         self.readings_button = QPushButton("Hide readings")
+        self.readings_button.setProperty("logAction", True)
         self.readings_button.setCheckable(True)
         self.readings_button.setToolTip("Show or hide the bottom instrument strip")
         row.addWidget(self.readings_button)
@@ -883,7 +948,9 @@ class LogViewerPanel(QWidget):
         meta.addWidget(self.profile_label, 1)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(4, 2, 4, 2)
+        layout.setContentsMargins(10, 8, 10, 6)
+        layout.setSpacing(7)
+        layout.addWidget(self.live_header)
         layout.addLayout(row)
         self.setup_panel = QWidget()
         setup_layout = QVBoxLayout(self.setup_panel)
@@ -892,8 +959,21 @@ class LogViewerPanel(QWidget):
         setup_layout.addLayout(edit_row)
         setup_layout.addLayout(meta)
         layout.addWidget(self.setup_panel)
-        layout.addWidget(self.live_status); layout.addWidget(self.power_status)
-        layout.addWidget(self.missing_label)
+        layout.addWidget(self.power_status)
+        self.trace_notice = QWidget()
+        self.trace_notice.setObjectName("traceNotice")
+        notice_row = QHBoxLayout(self.trace_notice)
+        notice_row.setContentsMargins(12, 6, 8, 6)
+        notice_row.setSpacing(12)
+        notice_row.addWidget(self.missing_label, 1)
+        self.add_missing_channels_button = QPushButton("Add to logging…")
+        self.add_missing_channels_button.setObjectName("addMissingChannels")
+        self.add_missing_channels_button.setToolTip("Ask to add the missing table tracing parameters to live logging")
+        self.add_missing_channels_button.clicked.connect(self.request_missing_table_channels)
+        self.add_missing_channels_button.hide()
+        notice_row.addWidget(self.add_missing_channels_button)
+        self.trace_notice.hide()
+        layout.addWidget(self.trace_notice)
         layout.addWidget(self.canvas, 1)
         layout.addWidget(self.reading_strip)
         self.setMinimumHeight(220)
@@ -1065,6 +1145,12 @@ class LogViewerPanel(QWidget):
         self._flush_live_status()
         self._populate_signal_combo(); self._update_profile(); self._refresh_graph_combo(); self._redraw()
         self.direct_logger = logger
+        self._requested_live_parameters = None
+        self._trace_prompted.clear()
+        self._last_live_plot = 0.0
+        if hasattr(logger, "profileChanged"):
+            logger.profileChanged.connect(lambda p: self._live_parameters_changed(p)
+                                          if self.direct_logger is logger else None)
         logger.sampleReady.connect(lambda t, d: self._live_sample(t, d, "MS43X001" if transport == "ms43x" else "D50M47A", config["profile"]["name"]) if self.direct_logger is logger and self.live_mode else None)
         logger.status.connect(self._set_live_status)
         logger.error.connect(self._live_error)
@@ -1084,6 +1170,8 @@ class LogViewerPanel(QWidget):
         self._stop_logging_power()
         logger = self.direct_logger
         self.direct_logger = None
+        self._requested_live_parameters = None
+        self._trace_prompted.clear()
         self.live_button.setEnabled(True)
         self.live_mode = False
         self.live_button.setText("Live logging…")
@@ -1218,10 +1306,9 @@ class LogViewerPanel(QWidget):
         if set(self.log.values) != known_before or fuel_available_after != fuel_available_before:
             self._populate_signal_combo(); self._update_profile(); self._load_saved_layout_for_type(); self._refresh_graph_combo(); self._redraw()
         else:
-            # Replot periodically because matplotlib Line2D arrays need the newly appended data.
-            # At diagnostic rates this is still light enough, while avoiding redraw on every
-            # individual low-level result if TestO returns quickly.
-            if self.log.sample_count <= 3 or self.log.sample_count % 3 == 0:
+            # Acquisition always retains every reply. Limit expensive plot rebuilds
+            # by elapsed time so fast cables leave time for menus and gauge setup.
+            if time.monotonic() - self._last_live_plot >= 0.15:
                 self._redraw()
             else:
                 self._update_readout()
@@ -1250,9 +1337,14 @@ class LogViewerPanel(QWidget):
         return [s for s in preferred if s in available] + [s for s in available if s not in preferred]
 
     def _set_reading_channels(self, signals):
-        self.reading_signals = list(dict.fromkeys(s for s in signals if isinstance(s, str)))
+        signals = list(dict.fromkeys(s for s in signals if isinstance(s, str)))
+        added = [s for s in signals if s not in self._reading_channels()]
+        if not self._ensure_live_signals(added, "these gauges"):
+            return False
+        self.reading_signals = signals
         self.settings.setValue("log/channel_display", json.dumps({"styles": self.channel_styles, "readings": self.reading_signals}))
         self._update_readout()
+        return True
 
     def restore_default_gauges(self):
         self.reading_signals = None
@@ -1293,23 +1385,170 @@ class LogViewerPanel(QWidget):
         session_signals = self._available_gauge_signals()
         available = list(dict.fromkeys(session_signals + self._reading_channels()
                                       + [d.result_name for d in self.catalog.definitions]
-                                      + [FUEL_RATE_SIGNAL, FUEL_CONSUMPTION_SIGNAL]))
+                                      + ([FUEL_RATE_SIGNAL, FUEL_CONSUMPTION_SIGNAL]
+                                         if self.ecu_profile_id == "361830" else [])))
         dlg = GaugeSetupDialog(self._reading_channels(), available, self._signal_name, self,
                                session_signals=session_signals,
-                               available_only=self.settings.value("log/gauges_available_only", True, type=bool),
-                               tooltip_for=self.fuel_estimate_tooltip)
+                               available_only=self.settings.value("log/gauges_available_only", not self.live_mode, type=bool),
+                               tooltip_for=self.fuel_estimate_tooltip,
+                               request_live=self.live_mode)
         if dlg.exec() == QDialog.Accepted:
             self.settings.setValue("log/gauges_available_only", dlg.available_only.isChecked())
-            self._set_reading_channels(dlg.selected())
-            self.readings_button.setChecked(False)
+            if self._set_reading_channels(dlg.selected()):
+                self.readings_button.setChecked(False)
+
+    def _live_parameters_changed(self, profile):
+        if self._requested_live_parameters == profile.get("parameters"):
+            self._requested_live_parameters = None
+        self._update_profile()
+        self._flush_live_status()
+        logger = self.direct_logger
+        if logger is not None and logger.capture is not None:
+            path = str(logger.capture.path)
+            self.file_label.setText(Path(path).name)
+            self.file_label.setToolTip(path)
+        self.statusChanged.emit("Live logging channel selection updated")
+
+    def _ensure_live_signals(self, signals, reason):
+        """Ask before extending acquisition; changing the display never removes it."""
+        if not self.live_mode or not signals:
+            return True
+        if self._channel_prompt_active:
+            return False
+        logger = self.direct_logger
+        catalog = getattr(logger, "catalog", {})
+        profile = getattr(logger, "profile", {})
+        current = self._requested_live_parameters or profile.get("parameters", [])
+        acquired = {catalog[arg]["result"] for arg in current if arg in catalog}
+        dependencies = {
+            FUEL_RATE_SIGNAL: [SIG_RPM, SIG_IQ],
+            FUEL_CONSUMPTION_SIGNAL: [SIG_RPM, SIG_IQ, SIG_SPEED],
+            CALC_EST_LAMBDA: [SIG_MAF, SIG_IQ],
+            CALC_BOOST_ERROR: [SIG_BOOST, SIG_BOOST_SET],
+        }
+        required = list(dict.fromkeys(dep for signal in signals
+                                     for dep in dependencies.get(signal, [signal])))
+        missing = [s for s in required if s not in acquired]
+        by_result = {item["result"]: arg for arg, item in catalog.items()}
+        unavailable = [s for s in missing if s not in by_result]
+        if unavailable or not hasattr(logger, "update_parameters"):
+            names = ", ".join(self._signal_name(s) for s in (unavailable or missing))
+            QMessageBox.information(self, APP_NAME,
+                f"Cannot request {names} from this live logging connection.\n\n"
+                "Choose a supported logging channel or configure the external logger first.")
+            return False
+        selected = list(dict.fromkeys(current + [by_result[s] for s in missing]))
+        regroup = False
+        if CALC_BOOST_ERROR in signals and profile.get("ecu") == "D50M47A":
+            pair = [by_result[s] for s in (SIG_BOOST, SIG_BOOST_SET)]
+            try:
+                groups = parameter_update_plan(selected, catalog)["groups"]
+            except ValueError as error:
+                QMessageBox.warning(self, APP_NAME, str(error))
+                return False
+            if not any(set(pair) <= set(group) for group in groups):
+                # A calculated difference needs fresh measurements from the same
+                # reply, rather than subtracting channels from different blocks.
+                from .live_logging import ANCHORS
+                selected = list(dict.fromkeys(ANCHORS + pair + selected))
+                regroup = True
+        if not missing and not regroup:
+            return True
+        description = "\n".join("• " + self._signal_name(s) for s in missing)
+        if regroup:
+            description += "\nRegroup boost actual and target into one block for a fresh calculated difference."
+        return self._apply_live_parameter_selection(selected, reason, description)
+
+    def _apply_live_parameter_selection(self, selected, reason, description):
+        logger = self.direct_logger
+        if logger is None or not self.live_mode or self._channel_prompt_active:
+            return False
+        catalog, profile = logger.catalog, logger.profile
+        current = self._requested_live_parameters or profile["parameters"]
+        if selected == current:
+            return True
+        text = f"Update live logging for {reason}?\n\n" + description
+        if profile.get("ecu") == "D50M47A":
+            try:
+                plan = parameter_update_plan(selected, catalog, current=current)
+            except ValueError as error:
+                QMessageBox.warning(self, APP_NAME, str(error))
+                return False
+            text += (f"\n\nRealtime blocks: {plan['old_blocks']} → {plan['new_blocks']} "
+                     "(10 values per block, including RPM and injection quantity).")
+            if plan["adds_block"]:
+                text += ("\n\nWarning: another realtime block significantly slows logging. "
+                         "Blocks are polled in turn, so each channel updates less often.")
+        if logger.capture is not None:
+            text += "\n\nCSV capture will continue in a new segment with the selected columns. Existing files are kept."
+        text += "\n\nChanges apply after the current ECU reply."
+        self._channel_prompt_active = True
+        try:
+            answer = QMessageBox.question(self, APP_NAME, text, QMessageBox.Yes | QMessageBox.No,
+                                         QMessageBox.No)
+        finally:
+            self._channel_prompt_active = False
+            deferred = self._deferred_trace_definition
+            self._deferred_trace_definition = None
+            if deferred is not None:
+                QTimer.singleShot(0, lambda d=deferred: self._request_table_channels(d))
+        if answer != QMessageBox.Yes:
+            return False
+        # Logging may have stopped while the confirmation's event loop was open.
+        if self.direct_logger is not logger or not self.live_mode:
+            return False
+        try:
+            requested = logger.update_parameters(selected)
+        except (ValueError, OSError, RuntimeError) as error:
+            QMessageBox.warning(self, APP_NAME, "Could not add live channels:\n" + str(error))
+            return False
+        self._requested_live_parameters = requested["parameters"]
+        self._flush_live_status()
+        self._update_profile()
+        return True
+
+    def configure_live_channels(self):
+        logger = self.direct_logger
+        if not self.live_mode or logger is None or not hasattr(logger, "update_parameters"):
+            return
+        from .live_channel_dialog import LiveChannelDialog
+        profile = dict(logger.profile, parameters=self._requested_live_parameters or logger.profile["parameters"])
+        dialog = LiveChannelDialog(logger.catalog, profile, self)
+        if dialog.exec() == QDialog.Accepted and self.direct_logger is logger and self.live_mode:
+            selected = dialog.selected()
+            description = f"Collect {len(selected)} selected channels. Existing bottom gauges are kept."
+            self._apply_live_parameter_selection(selected, "the channel selection", description)
+
+    def request_missing_table_channels(self):
+        if self.profile is not None:
+            self._ensure_live_signals(self.profile.required_position_signals, "table tracing")
+
+    def _request_table_channels(self, definition):
+        if (not self.live_mode or self.direct_logger is None or self.definition is not definition
+                or self.profile is None):
+            return
+        if self._channel_prompt_active:
+            self._deferred_trace_definition = definition
+            return
+        required = tuple(self.profile.required_position_signals)
+        key = (id(definition), required)
+        if key in self._trace_prompted:
+            return
+        self._trace_prompted.add(key)
+        if required:
+            self._ensure_live_signals(required, "table tracing")
 
     def _available_gauge_signals(self):
         available = [s for s in self.log.available_signals() if self.log.has(s)] if self.log else []
         logger = self.direct_logger
         if logger is not None:
-            requested = [logger.catalog[arg]["result"] for arg in logger.profile["parameters"]]
+            catalog = getattr(logger, "catalog", {})
+            profile = getattr(logger, "profile", getattr(logger, "config", {}).get("profile", {}))
+            selected = self._requested_live_parameters or profile.get("parameters", [])
+            requested = [catalog[arg]["result"] for arg in selected if arg in catalog]
             available.extend(requested)
-            groups = [{logger.catalog[arg]["result"] for arg in group} for group in logger.groups]
+            groups = [{catalog[arg]["result"] for arg in group if arg in catalog}
+                      for group in getattr(logger, "groups", [])]
             if any({SIG_MAF, SIG_IQ} <= group for group in groups):
                 available.append(CALC_EST_LAMBDA)
             if any({SIG_BOOST, SIG_BOOST_SET} <= group for group in groups):
@@ -1326,13 +1565,18 @@ class LogViewerPanel(QWidget):
         session_signals = self._available_gauge_signals()
         gauge_available = list(dict.fromkeys(session_signals + self._reading_channels()
                                             + [d.result_name for d in self.catalog.definitions]
-                                            + [FUEL_RATE_SIGNAL, FUEL_CONSUMPTION_SIGNAL]))
+                                            + ([FUEL_RATE_SIGNAL, FUEL_CONSUMPTION_SIGNAL]
+                                         if self.ecu_profile_id == "361830" else [])))
         dlg = ChannelSetupDialog(self._effective_graphs(), self.channel_styles,
                                  self._reading_channels(), self._selectable_log_signals(), self._signal_name, self,
                                  gauge_available=gauge_available, session_signals=session_signals,
-                                 available_only=self.settings.value("log/gauges_available_only", True, type=bool),
-                                 tooltip_for=self.fuel_estimate_tooltip)
+                                 available_only=self.settings.value("log/gauges_available_only", not self.live_mode, type=bool),
+                                 tooltip_for=self.fuel_estimate_tooltip,
+                                 request_live=self.live_mode)
         if dlg.exec() == QDialog.Accepted:
+            added = [s for s in dlg.readings if s not in self._reading_channels()]
+            if not self._ensure_live_signals(added, "these gauges"):
+                return
             self.custom_graphs = dlg.graphs
             self.channel_styles = dlg.styles
             self.reading_signals = dlg.readings
@@ -1351,6 +1595,30 @@ class LogViewerPanel(QWidget):
             self.live_status.setText(self._pending_status)
             self.live_status.setToolTip(self._pending_status)
         self.live_status.setVisible(bool(self._pending_status))
+        self.live_header.setVisible(bool(self._pending_status))
+        state = "error" if "ERROR" in self._pending_status else ("live" if self.live_mode else "inactive")
+        self.live_badge.setText({"live": "●  LIVE", "inactive": "■  STOPPED", "error": "●  ERROR"}[state])
+        if self.live_header.property("state") != state:
+            self.live_header.setProperty("state", state)
+            for widget in (self.live_header, self.live_badge, self.live_status, self.block_budget_label):
+                widget.style().unpolish(widget)
+                widget.style().polish(widget)
+        logger = self.direct_logger
+        self.configure_live_channels_button.setVisible(self.live_mode and logger is not None)
+        self.configure_live_channels_button.setEnabled(not self._channel_prompt_active)
+        budget = ""
+        profile = getattr(logger, "profile", {})
+        selected = self._requested_live_parameters or profile.get("parameters", [])
+        if self.live_mode and selected:
+            if profile.get("ecu") == "D50M47A":
+                groups = parameter_update_plan(selected, logger.catalog)["groups"]
+                budget = (f"{len(selected)} channels · {len(groups)} realtime block(s) "
+                          f"({' + '.join(str(len(g)) for g in groups)} / 10 each)")
+            else:
+                budget = f"{len(selected)} channels · 1 MS43X packet"
+            if self._requested_live_parameters:
+                budget += " · pending"
+        self.block_budget_label.setText(budget)
 
     def open_dialog(self):
         start = str(Path.home())
@@ -1427,6 +1695,8 @@ class LogViewerPanel(QWidget):
     def set_definition(self, definition: CalibrationDefinition | None):
         old_type = self._layout_type_key()
         self._remember_graphs()
+        if self.definition is not definition:
+            self._trace_prompted.clear()
         self.definition = definition
         self._update_profile()
         new_type = self._layout_type_key()
@@ -1436,38 +1706,41 @@ class LogViewerPanel(QWidget):
         self._load_saved_layout_for_type()
         self._refresh_graph_combo()
         self._redraw()
+        # Run after saved per-table axis overrides have been applied by MapEditor.
+        QTimer.singleShot(0, lambda d=definition: self._request_table_channels(d))
 
     def _update_profile(self):
         self.profile = profile_for_definition(self.definition, self.log) if self.definition is not None else None
-        if self.profile is not None and self.definition is not None:
-            family, _addresses, _target = MapEditor._candidate_family(self.definition)
-            known = {
-                "N75": (SIG_IQ, SIG_RPM), "Boost Target": (SIG_IQ, SIG_RPM),
-                "SOI": (SIG_IQ, SIG_RPM), "TQ2IQ": (SIG_TORQUE, SIG_RPM),
-                "Lambda": (SIG_MAF, SIG_RPM),
-            }
-            if family in known and self.ecu_profile_label.strip() != "MS43X001":
-                self.profile.x_signal, self.profile.y_signal = known[family]
-                self.profile.notes = [n for n in self.profile.notes if not n.startswith("No automatic log binding for ")]
         if self.profile is not None:
-            if self.axis_override_x:
+            if self.axis_override_x and self.definition.cols > 1:
                 self.profile.x_signal = self.axis_override_x
                 self.profile.notes = [n for n in self.profile.notes if not n.startswith("No automatic log binding for X axis")]
-            if self.axis_override_y:
+            if self.axis_override_y and self.definition.rows > 1:
                 self.profile.y_signal = self.axis_override_y
                 self.profile.notes = [n for n in self.profile.notes if not n.startswith("No automatic log binding for Y axis")]
         if self.profile is None:
             self.profile_label.setText("")
             self.missing_label.setText("")
             self.missing_label.hide()
+            self.trace_notice.hide()
+            self.add_missing_channels_button.hide()
             self._load_saved_layout_for_type()
             return
         self.profile_label.setText(f"<b>{self.profile.name}</b>")
         if not self.log:
             self.missing_label.setText("No log loaded.")
             self.missing_label.show()
+            self.trace_notice.show()
+            self.add_missing_channels_button.hide()
             return
         missing_position = [s for s in self.profile.required_position_signals if not self.log.has(s)]
+        if self.live_mode and self.direct_logger is not None:
+            logger = self.direct_logger
+            profile = getattr(logger, "profile", {})
+            catalog = getattr(logger, "catalog", {})
+            selected = self._requested_live_parameters or profile.get("parameters", [])
+            acquired = {catalog[a]["result"] for a in selected if a in catalog}
+            missing_position = [s for s in self.profile.required_position_signals if s not in acquired]
         missing_traces = [s for s in self.profile.traces if not self.log.has(s)]
         notes = list(self.profile.notes)
         parts: list[str] = []
@@ -1481,6 +1754,9 @@ class LogViewerPanel(QWidget):
             parts.append(" ".join(notes))
         self.missing_label.setText("  ".join(parts))
         self.missing_label.setVisible(bool(parts))
+        self.trace_notice.setVisible(bool(parts))
+        self.add_missing_channels_button.setVisible(bool(missing_position) and self.live_mode
+                                                    and self.direct_logger is not None)
         self._load_saved_layout_for_type()
 
     def set_axis_overrides(self, x_signal: str | None, y_signal: str | None):
@@ -1680,6 +1956,7 @@ class LogViewerPanel(QWidget):
         self.clear_layout_button.setEnabled(bool(settings_key and self.settings.contains(settings_key)))
 
     def _redraw(self):
+        self._last_live_plot = time.monotonic()
         old_xlim = self.view_xlim
         if self.view_xlim is not None and self.axes and self.log:
             try:
@@ -1714,6 +1991,8 @@ class LogViewerPanel(QWidget):
         groups = self._effective_graphs()
         groups = groups[:8]  # keep the pane usable even if the user gets enthusiastic
         shared = None
+        available = self.log.available_signals()
+        palette_indices = {signal: i for i, signal in enumerate(available)}
         for gi, traces in enumerate(groups):
             ax = self.figure.add_subplot(len(groups), 1, gi + 1, sharex=shared)
             if shared is None:
@@ -1723,8 +2002,7 @@ class LogViewerPanel(QWidget):
             plotted_signals: list[str] = []
             channels = []
             for si, signal in enumerate(traces):
-                available = self.log.available_signals()
-                style = channel_style(self.channel_styles, signal, available.index(signal) if signal in available else si)
+                style = channel_style(self.channel_styles, signal, palette_indices.get(signal, si))
                 label = self._signal_name(signal)
                 # Keep unavailable saved channels visible in the side list too.
                 channels.append((signal, style["color"]))
@@ -2637,9 +2915,13 @@ class MapEditor(QWidget):
         if not self.log_data or not self.definition or not self.document:
             return None
         profile = self.log_panel.profile or profile_for_definition(self.definition, self.log_data)
-        if not profile.x_signal or not self.log_data.has(profile.x_signal):
+        if self.definition.cols <= 1 and self.definition.rows <= 1:
+            return None
+        if self.definition.cols > 1 and (not profile.x_signal or not self.log_data.has(profile.x_signal)):
             return None
         if self.definition.rows > 1 and (not profile.y_signal or not self.log_data.has(profile.y_signal)):
+            return None
+        if any(not self.log_data.has(s) for s in profile.required_position_signals):
             return None
         xvals, yvals = self._axis_values()
         zvals = self.document.map_values(self.definition)
@@ -2651,15 +2933,21 @@ class MapEditor(QWidget):
             return None
         profile, xvals, yvals, zvals = prepared
         i = self.log_index if index is None else int(index)
-        x = self.log_data.value(profile.x_signal, i)
-        cf = self._fractional_index(xvals, x)
-        if cf is None:
+        if not profile.sample_active(self.log_data, i):
             return None
+        if self.definition.cols <= 1:
+            cf = 0.0
+            x = xvals[0] if xvals else 0.0
+        else:
+            x = profile.axis_value(self.log_data, "x", i, self.definition.x_axis)
+            cf = self._fractional_index(xvals, x)
+            if cf is None:
+                return None
         if self.definition.rows <= 1:
             rf = 0.0
             y = None
         else:
-            y = self.log_data.value(profile.y_signal, i)
+            y = profile.axis_value(self.log_data, "y", i, self.definition.y_axis)
             rf = self._fractional_index(yvals, y)
             if rf is None:
                 return None
@@ -2729,29 +3017,18 @@ class MapEditor(QWidget):
             start, end = self.log_panel.range_seconds
         if not (math.isfinite(float(start)) and math.isfinite(float(end))):
             return
-        profile = self.log_panel.profile or profile_for_definition(self.definition, self.log_data)
-        if not profile.x_signal or not self.log_data.has(profile.x_signal):
+        prepared = self._prepare_log_map()
+        if prepared is None:
             return
-        if self.definition.rows > 1 and (not profile.y_signal or not self.log_data.has(profile.y_signal)):
-            return
-        xvals, yvals = self._axis_values()
         counts = np.zeros((self.definition.rows, self.definition.cols), dtype=int)
         i0 = int(np.searchsorted(self.log_data.times, min(start, end), side="left"))
         i1 = int(np.searchsorted(self.log_data.times, max(start, end), side="right"))
         for i in range(i0, min(i1, self.log_data.sample_count)):
-            x = self.log_data.value(profile.x_signal, i)
-            cf = self._fractional_index(xvals, x)
-            if cf is None:
+            position = self._log_position(i, prepared)
+            if position is None:
                 continue
-            c = int(round(cf))
-            if self.definition.rows <= 1:
-                r = 0
-            else:
-                y = self.log_data.value(profile.y_signal, i)
-                rf = self._fractional_index(yvals, y)
-                if rf is None:
-                    continue
-                r = int(round(rf))
+            _x, _y, _z, rf, cf = position
+            r, c = int(round(rf)), int(round(cf))
             counts[max(0, min(self.definition.rows - 1, r)), max(0, min(self.definition.cols - 1, c))] += 1
         self.log_heatmap = counts if counts.any() else None
 

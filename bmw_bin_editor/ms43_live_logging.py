@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 import time
 from PySide6.QtCore import QThread, Signal
-from .live_logging import CsvCapture
+from .live_logging import CsvCapture, ParameterUpdatingReader
 from .serial_live_logging import SerialLiveLogger
 from .serial_transport import SerialCancelled, validate_port
 from .ms43_serial import MS43Session
@@ -30,10 +30,11 @@ def validate_ms43_profile(profile, catalog):
     return dict(version=1,ecu='MS43X001',name=name.strip(),parameters=list(dict.fromkeys(selected)),interval_ms=interval)
 
 
-class MS43Reader(QThread):
+class MS43Reader(ParameterUpdatingReader, QThread):
     sampleReady=Signal(float,object)
     status=Signal(str)
     error=Signal(str)
+    profileChanged=Signal(object)
 
     def __init__(self,config,catalog,parent=None,*,session_factory=MS43Session):
         super().__init__(parent)
@@ -48,6 +49,11 @@ class MS43Reader(QThread):
         self.groups=[self.profile['parameters']]
         self.session_factory=session_factory
         self.count=0;self.capture=None;self.raw_trace=None
+        self.init_parameter_updates()
+
+    def validate_parameters(self, selected):
+        profile = validate_ms43_profile(dict(self.profile, parameters=selected), self.catalog)
+        return profile, [profile['parameters']]
 
     def run(self):
         trace=None;session=None
@@ -71,6 +77,7 @@ class MS43Reader(QThread):
             with session:
                 first=None;last_status=None
                 while not self.isInterruptionRequested():
+                    self.apply_parameters()
                     sent=time.perf_counter()
                     reply=session.read()
                     values=self.definition.decode_frame(reply.response_frame)

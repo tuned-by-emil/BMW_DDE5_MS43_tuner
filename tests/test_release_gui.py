@@ -63,7 +63,8 @@ class ReleaseGuiTests(unittest.TestCase):
         for signal in list(self.panel.reading_signals):
             self.panel.reading_strip.remove_signal(signal)
         self.assertEqual(self.panel.reading_signals, [])
-        self.assertTrue(any(b.text() == 'Gauges…' for b in self.panel.reading_strip.findChildren(QPushButton)))
+        self.assertTrue(self.panel.reading_strip.manage_button.isVisible())
+        self.assertEqual(self.panel.reading_strip.manage_button.text(), '+ Add gauge')
         self.panel.restore_default_gauges()
         self.assertIn(SIG_RPM, self.panel.reading_strip.cells)
         self.assertIsNone(json.loads(self.panel.settings.value('log/channel_display'))['readings'])

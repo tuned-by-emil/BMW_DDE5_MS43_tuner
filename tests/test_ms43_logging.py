@@ -237,7 +237,8 @@ class IntegrationTests(unittest.TestCase):
         database=XDFDatabase(ROOT/'definitions/ms43x/Siemens_MS43_MS43X001_512K.xdf')
         ve=next(d for d in database.definitions if d.title=='ip_map_ve_1__map__n')
         p=profile_for_definition(ve)
-        self.assertIn('ACTIVEVE',p.traces);self.assertIsNone(p.x_signal)
+        self.assertIn('ACTIVEVE',p.traces);self.assertEqual(p.x_signal,'N')
+        self.assertEqual(p.y_signal,'MAP');self.assertEqual(p.active_signal,'ACTIVEVE')
         self.assertFalse(any(s.startswith('STAT_') for s in p.traces))
 
 if __name__=='__main__':unittest.main()

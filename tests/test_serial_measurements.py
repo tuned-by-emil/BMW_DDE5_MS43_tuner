@@ -111,6 +111,18 @@ class SerialMeasurementTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             SerialMeasurements(CATALOG, ROOT / 'missing_definition.json')
 
+    def test_verified_definition_accepts_both_git_line_endings(self):
+        original = (ROOT / 'definitions/direct_serial_parameters.json').read_bytes()
+        lf = original.replace(b'\r\n', b'\n')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'definitions.json'
+            for encoded in (lf, lf.replace(b'\n', b'\r\n')):
+                path.write_bytes(encoded)
+                self.assertEqual(len(SerialMeasurements(CATALOG, path).supported_args), 210)
+                path.write_bytes(encoded.replace(b'0.125002', b'0.125000', 1))
+                with self.assertRaisesRegex(ValueError, 'changed'):
+                    SerialMeasurements(CATALOG, path)
+
     def test_convenience_functions_and_binary_views(self):
         self.assertEqual(validate_group(['IALDS'], CATALOG), ('IALDS',))
         values = decode_measurements(memoryview(response([65535])), ['IALDS'], CATALOG)

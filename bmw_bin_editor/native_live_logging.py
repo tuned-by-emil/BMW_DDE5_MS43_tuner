@@ -4,21 +4,24 @@ import time
 from datetime import datetime
 from PySide6.QtCore import QObject, QThread, Signal, Slot
 from .ecu_programming import NativeEdiabas
-from .live_logging import validate_profile, make_groups, decode_reply, CsvCapture
+from .live_logging import validate_profile, make_groups, decode_reply, CsvCapture, ParameterUpdatingReader
+from copy import deepcopy
 
 
-class _Reader(QThread):
+class _Reader(ParameterUpdatingReader, QThread):
     sampleReady = Signal(float, object)
     status = Signal(str)
     error = Signal(str)
+    profileChanged = Signal(object)
 
     def __init__(self, config, catalog, parent=None, *, api_factory=NativeEdiabas):
         super().__init__(parent)
-        self.config, self.catalog, self.api_factory = config, catalog, api_factory
-        self.profile = validate_profile(config['profile'], catalog)
-        self.groups = make_groups(self.profile['parameters'], catalog)
+        self.config, self.catalog, self.api_factory = deepcopy(config), deepcopy(catalog), api_factory
+        self.profile = validate_profile(self.config['profile'], self.catalog)
+        self.groups = make_groups(self.profile['parameters'], self.catalog)
         self.count = 0
         self.capture = None
+        self.init_parameter_updates()
 
     def run(self):
         try:
@@ -31,6 +34,8 @@ class _Reader(QThread):
                 first = None
                 index = 0
                 while not self.isInterruptionRequested():
+                    if self.apply_parameters():
+                        index = 0
                     group = self.groups[index]
                     sent = time.monotonic()
                     response = api.read_job('D50M47A', 'STATUS_MESSWERTBLOCK_LESEN', timeout=5,
@@ -75,6 +80,7 @@ class NativeLiveLogger(QObject):
     status = Signal(str)
     error = Signal(str)
     stopped = Signal()
+    profileChanged = Signal(object)
 
     def __init__(self, config, catalog, parent=None, *, api_factory=NativeEdiabas):
         super().__init__(parent)
@@ -85,6 +91,19 @@ class NativeLiveLogger(QObject):
         self.worker.status.connect(self._status)
         self.worker.error.connect(self.error)
         self.worker.finished.connect(self._finished)
+        self.worker.profileChanged.connect(self.profileChanged)
+
+    @property
+    def catalog(self):
+        return self.worker.catalog
+
+    @property
+    def profile(self):
+        return self.worker.profile
+
+    @property
+    def groups(self):
+        return self.worker.groups
 
     @property
     def count(self):
@@ -97,6 +116,11 @@ class NativeLiveLogger(QObject):
     def start(self):
         self.active = True
         self.worker.start()
+
+    def update_parameters(self, selected):
+        if not self.active:
+            raise RuntimeError('Live logging is not running.')
+        return self.worker.update_parameters(selected)
 
     def stop(self):
         self.active = False

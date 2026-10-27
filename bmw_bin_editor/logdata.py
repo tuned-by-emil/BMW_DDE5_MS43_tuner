@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv
 import math
 import statistics
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable
 
@@ -85,10 +85,52 @@ class MapLogProfile:
     y_signal: str | None
     traces: list[str]
     notes: list[str]
+    active_signal: str | None = None
+    active_value: float | None = None
+    _coordinate_indices: dict = field(default_factory=dict, init=False, repr=False, compare=False)
 
     @property
     def required_position_signals(self) -> list[str]:
-        return [s for s in (self.x_signal, self.y_signal) if s]
+        return list(dict.fromkeys(s for s in (self.x_signal, self.y_signal, self.active_signal) if s))
+
+    def sample_active(self, log, index: int) -> bool:
+        """VE selection must be known; fractional blend states are not one table."""
+        if self.active_signal is None:
+            return True
+        value = log.value(self.active_signal, index)
+        return math.isfinite(value) and self.active_value is not None and abs(value - self.active_value) < 1e-6
+
+    def axis_value(self, log, axis_name: str, index: int, axis) -> float:
+        """Read coordinates in the axis' engineering units for files and live data."""
+        signal = self.x_signal if axis_name == "x" else self.y_signal
+        value = log.value(signal, index)
+        if not math.isfinite(value) and signal in log.values and len(log.times):
+            # DDE5 rotates request groups. Join coordinates only to a recent
+            # earlier acquisition, never to a future row while scrubbing logs.
+            values = log.values[signal]
+            index = max(0, min(int(index), len(log.times) - 1))
+            cached = self._coordinate_indices.get(signal)
+            if cached is None or cached[0] is not values or cached[1] != len(values):
+                cached = (values, len(values), np.flatnonzero(np.isfinite(values)))
+                self._coordinate_indices[signal] = cached
+            finite = cached[2]
+            previous = int(np.searchsorted(finite, index, side="right")) - 1
+            if previous >= 0:
+                source_index = int(finite[previous])
+                age = float(log.times[index] - log.times[source_index])
+                if 0 <= age <= 1.0:
+                    value = float(values[source_index])
+        if not math.isfinite(value) or axis is None:
+            return value
+        source = _norm_unit(log.units.get(signal, "") or log.catalog.unit_for(signal))
+        target = _norm_unit(axis.units)
+        pressure = {"pa": 1.0, "hpa": 100.0, "mbar": 100.0, "kpa": 1000.0, "bar": 100000.0}
+        if source in pressure and target in pressure:
+            return value * pressure[source] / pressure[target]
+        time = {"s": 1.0, "ms": .001, "h": 3600.0}
+        if source in time and target in time:
+            return value * time[source] / time[target]
+        return value
 
 
 
@@ -431,7 +473,7 @@ def _axis_signal(definition, axis, axis_name: str) -> tuple[str | None, str | No
     if unit == "%" or "percent" in unit:
         if any(k in title for k in ("driver", "fahrer", "wish", "pedal")):
             return SIG_PEDAL, "Pedal position"
-    if "nm" in unit:
+    if unit == "nm":
         if "driver" in title or "fahrer" in title or "wish" in title:
             return SIG_DRIVER_TORQUE, "Driver-wish torque"
         return SIG_TORQUE, "Torque"
@@ -444,6 +486,21 @@ def _axis_signal(definition, axis, axis_name: str) -> tuple[str | None, str | No
             return SIG_RAIL_SET, "Rail pressure"
         if "boost" in title or "lade" in title or getattr(definition, "category", "") in {"Boost", "N75"}:
             return SIG_BOOST_SET, "Boost pressure"
+    if unit in {"degc", "c", "celsius"}:
+        if any(k in title for k in ("coolant", "kuehl", "kühl", "tclnt")):
+            return "STAT_KUEHLMITTELTEMPERATUR_WERT", "Coolant temperature"
+        if any(k in title for k in ("intake-air", "intake air", "ansaugluft", "air-temperature")):
+            return "STAT_ANSAUGLUFTTEMPERATUR_WERT", "Intake air temperature"
+        if any(k in title for k in ("charge air", "ladeluft")):
+            return "STAT_LADELUFTTEMPERATUR_WERT", "Charge air temperature"
+        if any(k in title for k in ("fuel temp", "kraftstofftemp")):
+            return "STAT_KRAFTSTOFFTEMPERATURK_WERT", "Fuel temperature"
+    if unit == "v" and any(k in title for k in ("battery", "batt", "ubatt")):
+        return "STAT_UBATT_WERT", "Battery voltage"
+    if unit == "h" and "operating" in (title + " " + getattr(definition, "description", "").casefold()):
+        return "STAT_BETRIEBSSTUNDENZAEHLER_WERT", "Engine operating time (seconds converted to hours)"
+    if unit == "gsoot":
+        return "STAT_RUSSMASSE_IM_PARTIKELFILTER_WERT", "DPF soot mass"
     return None, f"No automatic log binding for {axis_name.upper()} axis unit '{getattr(axis, 'units', '') or 'unknown'}'"
 
 
@@ -451,22 +508,8 @@ def profile_for_definition(definition, log: TestOLog | None = None) -> MapLogPro
     """Conservative table-aware bindings. Missing channels remain explicit."""
     from .ms43_navigation import is_ms43_definition
     if is_ms43_definition(definition):
-        title = definition.title
-        traces = ['N','PVS','TPS','MAP','ACTIVEVE','AFTARGET','INJDC']
-        notes = []
-        def signal(axis):
-            units = _norm_unit(axis.units) if axis else ''
-            if units == 'rpm': return 'N'
-            if units == 'kpa': return 'MAP'
-            if units == '%' and 'pvs' in title: return 'PVS'
-            return None
-        x, y = signal(definition.x_axis), signal(definition.y_axis)
-        if title.startswith('ip_map_ve_'):
-            # Active VE can be fractional; do not mix other tables' samples into
-            # a VE occupancy map before the interpolation/gating is verified.
-            x = y = None
-            notes.append('VE cell tracing is disabled until active-table filtering is verified; plot Active VE table to inspect selection.')
-        return MapLogProfile(name=definition.category, x_signal=x, y_signal=y, traces=traces, notes=notes)
+        from .table_tracing import ms43_profile
+        return ms43_profile(definition)
     category = (getattr(definition, "category", "") or "").casefold()
     title = (getattr(definition, "title", "") or "").casefold()
     x_signal, x_note = _axis_signal(definition, getattr(definition, "x_axis", None), "x")
@@ -525,6 +568,22 @@ def profile_for_definition(definition, log: TestOLog | None = None) -> MapLogPro
         y_signal = typed_y_signal if typed_y_signal == SIG_RPM else None
         notes.append("Unverified map suggestion: configure physical axis bindings explicitly before using log positions.")
 
+    # A category fallback cannot turn an explicitly different physical quantity
+    # (temperature, operating hours, controller input) into IQ or engine speed.
+    # Singleton dimensions never need a runtime channel.
+    for which, typed in (("x", typed_x_signal), ("y", typed_y_signal)):
+        axis = getattr(definition, which + "_axis", None)
+        if axis is None or axis.count <= 1:
+            if which == "x":
+                x_signal = None
+            else:
+                y_signal = None
+        elif typed is None and _norm_unit(axis.units):
+            if which == "x":
+                x_signal = None
+            else:
+                y_signal = None
+
     # Drop redundant "no automatic binding" notes once a category/title fallback
     # has provided a concrete axis signal. Keep explicit fallback notes.
     if x_signal is not None:
@@ -539,6 +598,9 @@ def profile_for_definition(definition, log: TestOLog | None = None) -> MapLogPro
         if fallback:
             x_signal = fallback
             notes.append(f"Filtered pedal is not logged; using {fallback} as a fallback")
+
+    if x_signal or y_signal:
+        notes.append("Coordinates may hold the most recent finite axis reading for up to 1 s between request groups; future samples are never used.")
 
     return MapLogProfile(name=name, x_signal=x_signal, y_signal=y_signal, traces=traces, notes=notes)
 

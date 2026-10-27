@@ -7,6 +7,8 @@ import json
 import math
 import re
 import time
+from copy import deepcopy
+from threading import Lock
 from datetime import datetime
 from pathlib import Path
 from PySide6.QtCore import QObject, Signal, QTimer, QUrl, Qt, QSettings
@@ -46,6 +48,58 @@ def make_groups(selected, catalog):
     if len(extras) > 64:
         raise ValueError('Choose at most 66 parameters (8 groups).')
     return [ANCHORS + extras[i:i+8] for i in range(0, len(extras), 8)] or [ANCHORS[:]]
+
+
+def parameter_update_plan(selected, catalog, current=None):
+    """Describe DDE's ten-value blocks, including the two repeated anchors."""
+    groups = make_groups(selected, catalog)
+    old_groups = make_groups(current, catalog) if current else []
+    return dict(parameters=list(dict.fromkeys(ANCHORS + selected)), groups=groups,
+                old_blocks=len(old_groups), new_blocks=len(groups),
+                adds_block=len(groups) > len(old_groups))
+
+
+class PendingParameters:
+    """Pass validated selections to an acquisition thread at a reply boundary."""
+    def __init__(self):
+        self._lock = Lock()
+        self._profile = None
+
+    def put(self, profile):
+        with self._lock:
+            self._profile = deepcopy(profile)
+
+    def take(self):
+        with self._lock:
+            profile, self._profile = self._profile, None
+        return profile
+
+
+class ParameterUpdatingReader:
+    """Selection changes are applied by the owner of the transport and CSV."""
+    def init_parameter_updates(self):
+        self.parameter_updates = PendingParameters()
+
+    def validate_parameters(self, selected):
+        profile = validate_profile(dict(self.profile, parameters=selected), self.catalog)
+        return profile, make_groups(profile['parameters'], self.catalog)
+
+    def update_parameters(self, selected):
+        profile, _groups = self.validate_parameters(selected)
+        self.parameter_updates.put(profile)
+        return profile
+
+    def apply_parameters(self):
+        profile = self.parameter_updates.take()
+        if profile is None or profile == self.profile:
+            return False
+        profile, groups = self.validate_parameters(profile['parameters'])
+        if self.capture:
+            self.capture = self.capture.next_segment(profile, groups, self.catalog)
+            self.status.emit('Logging selection updated · CSV: ' + str(self.capture.path))
+        self.profile, self.groups = profile, groups
+        self.profileChanged.emit(deepcopy(profile))
+        return True
 
 
 def validate_profile(profile, catalog):
@@ -91,6 +145,8 @@ class CsvCapture:
         self.flush_interval = float(flush_interval)
         self.last_flush = time.monotonic()
         self.path = Path(path)
+        self.context = dict(context or {})
+        self.segment_root = self.path
         self.fields = list(dict.fromkeys(catalog[a]['result'] for g in groups for a in g))
         self.handle = self.path.open('x', encoding='utf-8-sig', newline='')
         self.writer = csv.DictWriter(self.handle, fieldnames=['time', 'time_unit', 'receivedAt',
@@ -122,12 +178,34 @@ class CsvCapture:
     def close(self):
         self.handle.close()
 
+    def next_segment(self, profile, groups, catalog):
+        """Keep each CSV's schema fixed and retain the session's time origin."""
+        root = self.segment_root
+        number = 2
+        while True:
+            path = root.with_name(f'{root.stem}.part{number}{root.suffix}')
+            if not path.exists() and not path.with_suffix(path.suffix + '.profile.json').exists():
+                break
+            number += 1
+        context = dict(self.context, segment_of=root.name,
+                       time_basis='Elapsed seconds from the original session start')
+        segment = CsvCapture(path, profile, groups, catalog,
+                             flush_interval=self.flush_interval, context=context)
+        segment.segment_root = root
+        try:
+            self.close()
+        except Exception:
+            segment.close()
+            raise
+        return segment
+
 
 class LiveLogger(QObject):
     sampleReady = Signal(float, object)
     status = Signal(str)
     error = Signal(str)
     stopped = Signal()
+    profileChanged = Signal(object)
 
     def __init__(self, config, catalog, parent=None):
         super().__init__(parent)
@@ -153,6 +231,26 @@ class LiveLogger(QObject):
         self.index = 0
         self.capture = None
         self.seen_first = None
+        self.parameter_updates = PendingParameters()
+
+    def update_parameters(self, selected):
+        if not self.active:
+            raise RuntimeError('Live logging is not running.')
+        profile = validate_profile(dict(self.profile, parameters=selected), self.catalog)
+        self.parameter_updates.put(profile)
+        return profile
+
+    def _apply_parameters(self):
+        profile = self.parameter_updates.take()
+        if profile is None or profile == self.profile:
+            return
+        groups = make_groups(profile['parameters'], self.catalog)
+        if self.capture:
+            self.capture = self.capture.next_segment(profile, groups, self.catalog)
+            self.status.emit('Logging selection updated · CSV: ' + str(self.capture.path))
+        self.profile, self.groups = profile, groups
+        self.index = 0
+        self.profileChanged.emit(deepcopy(profile))
 
     def start(self):
         self.active = True
@@ -235,6 +333,11 @@ class LiveLogger(QObject):
 
     def request_next(self):
         if not self.active or self.pending:
+            return
+        try:
+            self._apply_parameters()
+        except Exception as exc:
+            self.fail('Could not update logging selection: ' + str(exc))
             return
         request_id = f'live-{self.count}'
         self.pending = (request_id, self.index, time.monotonic())

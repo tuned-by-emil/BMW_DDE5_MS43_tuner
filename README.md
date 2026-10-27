@@ -22,7 +22,7 @@ to save a separate copy.
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.33.6_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.34.0_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -37,7 +37,7 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.33.6_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.34.0_Setup.exe -Algorithm SHA256
 ```
 
 ## Try Emil's BIN and recorded log
@@ -154,25 +154,25 @@ compiler. Your local Python installation is not required for CI.
   Run workflow**, and select a branch. After checks pass, download the
   `windows-installer` artifact from that run. A branch run does not create a release.
 - **Prepare a release:** update `__version__` in `bmw_bin_editor/__init__.py`,
-  commit it, and push a matching tag, for example `v1.33.6` for version `1.33.6`.
+  commit it, and push a matching tag, for example `v1.34.0` for version `1.34.0`.
   The tag must point to a commit containing this workflow.
 - **Publish:** after all checks and the build pass, the workflow creates a draft
   GitHub Release with the setup EXE, SHA-256 file, and generated release notes.
   Review the notes and installer on Windows, then publish the draft in **Releases**.
 
-For example, after committing version `1.33.6`:
+For example, after committing version `1.34.0`:
 
 ```sh
-git tag v1.33.6
-git push origin v1.33.6
+git tag v1.34.0
+git push origin v1.34.0
 ```
 
 Tests, dependency checks, the public-tree audit, and the public GUI self-check
 are required gates. Missing optional private fixtures remain explicit skips.
-The current committed direct-serial parameter checksum mismatch must be
-resolved before this workflow can pass; the workflow preserves that integrity
-check. Build logs appear in Actions, and available JSON reports are retained as
-the `windows-build-reports` artifact even when a later step fails.
+Direct-serial definition verification accepts Git checkouts with LF or CRLF
+line endings while retaining the pinned scaling integrity check. Build logs
+appear in Actions, and available JSON reports are retained as the
+`windows-build-reports` artifact even when a later step fails.
 
 The workflow uses GitHub's automatic token; no personal access token is needed.
 Repository or organization policy must allow Actions and release creation.

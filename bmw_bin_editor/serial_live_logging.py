@@ -5,16 +5,17 @@ from datetime import datetime
 from copy import deepcopy
 import time
 from PySide6.QtCore import QObject, QThread, Signal, Slot
-from .live_logging import CsvCapture, make_groups, validate_profile
+from .live_logging import CsvCapture, make_groups, validate_profile, ParameterUpdatingReader
 from .serial_measurements import SerialMeasurements
 from .serial_transport import KlineSession, SerialCancelled, SerialCommunicationError, validate_port
 from .serial_process import ProcessKlineSession
 
 
-class _Reader(QThread):
+class _Reader(ParameterUpdatingReader, QThread):
     sampleReady = Signal(float, object)
     status = Signal(str)
     error = Signal(str)
+    profileChanged = Signal(object)
 
     def __init__(self, config, catalog, parent=None, *, session_factory=ProcessKlineSession):
         super().__init__(parent)
@@ -37,6 +38,16 @@ class _Reader(QThread):
             payload = self.decoder.selection_payload(group)
             self.channel_ids.append(tuple(int.from_bytes(payload[n:n+2], 'big') for n in range(2, len(payload), 2)))
         self.count, self.capture = 0, None
+        self.init_parameter_updates()
+
+    def validate_parameters(self, selected):
+        profile, groups = super().validate_parameters(selected)
+        self.decoder.validate_groups(groups)
+        return profile, groups
+
+    def _channel_ids(self):
+        return [tuple(int.from_bytes(payload[n:n+2], 'big') for n in range(2, len(payload), 2))
+                for payload in (self.decoder.selection_payload(group) for group in self.groups)]
 
     def run(self):
         try:
@@ -64,6 +75,12 @@ class _Reader(QThread):
                 counts_by_group = [0] * len(self.groups)
                 last_status = None
                 while not self.isInterruptionRequested():
+                    if self.apply_parameters():
+                        self.channel_ids = self._channel_ids()
+                        index = 0
+                        first_by_group = [None] * len(self.groups)
+                        last_by_group = [None] * len(self.groups)
+                        counts_by_group = [0] * len(self.groups)
                     sent = time.monotonic()
                     group = self.groups[index]
                     reply = session.read_measurements(self.channel_ids[index])
@@ -122,6 +139,7 @@ class SerialLiveLogger(QObject):
     status = Signal(str)
     error = Signal(str)
     stopped = Signal()
+    profileChanged = Signal(object)
 
     def __init__(self, config, catalog, parent=None, *, session_factory=ProcessKlineSession, reader_factory=_Reader):
         super().__init__(parent)
@@ -131,6 +149,7 @@ class SerialLiveLogger(QObject):
         self.worker.status.connect(self._status)
         self.worker.error.connect(self.error)
         self.worker.finished.connect(self._finished)
+        self.worker.profileChanged.connect(self.profileChanged)
 
     @property
     def catalog(self):
@@ -157,6 +176,11 @@ class SerialLiveLogger(QObject):
             raise RuntimeError('Create a new serial logger to reconnect.')
         self.active = True
         self.worker.start()
+
+    def update_parameters(self, selected):
+        if not self.active:
+            raise RuntimeError('Live logging is not running.')
+        return self.worker.update_parameters(selected)
 
     def stop(self):
         self.active = False

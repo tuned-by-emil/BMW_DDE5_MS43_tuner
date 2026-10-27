@@ -72,7 +72,10 @@ class SerialMeasurements:
             encoded = path.read_bytes()
         except OSError as exc:
             raise ValueError("Verified direct serial parameter definitions are missing.") from exc
-        if hashlib.sha256(encoded).hexdigest() != DEFINITIONS_SHA256:
+        # Git may check this JSON out with LF or CRLF. The pinned artifact was
+        # generated on Windows; normalize only line endings before verifying it.
+        verified_bytes = encoded.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')
+        if hashlib.sha256(verified_bytes).hexdigest() != DEFINITIONS_SHA256:
             raise ValueError("Direct serial parameter definitions have changed; refusing unverified scaling.")
         document = json.loads(encoded.decode("utf-8"))
         if document.get("schema") != 1 or document.get("ecu") != "DDE5/EDC16 361830":

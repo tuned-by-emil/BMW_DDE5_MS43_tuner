@@ -46,7 +46,8 @@ class LaunchPresetTests(unittest.TestCase):
         signal_catalog = SignalCatalog.load_tsv(PROJECT / 'definitions/testo_signals.tsv')
         self.assertEqual(signal_catalog.label_for(selector['result']), selector['label'])
         pinned = PROJECT / 'definitions/direct_serial_parameters.json'
-        self.assertEqual(hashlib.sha256(pinned.read_bytes()).hexdigest(), DEFINITIONS_SHA256)
+        verified = pinned.read_bytes().replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')
+        self.assertEqual(hashlib.sha256(verified).hexdigest(), DEFINITIONS_SHA256)
         decoder = SerialMeasurements(self.catalog)
         for code in (0, 1, 2, 3, 7, 8, 255):
             with self.subTest(code=code):
