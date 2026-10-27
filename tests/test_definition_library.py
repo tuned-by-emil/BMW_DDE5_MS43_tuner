@@ -38,7 +38,7 @@ class NamingTests(unittest.TestCase):
             (output / "manifest.json").write_text(json.dumps({"entries": [entry]}), encoding="utf-8")
             title, selected, naming = _profile_naming(output, "stable-key", "a2l:reviewed",
                                                      "unrelated-export-name", ["1037123456"])
-            self.assertEqual((title, selected, naming), (entry["title"], path, nomenclature))
+            self.assertEqual((title, selected.resolve(), naming), (entry["title"], path.resolve(), nomenclature))
 
     def test_different_profiles_with_same_software_never_overwrite_each_other(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -50,7 +50,7 @@ class NamingTests(unittest.TestCase):
                                             ["1037370888"], [], claims)
             self.assertEqual(title, "EDC16 370888")
             self.assertEqual(path.name, f"EDC16 370888 {sha256(b'second-key')[:8]}.xdf")
-            self.assertNotEqual(path, existing)
+            self.assertNotEqual(path.resolve(), existing.resolve())
             self.write_profile(path, "ols-json:second")
             self.assertEqual(_profile_naming(output, "second-key", "ols-json:second", "export",
                                              ["1037370888"], [], claims)[1], path)
@@ -69,7 +69,7 @@ class NamingTests(unittest.TestCase):
             path.write_text(path.read_text(encoding="utf-8").replace("<XDFHEADER>", "<XDFHEADER><author>User edit</author>"),
                             encoding="utf-8")
             selected = _profile_naming(output, "stable-key", "a2l:reviewed", "export", [], [old])[1]
-            self.assertNotEqual(selected, path)
+            self.assertNotEqual(selected.resolve(), path.resolve())
             self.assertIn("User edit", path.read_text(encoding="utf-8"))
 
     def test_manifest_filenames_cannot_escape_or_use_unsafe_windows_names(self):
@@ -82,7 +82,7 @@ class NamingTests(unittest.TestCase):
                                     [{"key": "key", "xdf": filename,
                                       "nomenclature": {"ecu_type": "EDC16", "software_label": "123456"}}])
             _, path, naming = _profile_naming(output, "safe-key", "profile", "../untrusted:source", [], [])
-            self.assertEqual(path.resolve().parent, output)
+            self.assertEqual(path.resolve().parent, output.resolve())
             self.assertEqual(naming["ecu_type"], "EDC16")
 
 

@@ -146,38 +146,44 @@ resources are reported as skipped. No physical ECU is used in checks.
 
 ## Automated Windows releases
 
-The [Windows release workflow](.github/workflows/windows-release.yml) runs on
-GitHub's Windows runner, which supplies its own Python and .NET Framework
-compiler. Your local Python installation is not required for CI.
+The [Windows release workflow](.github/workflows/windows-release.yml) builds on
+GitHub's Windows runner. Your PC can stay offline; GitHub supplies Python and the
+.NET Framework compiler.
 
-- **Try a build:** push the workflow to GitHub, open **Actions > Windows release >
-  Run workflow**, and select a branch. After checks pass, download the
-  `windows-installer` artifact from that run. A branch run does not create a release.
-- **Prepare a release:** update `__version__` in `bmw_bin_editor/__init__.py`,
-  commit it, and push a matching tag, for example `v1.34.0` for version `1.34.0`.
-  The tag must point to a commit containing this workflow.
-- **Publish:** after all checks and the build pass, the workflow creates a draft
-  GitHub Release with the setup EXE, SHA-256 file, and generated release notes.
-  Review the notes and installer on Windows, then publish the draft in **Releases**.
+To build and prepare version **1.34.0** from a phone:
 
-For example, after committing version `1.34.0`:
+1. Open the repository in your phone's browser and choose **Actions > Windows
+   release > Run workflow**. If the controls are hidden, request the browser's
+   desktop site.
+2. Select **release/1.34.0** in the branch menu and press **Run workflow**.
+3. Wait for the build and **draft-release** jobs to finish successfully. Tests,
+   dependency checks, the public-tree audit and the startup self-check must pass
+   before the installer can be released.
+4. Open **Releases** and review the draft **BMW DDE5 MS43 Tuner v1.34.0**. It
+   contains the setup EXE, its SHA-256 file and the changelog-backed release
+   notes. The draft targets the exact commit checked and built by that run.
+5. After reviewing the draft and testing the installer on Windows, choose
+   **Publish release**. Building the draft does not publish it.
 
-```sh
-git tag v1.34.0
-git push origin v1.34.0
-```
+A manual run on a branch named **release/VERSION** creates a draft only when its
+name matches `__version__` in `bmw_bin_editor/__init__.py`. Update that version,
+`CHANGELOG.md` and `RELEASE_NOTES.md` together for the next release. Pushing a
+matching version tag, such as `v1.34.0`, also runs the build and draft workflow.
+Manual runs on other branches retain downloadable `windows-installer` artifacts
+without creating a release.
 
-Tests, dependency checks, the public-tree audit, and the public GUI self-check
-are required gates. Missing optional private fixtures remain explicit skips.
-Direct-serial definition verification accepts Git checkouts with LF or CRLF
-line endings while retaining the pinned scaling integrity check. Build logs
-appear in Actions, and available JSON reports are retained as the
-`windows-build-reports` artifact even when a later step fails.
+The draft uses the checked-in `RELEASE_NOTES.md` and links to the full changelog.
+An existing release is never overwritten: repeating release creation after a
+draft or published release already exists fails rather than replacing its assets.
+Check **Releases** before rerunning a successful release build.
+
+Missing optional private test fixtures are explicit skips. Direct-serial
+definition verification accepts LF or CRLF checkouts while retaining its pinned
+scaling integrity check. Build logs appear in Actions, and available JSON reports
+are retained as the `windows-build-reports` artifact even when a later step fails.
 
 The workflow uses GitHub's automatic token; no personal access token is needed.
 Repository or organization policy must allow Actions and release creation.
-An existing release is never overwritten: if release creation is rerun after a
-draft already exists, that step fails rather than replacing its assets.
 Installers remain unsigned, and CI does not validate physical ECU integration.
 
 ## Libraries and licensing

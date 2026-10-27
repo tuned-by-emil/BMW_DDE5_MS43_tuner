@@ -74,10 +74,10 @@ class OLSExportTests(unittest.TestCase):
     def test_output_root_defaults_source_and_portable_never_internal(self):
         with patch.object(gui, "output_root", return_value=self.root):
             xdf, binary = gui.default_output_paths(self.project)
-        self.assertEqual(xdf, self.root / "definitions" / "library" / "EDC16C31 361888.xdf")
-        self.assertEqual(binary, self.root / "mappacks" / "extracted" / "EDC16C31 361888 Original.bin")
+        self.assertEqual(xdf.resolve(), (self.root / "definitions" / "library" / "EDC16C31 361888.xdf").resolve())
+        self.assertEqual(binary.resolve(), (self.root / "mappacks" / "extracted" / "EDC16C31 361888 Original.bin").resolve())
         with patch.object(sys, "frozen", True, create=True), patch.object(sys, "executable", str(self.root / "Editor.exe")):
-            self.assertEqual(gui.output_root(), self.root)
+            self.assertEqual(gui.output_root().resolve(), self.root.resolve())
 
     def test_cancel_bin_prompt_creates_no_xdf_or_directories(self):
         dialog = self.dialog()
@@ -119,7 +119,8 @@ class OLSExportTests(unittest.TestCase):
         with patch.object(gui.QFileDialog, "getSaveFileName", return_value=(str(binary), "")) as choose:
             dialog.export_files()
         self.assertEqual(choose.call_count, 1)
-        self.assertEqual(dialog.exported_paths, [binary, binary.with_suffix(".import.json")])
+        self.assertEqual([path.resolve() for path in dialog.exported_paths],
+                         [binary.resolve(), binary.with_suffix(".import.json").resolve()])
         self.assertFalse(binary.with_suffix(".olsmeta").exists())
         self.assertFalse(binary.with_suffix(".xdf").exists())
 
