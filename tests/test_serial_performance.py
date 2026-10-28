@@ -43,9 +43,24 @@ class WorkerPerformanceTests(SerialLiveLoggingTests):
             samples, errors, rows, _ = self.run_logger(recorder, Path(directory)/'rotate.csv',
                 parameters=channels, max_rate=True, samples_to_stop=4)
             self.assertFalse(errors)
-            self.assertEqual(len(rows), len(samples))
-            self.assertEqual([row['group'] for row in rows], ['1','2','1','2'])
-            self.assertTrue(all(len(p)>2 for p in recorder.payloads[2:]))
+            self.assertGreaterEqual(len(samples), 4)
+            # A worker read can finish and reach CSV while its sample is still
+            # queued for the GUI. Stop suppresses that queued GUI delivery;
+            # retaining the completed CSV row is correct.
+            self.assertGreaterEqual(len(rows), len(samples))
+            self.assertEqual([row['group'] for row in rows],
+                             [str(index % 2 + 1) for index in range(len(rows))])
+            groups = make_groups(channels, CAT)
+            full = [b'\x2c\x10' + b''.join(int(CAT[arg]['id'], 16).to_bytes(2, 'big')
+                                         for arg in group) for group in groups]
+            requests = recorder.payloads[2:]
+            self.assertEqual(requests, [full[index % 2] for index in range(len(requests))])
+            self.assertEqual([bytes.fromhex(row['_TEL_AUFTRAG'])[4:-1] for row in rows],
+                             requests[:len(rows)])
+            # One owner issues one read at a time and exits immediately after
+            # an interrupted reply, so at most its last request can lack CSV.
+            self.assertGreaterEqual(len(requests), len(rows))
+            self.assertLessEqual(len(requests), len(rows) + 1)
 
 
 class PreferenceTests(SerialLoggingGuiTests):

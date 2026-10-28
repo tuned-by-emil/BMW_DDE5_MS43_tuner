@@ -1,0 +1,74 @@
+DDE5 MPC patch checks — BMW DDE5 MS43 Tuner v1.35.0
+
+Open ECU > DDE5 patch checks after the combined read/baud/write MPC candidate
+has been installed and its startup has been checked. This editor build does
+not flash the MPC, erase flash, reset the ECU or install the SRAM hardware.
+The separate ECU > DDE5 RAM calibration bench screen is described in
+DDE5_RAM_CALIBRATION_TEST.txt. It needs verified external RAM hardware.
+
+These checks are included in the normal Windows release. Existing installation
+paths, shortcuts and ECU preferences are retained. Setup needs internet access
+to obtain its private Python runtime and the pinned library packages.
+
+Before connecting
+Choose the COM port for your transparent BMW K-line/K+DCAN cable. Close other
+logging/diagnostic programs using that cable. Keep the cable's echo option
+consistent with its actual behavior. The initial connection uses 9600 baud,
+8 data bits, even parity and 1 stop bit. Opening this dialog sends nothing.
+
+1. Read checks
+Run the read check first. It verifies Bosch hardware 0281010565 and software
+1037361830, reads the live MPC permission words and snapshots selected RAM state.
+The expected gate words are FEFF at 0x23526, 0x2354E and 0x23576. Matching these
+words verifies those installed bytes, not the integrity of the complete MPC.
+The check includes session/transport state, the calibration manager and SOI/N75/
+boost selectors/weights. These observations are asynchronous snapshots.
+No baud-session command or service3D memory-write command is sent in this mode.
+An unpatched ECU may reject memory reading. A rejection is a test result, not
+a reason to try an unlock, authentication, reset or arbitrary command.
+
+2. Baud round trip
+Use this separate check with the engine stopped and no active RAM calibration
+page or pending calibration transaction. The original session86 callback can
+probe external RAM and reset its calibration directory/allocation state.
+Choose nominal115200 or125000. The first has a calculated ECU wire rate of
+113636; the second125000. Neither has been physically validated on your cable.
+The editor waits for a complete valid positive acknowledgement at the old rate
+before changing its own port rate. It then checks a RAM read, requests the
+return to nominal9600, waits for the positive acknowledgement at the high rate,
+returns its own port to9600 and checks readback again.
+No service3D memory-write command is sent by the baud check. Session86 itself
+does change native ECU session/calibration-manager state.
+If communication becomes ambiguous, the test stops instead of sweeping baud
+rates or sending resets. Follow the saved report's recovery status; the ECU may
+remain at the requested rate and need an ECU power cycle before a new9600 test.
+Returning to9600 leaves session86 active; it does not establish full session
+cleanup or undo its calibration preparation effects.
+
+3. Optional four-byte RAM write/readback
+There is no default test address. The combined MPC patch does not reserve a
+scratch buffer. Do not enter an address merely because it reads as zero orFF.
+An eligible address must name four aligned bytes in the existing420-byte manager
+workspace [0x3F9FD4,0x3FA178). An engineering reservation must exclude all other
+users for the entire test, including calibration-manager allocations. Idle
+state alone does not prove exclusive ownership.
+Provide the reservation reference and explicitly confirm that the exact bytes
+are reserved for this firmware. The application records your declaration; it
+cannot certify physical memory ownership. The runtime manager/page checks are
+additional guards, not proof of reservation.
+The separate write action enters session86 at9600, saves the original four
+bytes, writes a test pattern, reads it back, restores the original and verifies
+restoration. It does not make a calibration lookup use those bytes.
+Cancellation can be deferred after a write attempt so cleanup can finish.
+If communication prevents restoration, the report records the original bytes
+and an uncertain/required restoration status. A successful earlier write is
+not a successful complete test unless restoration is verified.
+
+Reports and validation limits
+Save the JSON report after each test. It includes selected mode, identity,
+request/response frames, observations, errors and restoration status. Reported
+values come from your ECU once connected; results are not pre-filled successes.
+The application and its new test paths are checked with simulated UARTs and
+offscreen UI tests. No physical ECU connection was used to develop this build.
+Do not interpret passing editor tests as successful ECU flashing or as approval
+of a physical scratch address, external SRAM wiring or engine-running tuning.

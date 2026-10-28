@@ -239,7 +239,7 @@ class ReleaseGuiTests(unittest.TestCase):
             window.close()
 
     def test_empty_startup_preserves_saved_map_preferences_without_selecting_an_xdf(self):
-        settings = gui.QSettings('EmilTools', 'BMWBinEditor')
+        settings = editor_settings(gui.QSettings)
         values = {
             'linked_map_groups': json.dumps([{'name': 'My group', 'mode': 'absolute',
                 'members': ['table:0F7F44', 'table:0F8478']}]),
@@ -319,11 +319,11 @@ class ReleaseGuiTests(unittest.TestCase):
         preview = factory('EmilTools', 'BMWBinEditorV1265ReviewPreview')
         preview.setValue('favorites', 'favorite-list')
         preview.setValue('log/channel_display', '{"readings":["RPM"]}')
-        migrated = editor_settings(factory)
+        migrated = editor_settings(factory, channel='stable')
         self.assertEqual(migrated.value('favorites'), 'favorite-list')
         migrated.setValue('favorites', 'edited-list')
         preview.setValue('favorites', 'obsolete-list')
-        self.assertEqual(editor_settings(factory).value('favorites'), 'edited-list')
+        self.assertEqual(editor_settings(factory, channel='stable').value('favorites'), 'edited-list')
 
     def test_close_waits_for_a_pending_request_without_destroying_thread(self):
         class PendingThread(QThread):

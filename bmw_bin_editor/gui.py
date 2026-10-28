@@ -69,6 +69,9 @@ from .core import (
 from .floating_gauge import FloatingGauge
 from .log_widgets import ChannelSetupDialog, FuelEstimateDialog, GaugeSetupDialog, GraphReadings, ReadingStrip, channel_style, scale_channel
 from .ecu_programming_gui import EcuProgrammingDialog
+from .dde5_patch_test_gui import Dde5PatchTestDialog
+from .dde5_ram_calibration_gui import Dde5RamCalibrationDialog
+from .dde5_live_ram_gui import Dde5LiveRamDialog
 from .log_delta import LogDeltaDialog
 from .logging_power import LoggingPowerGuard
 from .live_logging import LiveLogger, LoggingDialog, load_parameters, parameter_update_plan
@@ -1082,6 +1085,10 @@ class LogViewerPanel(QWidget):
             self._plot_resize_timer.start()
 
     def open_live_dialog(self):
+        if getattr(self, 'external_com_owner', None):
+            QMessageBox.information(self, APP_NAME,
+                                    'Disconnect live RAM editing before starting another ECU connection.')
+            return
         if self.direct_logger is not None or self.live_thread is not None:
             self.stop_live()
             return
@@ -1115,6 +1122,8 @@ class LogViewerPanel(QWidget):
                 QMessageBox.warning(self, APP_NAME, "Could not start live logging:\n" + str(error))
 
     def start_direct_live(self, config, catalog):
+        if getattr(self, 'external_com_owner', None):
+            raise RuntimeError('Disconnect live RAM editing before starting live logging.')
         transport = config.get("transport", "ediabas")
         from .ms43_live_logging import MS43LiveLogger
         if config.get("transport") == "ms43x" and self.ecu_profile_label.strip() != "MS43X001":
@@ -1185,6 +1194,8 @@ class LogViewerPanel(QWidget):
             logger.deleteLater()
 
     def start_live(self, endpoint: str, token: str, ecu: str, job: str, params: dict, interval_ms: int):
+        if getattr(self, 'external_com_owner', None):
+            raise RuntimeError('Disconnect live RAM editing before starting live logging.')
         if not self.stop_live():
             return
         self.log = LiveTestOLog(self.catalog, label="TestO LIVE", fuel_estimate_config=self.fuel_estimate_config)
@@ -4443,6 +4454,15 @@ class MainWindow(QMainWindow):
         self.act_ecu_direct = QAction("Direct DDE5 connection / change review…", self)
         self.act_ecu_direct.triggered.connect(self.open_ecu_programming)
         ecu_menu.addAction(self.act_ecu_direct)
+        self.act_dde5_patch_checks = QAction("DDE5 patch checks…", self)
+        self.act_dde5_patch_checks.triggered.connect(self.open_dde5_patch_checks)
+        ecu_menu.addAction(self.act_dde5_patch_checks)
+        self.act_dde5_ram_bench = QAction("DDE5 RAM calibration bench…", self)
+        self.act_dde5_ram_bench.triggered.connect(self.open_dde5_ram_bench)
+        ecu_menu.addAction(self.act_dde5_ram_bench)
+        self.act_dde5_live_ram = QAction("DDE5 live RAM editing…", self)
+        self.act_dde5_live_ram.triggered.connect(self.open_dde5_live_ram)
+        ecu_menu.addAction(self.act_dde5_live_ram)
 
         edit = self.menuBar().addMenu("&Edit")
         self.act_undo = QAction("Undo", self); self.act_undo.triggered.connect(self.undo)
@@ -4542,6 +4562,9 @@ class MainWindow(QMainWindow):
         self.ai_dock.raise_()
 
     def show_xdf_editor(self, *, new=False, seeds=()):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before replacing definitions.')
+            return
         from .xdf_gui import XDFEditorDialog
         current = self.editor.definition
         dialog = XDFEditorDialog(None if new else self.xdf,
@@ -4552,6 +4575,9 @@ class MainWindow(QMainWindow):
 
     def _apply_xdf_database(self, database, selected_id=None):
         """Replace definitions without replacing the user's BIN or edit history."""
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before replacing definitions.')
+            return
         if (self.document is not None and database.profile_id != self.editor.log_panel.ecu_profile_id
                 and not self.editor.log_panel.stop_live()):
             raise EditorError("Wait for live logging to stop before changing ECU profiles.")
@@ -4660,6 +4686,9 @@ class MainWindow(QMainWindow):
         return self._empty_xdf_for_bin(data, path), None, 'No matching library XDF; use Definitions to load or discover maps.'
 
     def suggest_matching_xdf(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before replacing definitions.')
+            return
         if self.document is None:
             QMessageBox.information(self, APP_NAME, 'Open a BIN first to propose matching definitions.')
             return
@@ -4809,6 +4838,9 @@ class MainWindow(QMainWindow):
             QMessageBox.Yes | QMessageBox.No, QMessageBox.No) == QMessageBox.Yes
 
     def _load_xdf_path(self, path: Path | str, remember: bool = True) -> bool:
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before replacing definitions.')
+            return False
         try:
             xdf = XDFDatabase(path)
         except Exception as exc:
@@ -4834,6 +4866,9 @@ class MainWindow(QMainWindow):
         return True
 
     def open_xdf(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before replacing definitions.')
+            return
         start = self.settings.value("last_xdf_dir", str(Path.home()))
         path, _ = QFileDialog.getOpenFileName(self, "Open TunerPro XDF", start, "TunerPro XDF (*.xdf);;All files (*.*)")
         if path:
@@ -4850,6 +4885,9 @@ class MainWindow(QMainWindow):
             self._status(f"Exported {len(dialog.exported_paths)} files from the WinOLS project.")
 
     def load_bundled_definition(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before replacing definitions.')
+            return
         path = bundled_definition_path()
         if not path.exists():
             QMessageBox.information(self, APP_NAME,
@@ -4887,6 +4925,9 @@ class MainWindow(QMainWindow):
         self._status(f"Reference BIN loaded: {Path(path).name}. Use Δ vs ref or Reference overlay.")
 
     def open_bin(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before opening another BIN.')
+            return
         start = self.settings.value("last_bin_dir", str(Path.home()))
         path, _ = QFileDialog.getOpenFileName(self, "Open ECU BIN", start, "BIN files (*.bin);;All files (*.*)")
         if not path:
@@ -5232,10 +5273,16 @@ class MainWindow(QMainWindow):
                 return
 
     def open_live_logging(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before starting live logging.')
+            return
         self.editor.btn_log.setChecked(True)
         self.editor.log_panel.open_live_dialog()
 
     def open_ecu_programming(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before another ECU connection.')
+            return
         panel = self.editor.log_panel
         if panel.direct_logger is not None or panel.live_thread is not None:
             QMessageBox.information(self, APP_NAME, "Stop live logging before opening the direct ECU connection.")
@@ -5263,12 +5310,125 @@ class MainWindow(QMainWindow):
                 self._document_changed()
                 self._status('361830 arithmetic checksums corrected in memory; Undo is available. Save to keep the corrected bytes.')
 
+    def open_dde5_patch_checks(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before another ECU connection.')
+            return
+        panel = self.editor.log_panel
+        if panel.direct_logger is not None or panel.live_thread is not None:
+            QMessageBox.information(self, APP_NAME,
+                                    'Stop live logging before opening DDE5 patch checks.')
+            return
+        dialog = Dde5PatchTestDialog(self)
+        dialog.exec()
+
+    def open_dde5_ram_bench(self):
+        if getattr(self, '_dde5_live_ram_owned', False):
+            QMessageBox.information(self, APP_NAME, 'Disconnect live RAM editing before another ECU connection.')
+            return
+        panel = self.editor.log_panel
+        if panel.direct_logger is not None or panel.live_thread is not None:
+            QMessageBox.information(self, APP_NAME,
+                                    'Stop live logging before opening the DDE5 RAM calibration bench.')
+            return
+        doc, definition = self.document, self.editor.definition
+        if (doc is None or doc.xdf.profile_id != '361830' or definition is None
+                or definition.discovery_unverified):
+            QMessageBox.information(self, APP_NAME,
+                                    'Open a 361830 BIN and select a verified table before opening the RAM calibration bench.')
+            return
+        dialog = Dde5RamCalibrationDialog(bytes(doc.original), definition,
+                                          edited=bytes(doc.data), image_name=str(doc.path), parent=self)
+        dialog.exec()
+
+    def _dde5_live_ram_context(self):
+        panel = self.editor.log_panel
+        if panel.direct_logger is not None or panel.live_thread is not None:
+            raise ValueError('Stop live logging before qualifying a RAM connection.')
+        doc = self.document
+        if doc is None:
+            return None
+        return dict(document=doc, original=bytes(doc.original), edited=bytes(doc.data),
+                    definition=self.editor.definition, profile_id=doc.xdf.profile_id)
+
+    def _apply_dde5_ram_readback(self, doc, snapshot, updates):
+        if self.document is not doc or bytes(doc.data) != snapshot:
+            raise ValueError('The editor changed during RAM readback; no editor bytes were replaced.')
+        changed = doc.apply_bytes('Read DDE5 RAM table and axes', updates)
+        if changed:
+            self.editor.refresh()
+            self._document_changed()
+        return changed
+
+    def _set_dde5_live_ram_owner(self, owned):
+        if bool(getattr(self, '_dde5_live_ram_owned', False)) == bool(owned):
+            return
+        self._dde5_live_ram_owned = bool(owned)
+        names = ('act_ecu_direct', 'act_dde5_patch_checks', 'act_dde5_ram_bench',
+                 'act_live_log', 'act_bin', 'act_xdf', 'act_bundled', 'act_new_xdf',
+                 'act_edit_xdf', 'act_suggest_xdf')
+        panel = self.editor.log_panel
+        if owned:
+            self._dde5_live_ram_action_states = {name: getattr(self, name).isEnabled()
+                for name in names if hasattr(self, name)}
+            self._dde5_live_ram_log_button_enabled = panel.live_button.isEnabled()
+            for name in self._dde5_live_ram_action_states:
+                getattr(self, name).setEnabled(False)
+            panel.live_button.setEnabled(False)
+            panel.external_com_owner = 'DDE5 live RAM editing'
+        else:
+            for name, enabled in getattr(self, '_dde5_live_ram_action_states', {}).items():
+                getattr(self, name).setEnabled(enabled)
+            panel.live_button.setEnabled(getattr(self, '_dde5_live_ram_log_button_enabled', True))
+            panel.external_com_owner = None
+
+    def open_dde5_live_ram(self):
+        panel = self.editor.log_panel
+        if panel.direct_logger is not None or panel.live_thread is not None:
+            QMessageBox.information(self, APP_NAME, 'Stop live logging before opening live RAM editing.')
+            return
+        dialog = getattr(self, '_dde5_live_ram_dialog', None)
+        if dialog is not None:
+            dialog.show()
+            dialog.raise_()
+            dialog.activateWindow()
+            return
+        dialog = Dde5LiveRamDialog(self._dde5_live_ram_context, self._apply_dde5_ram_readback, self)
+        self._dde5_live_ram_dialog = dialog
+        dialog.ownershipChanged.connect(self._set_dde5_live_ram_owner)
+        dialog.show()
+
+    def _dde5_ram_shutdown_finished(self, clean):
+        if not getattr(self, '_closing_after_ram', False):
+            return
+        dialog = getattr(self, '_dde5_live_ram_dialog', None)
+        if dialog is not None:
+            try:
+                dialog.stopped.disconnect(self._dde5_ram_shutdown_finished)
+            except (RuntimeError, TypeError):
+                pass
+        if clean:
+            self.close()
+        else:
+            self._closing_after_ram = False
+            if dialog is not None:
+                dialog.show()
+                dialog.raise_()
+            self._status('RAM cleanup is unconfirmed. Review and save the live RAM report before closing.')
+
 
     def closeEvent(self, event):
-        if self.document and self.document.dirty and not getattr(self, "_closing_after_logging", False) and not getattr(self, "_closing_after_ai", False):
+        if self.document and self.document.dirty and not getattr(self, "_closing_after_logging", False) and not getattr(self, "_closing_after_ai", False) and not getattr(self, '_closing_after_ram', False):
             ans = QMessageBox.question(self, APP_NAME, "There are unsaved in-memory edits. Exit anyway?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if ans != QMessageBox.Yes:
                 event.ignore(); return
+        ram_dialog = getattr(self, '_dde5_live_ram_dialog', None)
+        if ram_dialog is not None and not ram_dialog.shutdown():
+            if not getattr(self, '_closing_after_ram', False):
+                ram_dialog.stopped.connect(self._dde5_ram_shutdown_finished)
+                self._closing_after_ram = True
+            event.ignore()
+            return
         if hasattr(self, "ai_panel") and not self.ai_panel.shutdown():
             if not getattr(self, "_closing_after_ai", False):
                 self.ai_panel.idle.connect(self.close)

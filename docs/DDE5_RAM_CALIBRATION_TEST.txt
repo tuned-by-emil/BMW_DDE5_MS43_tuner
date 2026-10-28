@@ -1,0 +1,72 @@
+DDE5 RAM calibration bench — BMW DDE5 MS43 Tuner v1.35.0
+
+Open ECU > DDE5 RAM calibration bench after loading an original full 1 MiB
+361830 FLS BIN and selecting a verified table. Opening the window builds an
+offline plan and sends nothing. Your current editor changes remain untouched
+and are excluded from this experiment. The bench screen is included in the
+normal Windows installation. Qualified live uploads use the separate
+ECU > DDE5 live RAM editing screen described in DDE5_LIVE_RAM.txt.
+
+Hardware and bench conditions
+External SRAM wiring, bank configuration and usable capacity remain unresolved
+for the actual board. Chip capacity or a software flag does not prove them.
+Run a physical bench experiment only after independently verifying all three
+and recording the evidence reference. The application records your declaration.
+It cannot certify the electrical arrangement or usable memory.
+
+The default 32 KiB declaration imposes a 32768-byte host allocation limit. The
+stock allocator's 60 KiB address arena is not proof that 60 KiB of SRAM exists.
+A verified 64 KiB declaration is still limited by that 60 KiB firmware arena.
+The complete 279-entry RAM directory costs 1116 bytes before any table block.
+A managed write copies a complete firmware block, including its neighboring
+data; a cell's byte count is not the allocation cost. The Main SOI block uses
+4258 bytes, so its directory-plus-block plan needs 5374 bytes. The firmware can
+allocate small blocks from its separate 420-byte internal pool first.
+
+Use a fresh ECU boot with the engine stopped, reference page selected and the
+manager idle. Stop live logging and all other CCP, diagnostic or calibration
+clients. Select the transparent K-line cable COM port and its actual echo
+behavior. This bench flow stays at 9600 baud, 8 data bits, even parity, 1 stop
+bit. Confirm the hardware declaration, stopped engine and exclusive client use.
+
+What the explicit bench action checks
+The editor checks ECU identity, the installed MPC admission words, the complete
+live block directory and manager state. It reads the complete affected flash
+blocks and requires them to match the originally opened BIN before RAM writes.
+Current editor differences are shown separately and are never uploaded.
+
+Session86 prepares the RAM directory and resets allocation/page state. Writing
+one unchanged byte through the native calibration manager triggers the complete
+block copy. The editor checks allocation cursors and activates the RAM page.
+Whole-block verification compares 16-bit byte sums; collisions are possible,
+so this is not byte-for-byte proof of an entire copied block. Separate one-byte
+mapped checksums supply exact readback of the table's first cell. The native
+31/01 checksum start and 33/01 status route can report terminal FA for a nonzero
+byte compared against zero; that expected status is handled by this client.
+
+The optional changed-byte checkbox defaults off. When explicitly selected and
+confirmed, it flips bit 0 of the first byte of the table's first cell, checks
+the complete cell, restores the original byte and checks the cell again. It
+also verifies that the original flash cell did not change. This is a bounded
+engine-off experiment, not bulk editor upload or engine-running tuning.
+
+Restoration and reports
+The flow restores and checks reference-page selection. A successful run leaves
+session86 active and RAM allocations present. Another fresh-allocation bench
+run requires a fresh ECU boot and verified initial state. No flash erase,
+programming, authentication or ECU-reset command is sent.
+
+Cancel requests allow required healthy-link restoration to finish. Keep the
+window open until cleanup completes. An ambiguous connection stops further
+commands and records unconfirmed restoration or required power cycling. Save
+the JSON report, including failed runs: it retains the original byte, frames,
+verification limits, manager observations and restoration status.
+
+Offline packaged smoke check
+Run the installed launcher's --self-check-dde5-ram report.json option, or run
+python run_editor.py --self-check-dde5-ram report.json from source. It uses an
+entirely generated BIN and an in-memory UART, checks both unchanged-copy and
+changed-byte flows plus opening the GUI without connecting, and blocks OS
+serial-port creation. It imports no test-suite fixtures. Passing this smoke
+check validates application integration; it does not validate physical SRAM,
+ECU firmware execution, wiring or an on-car diagnostic connection.

@@ -1,6 +1,7 @@
 """Stable release settings, migrating accepted preview preferences once."""
 from PySide6.QtCore import QSettings
 from urllib.parse import quote
+from . import BUILD_CHANNEL
 
 
 class ECUSettings:
@@ -40,7 +41,11 @@ class ECUSettings:
         self.base.sync()
 
 
-def editor_settings(factory=QSettings):
+def editor_settings(factory=QSettings, *, channel=None):
+    channel = BUILD_CHANNEL if channel is None else channel
+    if channel == "patch-test":
+        # A local test installation must not migrate or change release settings.
+        return factory("EmilTools", "BMWBinEditorPatchTest")
     settings = factory("EmilTools", "BMWBinEditor")
     if not settings.value("settings/migrated", False, type=bool):
         for name in ("BMWBinEditorV1265ReviewPreview", "BMWBinEditorV1"):

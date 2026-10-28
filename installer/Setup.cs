@@ -20,16 +20,22 @@ class Setup : Form {
     CheckBox desktop = new CheckBox();
     CheckBox launch = new CheckBox();
     bool busy;
+#if PATCH_TEST
+    const string Product = "BMW DDE5 MS43 Tuner Patch Test";
+    const string InstallationId = "BMW_DDE5_MS43_Tuner_PatchTest";
+#else
     const string Product = "BMW DDE5 MS43 Tuner";
-    const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\BMW_DDE5_MS43_Tuner";
-    static string root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "BMW_DDE5_MS43_Tuner");
+    const string InstallationId = "BMW_DDE5_MS43_Tuner";
+#endif
+    const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\" + InstallationId;
+    static string root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", InstallationId);
 
     Setup() {
         Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-        Text = "BMW DDE5 MS43 Tuner Setup"; ClientSize = new Size(680, 470);
+        Text = Product + " Setup"; ClientSize = new Size(680, 470);
         StartPosition = FormStartPosition.CenterScreen;
         FormBorderStyle = FormBorderStyle.FixedDialog; MaximizeBox = false;
-        Label title = new Label { Text = "Install BMW DDE5 MS43 Tuner", Font = new Font("Segoe UI", 15), AutoSize = true, Left = 20, Top = 18 };
+        Label title = new Label { Text = "Install " + Product, Font = new Font("Segoe UI", 15), AutoSize = true, Left = 20, Top = 18 };
         Label description = new Label { Text = "Setup downloads a private Python runtime from python.org and libraries from PyPI.\r\nInternet access is required. System Python is unchanged; no administrator access is needed.\r\nInstalled for this Windows user, with a Start menu shortcut and an uninstaller.", Left = 20, Top = 58, Width = 640, Height = 65 };
         Label location = new Label { Text = "Location: " + root, Left = 20, Top = 129, Width = 640, Height = 32 };
         desktop.Text = "Create a desktop shortcut"; desktop.SetBounds(20, 166, 300, 24);
@@ -51,7 +57,7 @@ class Setup : Form {
         int result = 1;
         Mutex mutex = null; bool held = false;
         try {
-            mutex = new Mutex(false, @"Local\BMW_DDE5_MS43_Tuner_Setup"); held = mutex.WaitOne(0);
+            mutex = new Mutex(false, @"Local\" + InstallationId + "_Setup"); held = mutex.WaitOne(0);
             if (!held) throw new Exception("Another setup is already running.");
             if (!Environment.Is64BitOperatingSystem) throw new Exception("Windows x64 is required.");
             if (AppRunning()) throw new Exception("Close the editor before updating.");
@@ -89,9 +95,9 @@ class Setup : Form {
                 MakeShortcut(Path.Combine(menu, Product + ".lnk"), app);
                 string desktopLink = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), Product + ".lnk");
                 if (wantDesktop || File.Exists(desktopLink)) MakeShortcut(desktopLink, app);
-                File.WriteAllText(Path.Combine(root, "installation-id.txt"), "BMW_DDE5_MS43_Tuner");
+                File.WriteAllText(Path.Combine(root, "installation-id.txt"), InstallationId);
                 using (RegistryKey key = Registry.CurrentUser.CreateSubKey(RegistryPath)) {
-                    key.SetValue("DisplayName", Product); key.SetValue("DisplayVersion", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)); key.SetValue("Publisher", "Emil Larsson");
+                    key.SetValue("DisplayName", Product); key.SetValue("DisplayVersion", Assembly.GetExecutingAssembly().GetName().Version.ToString()); key.SetValue("Publisher", "Emil Larsson");
                     key.SetValue("InstallLocation", root); key.SetValue("DisplayIcon", Path.Combine(app, "assets", "editor.ico")); key.SetValue("UninstallString", Quote(uninstaller) + " --uninstall");
                     key.SetValue("NoModify", 1, RegistryValueKind.DWord); key.SetValue("NoRepair", 1, RegistryValueKind.DWord);
                 }
@@ -142,10 +148,10 @@ class Setup : Form {
         if (!Path.GetFullPath(Application.ExecutablePath).StartsWith(temp, StringComparison.OrdinalIgnoreCase)) return 2;
         try { if (!Process.GetProcessById(parent).WaitForExit(30000)) return 3; } catch (ArgumentException) {}
         if (AppRunning()) return 4;
-        string expected = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "BMW_DDE5_MS43_Tuner"));
+        string expected = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", InstallationId));
         if (!String.Equals(Path.GetFullPath(root), expected, StringComparison.OrdinalIgnoreCase)) return 5;
         string marker = Path.Combine(root, "installation-id.txt");
-        if (!File.Exists(marker) || File.ReadAllText(marker).Trim() != "BMW_DDE5_MS43_Tuner") return 6;
+        if (!File.Exists(marker) || File.ReadAllText(marker).Trim() != InstallationId) return 6;
         string programs = Path.GetFullPath(Environment.GetFolderPath(Environment.SpecialFolder.Programs)).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
         string menu = Path.GetFullPath(Path.Combine(programs, Product));
         if (menu.StartsWith(programs, StringComparison.OrdinalIgnoreCase) && Directory.Exists(menu)) Directory.Delete(menu, true);

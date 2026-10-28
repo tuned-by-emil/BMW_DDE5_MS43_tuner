@@ -188,6 +188,11 @@ class KlineSession:
                 return
         raise SerialCommunicationError('Direct serial permits DDE identification and measurement reads only.')
 
+    def _validate_response(self, payload: bytes, response: bytes):
+        """Validate the normal logger's positive service/subfunction contract."""
+        if response[:2] != bytes((payload[0] + 0x40, payload[1])):
+            raise SerialCommunicationError('Unexpected diagnostic service or subfunction in response.')
+
     def _exchange(self, payload: bytes) -> SerialReply:
         self._admit_payload(payload)
         self._require_open()
@@ -220,8 +225,7 @@ class KlineSession:
                         timeout = self.PENDING_TIMEOUT
                         continue
                     raise SerialCommunicationError(f'ECU rejected service 0x{payload[0]:02X}: code 0x{response[2]:02X}.')
-                if response[:2] != bytes((payload[0] + 0x40, payload[1])):
-                    raise SerialCommunicationError('Unexpected diagnostic service or subfunction in response.')
+                self._validate_response(payload, response)
                 self.last_response = self.clock()
                 return SerialReply(response, request, frame)
         except SerialCancelled:

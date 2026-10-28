@@ -1,0 +1,95 @@
+DDE5 live RAM editing — stable 1.35.0 and private Patch Test 1.34.0.2
+
+ECU > DDE5 live RAM editing opens a modeless control window. Keep it beside
+the normal map editor. Opening it sends nothing. Live controls remain locked
+until this connection passes the complete reversible write/readback test.
+An earlier pass, saved JSON report or another window cannot unlock a new link.
+
+This feature is included in both the normal release build and the separate
+private Patch Test build. The private installation has its own folder,
+shortcuts, uninstaller and preferences. The RAM calibration bench remains a
+separate one-shot experiment; its successful report does not unlock live editing.
+
+Before qualification
+Load the original full 1 MiB 361830 FLS BIN and select a verified table. The
+unchanged baseline is frozen for this connection. Current editor changes are
+preserved and are not part of the qualification test.
+
+External SRAM wiring, bank configuration, address mapping and usable capacity
+are not established by this application or a chip marking. Independently
+verify them before connecting and record the hardware evidence. A 32 KiB
+declaration enforces a 32768-byte host allocation limit; a 64 KiB declaration
+still cannot exceed the stock firmware's 60 KiB arena. That arena does not prove
+physical SRAM exists. Whole blocks and the 1116-byte directory consume space;
+selected cells alone do not determine allocation cost.
+
+Keep the engine stopped throughout these operations. Start from a fresh ECU
+boot with the reference page selected and no manager transaction in progress.
+Stop logging and close every other CCP, diagnostic and calibration client.
+Choose the transparent K-line cable port and its actual echo behavior. The
+connection uses 9600 baud, 8 data bits, even parity and 1 stop bit.
+
+Connect and qualify
+Confirm the hardware and bench conditions, then explicitly start qualification.
+The editor checks identity, the installed MPC patch, the live block directory,
+initial state and complete original flash blocks against the opened baseline.
+It prepares the RAM manager and copies unchanged blocks. It then changes one
+byte in the table's first cell, reads back the exact cell, restores the original
+byte, verifies it and restores the reference page. Only a complete passing
+test with the same healthy port still open unlocks the live controls.
+
+The link is owned by one worker thread. Other editor ECU/logging connections
+and replacement of the source BIN/XDF are blocked while it is owned. Existing
+map editing, table navigation, undo and saving local edits remain available.
+
+Live controls
+Prepare selected table registers the current table and, when checked, its
+editable X/Y axes. New complete blocks must match the original live flash and
+fit the remaining verified host budget before they are copied.
+
+Edit values normally in the main editor. Upload current table edits explicitly
+sends a frozen snapshot of that table and the chosen editable axes, then checks
+exact RAM readback. Typing or applying an ordinary editor change never sends
+it automatically. Other modified tables in the BIN are excluded.
+
+Read RAM into editor reads the current table and chosen axes through the mapped
+readback route and applies their bytes as one undoable local edit. If the source
+document or its bytes change while reading, the result does not replace your
+work. Reading does not save the local BIN automatically.
+
+Restore selected RAM table writes the originally opened baseline bytes for the
+selected table/axes and verifies them. It does not revert the main editor's
+local values. Successful upload, read and restore operations leave the RAM
+working page active. Use RAM working page / reference page to select explicitly.
+
+Readback and update limits
+There is no fast full-RAM reader. Exact working-page bytes use the native
+mapped one-byte checksum route at 9600 baud and can be slow. Whole copied-block
+checks compare 16-bit byte sums, which can collide. Exact transferred/read
+bytes are verified separately. A table upload uses bounded chunks; the whole
+table and its axes do not change atomically. Sequential readback is likewise
+not an atomic snapshot. These are engine-off controls, not engine-running
+tuning validation or proof of physical SRAM wiring.
+
+Disconnect and recovery
+Disconnect / restore reference selects and checks the reference page, closes
+the port and locks the controls. RAM allocations and session86 can remain.
+A new qualification requires a fresh ECU boot and verified initial state.
+No flash programming, authentication, ECU reset or baud change is performed.
+
+Cancellation ends qualification and allows required healthy-link rollback
+and reference cleanup to finish. Closing either window requests asynchronous
+cleanup first. If a response or connection is ambiguous, further mutation stops,
+live controls lock, and restoration may remain unconfirmed. Save the JSON
+reports and follow their recovery/power-cycle status. A later disconnect report
+does not erase an earlier uncertain write or page-restoration result.
+
+Packaged offline smoke check
+Use --self-check-dde5-live report.json with the installed launcher, or run
+python run_editor.py --self-check-dde5-live report.json from source. The actual
+controller qualifies, retains one generated UART, uploads/reads/restores table
+and axis bytes, switches pages and disconnects. The check also exercises the
+editor's undoable readback context and opening the GUI without connecting.
+All BIN/RAM/UART data are generated; OS serial creation is blocked and no tests
+are imported. Passing this check proves software integration, not execution
+of the original ECU firmware or success on physical hardware.

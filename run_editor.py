@@ -3,6 +3,15 @@ if __name__ == "__main__":
     freeze_support()
     from bmw_bin_editor.gui import run
     import sys
+    if len(sys.argv) == 3 and sys.argv[1] == '--self-check-dde5-live':
+        from bmw_bin_editor.dde5_live_ram_self_check import run_check
+        raise SystemExit(0 if run_check(sys.argv[2]) else 1)
+    if len(sys.argv) == 3 and sys.argv[1] == '--self-check-dde5-ram':
+        from bmw_bin_editor.dde5_ram_self_check import run_check
+        raise SystemExit(0 if run_check(sys.argv[2]) else 1)
+    if len(sys.argv) == 3 and sys.argv[1] == '--self-check-dde5-patch':
+        from bmw_bin_editor.dde5_patch_self_check import run_check
+        raise SystemExit(0 if run_check(sys.argv[2]) else 1)
     if len(sys.argv) == 3 and sys.argv[1] == '--self-check-public':
         from bmw_bin_editor.public_self_check import run_check
         raise SystemExit(0 if run_check(sys.argv[2]) else 1)

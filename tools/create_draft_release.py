@@ -1,4 +1,4 @@
-"""Create a changelog-backed draft for the exact checked and built commit."""
+"""Create a checked draft, or leave an existing exact-tag release untouched."""
 from pathlib import Path
 import hashlib
 import json
@@ -36,7 +36,7 @@ def release_command(root, ref, commit_sha):
     expected = f'{hashlib.sha256(installer.read_bytes()).hexdigest()}  {installer.name}'
     if checksum.read_text(encoding='ascii').strip() != expected:
         raise ValueError('Installer checksum does not match the built file.')
-    # No clobber/edit operation: GitHub refuses if this release already exists.
+    # No clobber/edit operation, including if a release appears after our lookup.
     return ['gh', 'release', 'create', tag, str(installer), str(checksum),
             '--target', commit_sha, '--draft', '--notes-file', str(notes),
             '--title', f'BMW DDE5 MS43 Tuner {tag}']
@@ -58,10 +58,45 @@ def verify_existing_tag(repository, tag, commit_sha, *, run=subprocess.run):
         raise ValueError('The release tag points to a different commit; refusing mismatched assets.')
 
 
-def main():
+def release_exists(repository, tag, *, run=subprocess.run):
+    """Read the exact release tag; ambiguous responses never permit creation."""
+    if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repository):
+        raise ValueError('Expected a GitHub owner/repository name.')
+    if not re.fullmatch(r'v\d+\.\d+\.\d+', tag):
+        raise ValueError('Expected an exact version release tag.')
+    response = run(['gh', 'api', '--include', f'repos/{repository}/releases/tags/{tag}'],
+                   capture_output=True, text=True, check=False)
+    headers, separator, body = response.stdout.replace('\r\n', '\n').partition('\n\n')
+    status_line = headers.split('\n', 1)[0]
+    status = re.fullmatch(r'HTTP/\d+(?:\.\d+)?[ \t]+(\d{3})(?:[ \t]+[^\n]*)?', status_line)
+    code = int(status[1]) if status else None
+    error = 'Could not verify whether the release exists; no release was created.'
+    if not separator or (code, response.returncode) not in ((200, 0), (404, 1)):
+        raise RuntimeError(error)
+    try:
+        payload = json.loads(body)
+    except (TypeError, ValueError):
+        raise RuntimeError(error) from None
+    if not isinstance(payload, dict):
+        raise RuntimeError(error)
+    if code == 404:
+        if payload.get('message') != 'Not Found':
+            raise RuntimeError(error)
+        return False
+    if (payload.get('tag_name') != tag or type(payload.get('id')) is not int
+            or payload['id'] <= 0):
+        raise RuntimeError(error)
+    return True
+
+
+def main(*, run=None):
+    run = subprocess.run if run is None else run
     command = release_command(ROOT, os.environ['GITHUB_REF'], os.environ['RELEASE_SHA'])
-    verify_existing_tag(os.environ['GH_REPO'], command[3], os.environ['RELEASE_SHA'])
-    subprocess.run(command, check=True, cwd=ROOT)
+    verify_existing_tag(os.environ['GH_REPO'], command[3], os.environ['RELEASE_SHA'], run=run)
+    if release_exists(os.environ['GH_REPO'], command[3], run=run):
+        print(f'Existing release left unchanged: {command[3]}; existing assets were not validated.')
+        return
+    run(command, check=True, cwd=ROOT)
 
 
 if __name__ == '__main__':

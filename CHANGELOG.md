@@ -1,5 +1,61 @@
 # Changelog
 
+## 1.35.0
+
+### Added
+
+- DDE5 patch checks for the supported 361830 identity, installed MPC admission
+  words and selected RAM observations, plus separate baud and explicitly
+  reserved four-byte write/restoration checks.
+- A RAM calibration bench that checks the live directory and complete original
+  flash blocks, budgets whole-block allocation costs, verifies both allocator
+  cursors, and exercises native copy and page selection. An optional reversible
+  changed-byte probe includes exact readback and restoration.
+- Live RAM editing for selected table values and editable axes after the same
+  open connection passes an actual changed-byte qualification, exact readback,
+  original-byte restoration and reference-page restoration. Prior reports and
+  earlier connections cannot grant access.
+- Exact mapped byte readback through the native checksum routine; uploads check
+  prior bytes and changed bytes, reads apply to the editor as one undoable edit,
+  and selected values can be restored from the immutable original BIN.
+- Reference/working-page controls, shared-block edit preservation, bounded
+  registration of additional tables, and complete allocation budgeting against
+  independently declared 32 KiB or 64 KiB external RAM capacity.
+- JSON reports and packaged offline smoke checks for the new diagnostic paths.
+
+### Changed
+
+- The normal v1.35.0 installer includes the new screens while retaining the
+  existing installation, uninstaller, shortcuts and release settings namespace.
+- Live RAM editing owns one persistent COM connection. Logging, other ECU
+  connections and replacement BIN/definition loads wait until it disconnects.
+- Protocol failures lock live controls without automatic reconnects or blind
+  retries. Healthy failures attempt exact rollback and reference restoration;
+  uncertainty survives repeated disconnects and remains visible in reports.
+
+### Limits and validation
+
+- RAM functions require Bosch hardware 0281010565 / software 1037361830, the
+  reviewed installed MPC admission patch, matching original flash blocks and
+  independently verified SRAM wiring, bank configuration and usable capacity.
+- Qualification is an engine-off bench operation from a fresh boot with an idle
+  manager and exclusive diagnostic access. The editor does not install ECU
+  patches or certify a user's hardware declaration.
+- The complete directory costs 1,116 bytes, and first writes allocate complete
+  firmware blocks. The firmware can allocate small blocks from its separate
+  420-byte internal pool. A declared 64 KiB chip remains limited to the stock
+  60 KiB external arena.
+- Whole-block 16-bit additive checksums have collisions. Exact byte readback is
+  separate, slow and sequential. Multi-cell uploads and table reads are not
+  atomic operations.
+- Automated checks use synthetic UART traffic, generated BINs, GUI tests and
+  original firmware instruction emulation. Physical ECU/SRAM validation remains
+  outstanding. No flash erase/programming, authentication or ECU reset is added.
+
+See the [patch-check guide](docs/DDE5_PATCH_TEST.txt),
+[RAM bench guide](docs/DDE5_RAM_CALIBRATION_TEST.txt) and
+[live RAM guide](docs/DDE5_LIVE_RAM.txt).
+
 ## 1.34.0
 
 ### Added

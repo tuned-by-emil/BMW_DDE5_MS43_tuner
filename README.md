@@ -22,7 +22,7 @@ to save a separate copy.
 ## Download and install
 
 1. Open [the latest release](https://github.com/tuned-by-emil/BMW_DDE5_MS43_tuner/releases/latest).
-2. Download **BMW_DDE5_MS43_Tuner_1.34.0_Setup.exe** and run it.
+2. Download **BMW_DDE5_MS43_Tuner_1.35.0_Setup.exe** and run it.
 3. Click **Install / Update**. Setup downloads a private Python runtime from
    **python.org** and hash-verified library wheels from **PyPI**. Internet access
    is required; the full dependency download is larger than the installer.
@@ -37,7 +37,7 @@ The installer is currently unsigned. Windows x64 and .NET Framework 4.5+ are req
 The matching `.sha256` file lets you verify the download:
 
 ```powershell
-Get-FileHash .\BMW_DDE5_MS43_Tuner_1.34.0_Setup.exe -Algorithm SHA256
+Get-FileHash .\BMW_DDE5_MS43_Tuner_1.35.0_Setup.exe -Algorithm SHA256
 ```
 
 ## Try Emil's BIN and recorded log
@@ -84,6 +84,7 @@ Raw map packs, disassembly dumps and MPPS software are excluded.
 | Definitions | Generated ECU library, XDF authoring and supported A2L/WinOLS imports |
 | Logs | CSV playback, graphs, gauges, independent ECU settings and profiles |
 | DDE5 | Direct K-line logging for the evidenced 361830 layout; optional EDIABAS/TestO integrations |
+| DDE5 RAM | Patch checks, engine-off RAM bench qualification, connection-scoped live table/axis upload and exact mapped readback |
 | MS43X001 | Full/64 KB editing/export, Fuel/Ignition navigation, VE labels, cc displacement and setting help |
 | Drift response | Preview six comfort-response settings cell by cell, then apply as one Undo step |
 | Analysis | Local log analysis and optional ChatGPT sign-in with explicit patch review |
@@ -98,6 +99,33 @@ See [resource setup](docs/LOCAL_RESOURCES.md) and
 The drift preset's dashpot cancellation is inferred from the documented MS43
 algorithm and needs vehicle validation. Direct ECU flash writes remain disabled.
 Offline/simulated checks do not establish flash readiness.
+
+## DDE5 patch checks and live RAM editing
+
+The **ECU** menu includes **DDE5 patch checks**, **DDE5 RAM calibration bench**
+and **DDE5 live RAM editing** for Bosch hardware 0281010565 / software
+1037361830 (361830). Opening a screen does not connect to the ECU. RAM functions
+require the reviewed installed MPC admission patch, an original full 1 MiB FLS
+BIN matching the live blocks, and independently verified SRAM wiring, bank
+configuration and usable capacity.
+
+Live editing starts locked. A fresh engine-off bench connection must pass an
+actual reversible changed-byte write, exact mapped readback, original-byte
+restoration and reference-page restoration. That same open connection can then
+upload selected table values and editable axes, read RAM into the editor as an
+undoable change, restore selected values from the original BIN, and select the
+reference or working page. A saved report cannot unlock another connection.
+
+Whole-block allocation checks include the 1,116-byte directory and both native
+allocator pools. Uploads use exact byte readback; whole-block additive checksums
+are a separate integrity check with possible collisions. Reads and multi-cell
+uploads are sequential rather than atomic. Communication faults lock controls
+and record any unconfirmed rollback or page restoration. The firmware, cable and
+physical SRAM arrangement have not yet validated this implementation on an ECU.
+
+See the [patch-check guide](docs/DDE5_PATCH_TEST.txt),
+[RAM bench guide](docs/DDE5_RAM_CALIBRATION_TEST.txt) and
+[live RAM guide](docs/DDE5_LIVE_RAM.txt) for prerequisites and recovery reports.
 
 ## Reported MS43X testing
 
@@ -132,6 +160,8 @@ and capture groups. Existing logging profiles still use their original channel I
 ```powershell
 python tools/run_tests.py
 python run_editor.py --self-check-public build/public-self-check.json
+python run_editor.py --self-check-dde5-patch build/dde5-patch-self-check.json
+python run_editor.py --self-check-dde5-ram build/dde5-ram-self-check.json
 python tools/check_public_tree.py
 python tools/build_windows_installer.py
 ```
@@ -150,16 +180,16 @@ The [Windows release workflow](.github/workflows/windows-release.yml) builds on
 GitHub's Windows runner. Your PC can stay offline; GitHub supplies Python and the
 .NET Framework compiler.
 
-To build and prepare version **1.34.0** from a phone:
+To build and prepare version **1.35.0** from a phone:
 
 1. Open the repository in your phone's browser and choose **Actions > Windows
    release > Run workflow**. If the controls are hidden, request the browser's
    desktop site.
-2. Select **release/1.34.0** in the branch menu and press **Run workflow**.
+2. Select **release/1.35.0** in the branch menu and press **Run workflow**.
 3. Wait for the build and **draft-release** jobs to finish successfully. Tests,
    dependency checks, the public-tree audit and the startup self-check must pass
    before the installer can be released.
-4. Open **Releases** and review the draft **BMW DDE5 MS43 Tuner v1.34.0**. It
+4. Open **Releases** and review the draft **BMW DDE5 MS43 Tuner v1.35.0**. It
    contains the setup EXE, its SHA-256 file and the changelog-backed release
    notes. The draft targets the exact commit checked and built by that run.
 5. After reviewing the draft and testing the installer on Windows, choose
@@ -168,7 +198,7 @@ To build and prepare version **1.34.0** from a phone:
 A manual run on a branch named **release/VERSION** creates a draft only when its
 name matches `__version__` in `bmw_bin_editor/__init__.py`. Update that version,
 `CHANGELOG.md` and `RELEASE_NOTES.md` together for the next release. Pushing a
-matching version tag, such as `v1.34.0`, also runs the build and draft workflow.
+matching version tag, such as `v1.35.0`, also runs the build and draft workflow.
 Manual runs on other branches retain downloadable `windows-installer` artifacts
 without creating a release.
 
